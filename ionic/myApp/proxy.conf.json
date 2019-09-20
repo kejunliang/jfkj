@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://localhost:4000",
+    "target": "http://oa.jf81.com",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
