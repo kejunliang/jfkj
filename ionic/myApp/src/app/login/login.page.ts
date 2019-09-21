@@ -29,6 +29,15 @@ export class LoginPage implements OnInit {
         result => this.router.navigate(['tabs']),
       );
   }
+  send(){
+    this.sendStat=false;
+    console.log(this.email)
+    this.auth.sendEmail(this.email, "12345678")
+      .pipe(first())
+      .subscribe(
+        result => console.log(result)
+      );
+  }
 
 
 }

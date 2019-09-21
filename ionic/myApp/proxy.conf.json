@@ -4,5 +4,11 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/sfv3/*": {
+    "target": "http://oa.jf81.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }
