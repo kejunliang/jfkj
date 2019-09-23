@@ -35,7 +35,10 @@ export class LoginPage implements OnInit {
     this.auth.sendEmail(this.email, "12345678")
       .pipe(first())
       .subscribe(
-        result => console.log(result)
+        result => 
+        {
+          console.log(result)
+        }
       );
   }
 
