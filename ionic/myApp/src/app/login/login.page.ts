@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
         result => this.router.navigate(['tabs']),
       );
   }
-  send(){
+  SendEmail(){
     this.sendStat=false;
     console.log(this.email)
     this.auth.sendEmail(this.email, "12345678")
