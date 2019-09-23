@@ -14,6 +14,6 @@
       <ion-label>Verification code:</ion-label>
       <ion-input [(ngModel)]="code"></ion-input>
     </ion-item>
-  <ion-button  *ngIf="sendStat" (click)="send()" expand="block">send</ion-button>
+  <ion-button  *ngIf="sendStat" (click)="SendEmail()" expand="block">send</ion-button>
   <ion-button  *ngIf="!sendStat" (click)="Login()" expand="block">Login</ion-button>
 </ion-content>
