@@ -10,13 +10,13 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<boolean> {
-    console.log("111")
-    return this.http.post<{token: string}>('/api/auth', {username: username, password: password})
+  login(code: string): Observable<any> {
+    console.log("code")
+    let  data=new HttpParams().set("Code",code);
+    return this.http.post<{token: string}>('/sfv3/appmgt.nsf/xp_ws.xsp/ValidateAuthCode',data)
       .pipe(
         map(result => { 
-          localStorage.setItem('access_token', result.token);
-          return true;
+                 console.log(result)
         })
       );
   }

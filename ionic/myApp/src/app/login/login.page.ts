@@ -23,21 +23,22 @@ export class LoginPage implements OnInit {
   Login() {
    
     this.sendStat=false;
-    this.auth.login(this.email, this.code)
+    this.auth.login(this.code)
       .pipe(first())
       .subscribe(
         result => this.router.navigate(['tabs']),
       );
   }
   SendEmail(){
-    this.sendStat=false;
-    console.log(this.email)
     this.auth.sendEmail(this.email, "12345678")
       .pipe(first())
       .subscribe(
         result => 
         {
           console.log(result)
+          if(result.status!="fail"){
+            this.sendStat=false;
+          }
         }
       );
   }
