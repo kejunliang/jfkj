@@ -3,12 +3,26 @@
     <ion-title>
       Tab One
     </ion-title>
-    <ion-button slot="end" fill="clear" [routerLink]="['/setup']">
-      <ion-icon name="settings"></ion-icon>
-    </ion-button>
+   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-   
+  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+    <ion-fab-button>
+      <ion-icon name="settings"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list>
+      <ion-fab-button color="light" [routerLink]="['/account']" routerLinkActive="router-link-active" >
+        <ion-icon name="logo-facebook"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" [routerLink]="['/password']">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" [routerLink]="['/offline']">
+        <ion-icon name="logo-vimeo"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    </ion-fab>
+    
 </ion-content>

@@ -8,7 +8,9 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  { path: 'setup', loadChildren: './setup/setup.module#SetupPageModule' }
+  { path: 'account', loadChildren: './setup/account/account.module#AccountPageModule' },
+  { path: 'password', loadChildren: './setup/password/password.module#PasswordPageModule' },
+  { path: 'offline', loadChildren: './setup/offline/offline.module#OfflinePageModule' },
 ];
 @NgModule({
   imports: [

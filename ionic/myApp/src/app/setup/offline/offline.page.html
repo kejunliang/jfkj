@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="tabs/tab1" text=""></ion-back-button>
+        </ion-buttons>
+    <ion-title>Switch to offline mode</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="account-box">
+    <p></p>
+    <ion-item lines="none">
+      <ion-label>Switch to Offline Mode</ion-label>
+      <ion-toggle [(ngModel)]="offlineFlag"></ion-toggle>
+    </ion-item>
+  </div>
+</ion-content>
