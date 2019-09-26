@@ -1,6 +1,14 @@
 <ion-content  [fullscreen]="false" class="firstLogin" hide-nav-bar="true" >
-    <ion-img class="top_log" [src]="img" ></ion-img>
-  
+  <ion-img class="top_log" [src]="img" ></ion-img>
+  <ion-text class="top_textOne">
+      Welcome to integrumNow (v2)
+  </ion-text>
+  <ion-text class="top_textTwo">
+      The most comprehensive business optimisation risk and           
+  </ion-text>
+  <ion-text class="top_textThree">
+             compliance platform.                        
+  </ion-text>
   <ion-item *ngIf="sendStat">
     <ion-label>Email:</ion-label>
     <ion-input [(ngModel)]="email" ></ion-input>

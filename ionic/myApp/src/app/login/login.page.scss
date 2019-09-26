@@ -8,3 +8,40 @@
    width: 50%;
    margin:20px 0 0 20%;
 }
+.top_textOne{
+    
+    font-size:18px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(17,17,17,1);
+    margin:20px 0 0 20%;
+    background:linear-gradient(0deg,rgba(27,56,113,1) 0%, rgba(136,168,215,1) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.top_textTwo{
+    
+    margin:20px 0 0 15%;
+    font-size:12px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(17,17,17,1);
+    line-height:28px;
+    
+    background:linear-gradient(-40deg,rgba(27,56,113,1) 0%, rgba(62,92,146,1) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.top_textThree{
+    
+    margin:20px 0 0 30%;
+    font-size:12px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(17,17,17,1);
+    line-height:28px;
+    
+    background:linear-gradient(-40deg,rgba(27,56,113,1) 0%, rgba(62,92,146,1) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
