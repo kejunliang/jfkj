@@ -1,19 +1,28 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="logout()">
+        <ion-icon slot="start" name="settings" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
-      Tab One
+      home
     </ion-title>
-   
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="start" name="power" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+  <ion-fab horizontal="end" vertical="centerxi" slot="fixed" edge>
     <ion-fab-button>
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
     <ion-fab-list>
-      <ion-fab-button color="light" [routerLink]="['/account']" routerLinkActive="router-link-active" >
+      <ion-fab-button color="light" [routerLink]="['/account']" routerLinkActive="router-link-active">
         <ion-icon name="logo-facebook"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="light" [routerLink]="['/password']">
@@ -22,7 +31,15 @@
       <ion-fab-button color="light" [routerLink]="['/offline']">
         <ion-icon name="logo-vimeo"></ion-icon>
       </ion-fab-button>
+      <ion-fab-button color="light" [routerLink]="['/language']">
+        <ion-icon name="logo-vimeo"></ion-icon>
+      </ion-fab-button>
     </ion-fab-list>
-    </ion-fab>
-    
+  </ion-fab>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>{{name}}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
 </ion-content>

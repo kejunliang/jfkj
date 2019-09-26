@@ -1,0 +1,27 @@
+ion-item-divider{
+    min-height: 1rem;
+}
+ion-label{
+    --color: #111111;
+    --font-size: 1rem;
+    font-family: "Roboto"
+}
+ion-radio{
+    --color-checked:#E03024;
+}
+ion-toolbar{
+  --background:#333333;
+  ion-title{
+    --color:#fff;
+  }
+  ion-back-button{
+    --color:#fff;
+    }
+}
+.account-box{
+    height: 100%;
+    background-color: #eee;
+}
+ion-item:last-child{
+    --border-color:#fff;
+}

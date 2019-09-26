@@ -9,10 +9,18 @@
 
 <ion-content>
   <div class="account-box">
-    <p></p>
+    <p class="accountHr"></p>
     <ion-item lines="none">
       <ion-label>Switch to Offline Mode</ion-label>
       <ion-toggle [(ngModel)]="offlineFlag"></ion-toggle>
     </ion-item>
+    <div class="description">
+      <p class="title">The following functionalities are supported by offline mode:</p>
+      <ul>
+        <li>Raising new forms</li>
+        <li>View and edit saved draft forms</li>
+        <li>View and edit bookmarked forms</li>
+      </ul>
+    </div>
   </div>
 </ion-content>

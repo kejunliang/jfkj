@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Language</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="account-box">
+    <ion-item-divider>
+    </ion-item-divider>
+    <ion-list>
+      <ion-radio-group name="auto" [(ngModel)]="language">
+        <ion-item lines="full" *ngFor="let item of langularArr">
+          <ion-label *ngIf="language!=item.lan">{{item.lan}}</ion-label>
+          <ion-label *ngIf="language==item.lan" color="danger">{{item.lan}}</ion-label>
+          <ion-radio [value]="item.lan" (click)="radioCheck(item)"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    {{name}}
+    
+  </div>
+</ion-content>

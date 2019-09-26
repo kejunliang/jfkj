@@ -11,6 +11,8 @@ const routes: Routes = [
   { path: 'account', loadChildren: './setup/account/account.module#AccountPageModule' },
   { path: 'password', loadChildren: './setup/password/password.module#PasswordPageModule' },
   { path: 'offline', loadChildren: './setup/offline/offline.module#OfflinePageModule' },
+  { path: 'language', loadChildren: './setup/language/language.module#LanguagePageModule' },
+
 ];
 @NgModule({
   imports: [
