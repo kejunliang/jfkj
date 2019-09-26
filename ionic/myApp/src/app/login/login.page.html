@@ -1,22 +1,90 @@
 <ion-content  [fullscreen]="false" class="firstLogin" hide-nav-bar="true" >
-  <ion-img class="top_log" [src]="img" ></ion-img>
-  <ion-text class="top_textOne">
-      Welcome to integrumNow (v2)
-  </ion-text>
-  <ion-text class="top_textTwo">
-      The most comprehensive business optimisation risk and           
-  </ion-text>
-  <ion-text class="top_textThree">
-             compliance platform.                        
-  </ion-text>
-  <ion-item *ngIf="sendStat">
-    <ion-label>Email:</ion-label>
-    <ion-input [(ngModel)]="email" ></ion-input>
-  </ion-item>
-  <ion-item *ngIf="!sendStat">
-      <ion-label>Verification code:</ion-label>
-      <ion-input [(ngModel)]="code"></ion-input>
-    </ion-item>
-  <ion-button  *ngIf="sendStat" (click)="SendEmail()" expand="block">send</ion-button>
-  <ion-button  *ngIf="!sendStat" (click)="Login()" expand="block">Login</ion-button>
+  <ion-grid>
+      <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <div> <ion-img  [src]="img" ></ion-img></div>
+            </ion-col> 
+            <ion-col></ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col>
+              <div>  
+                <ion-text class="top_textOne">
+                Welcome to integrumNow (v2)
+                </ion-text>
+              </div>
+          </ion-col> 
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <div>  
+              <ion-text class="top_textTwo">
+                  The most comprehensive business optimisation risk and           
+              </ion-text>
+            </div>
+            <div>  
+              <ion-text class="top_textTwo">
+                  compliance platform.                
+              </ion-text>
+            </div>
+        </ion-col> 
+      </ion-row>
+      <ion-row>
+          <ion-col></ion-col>
+          <ion-col  size="9">
+              <ion-item class="email" *ngIf="sendStat">
+                <ion-label>Email:</ion-label>
+                <ion-input [(ngModel)]="email" ></ion-input>
+              </ion-item> 
+              <ion-item *ngIf="!sendStat">
+                  <ion-label>Verification code:</ion-label>
+                  <ion-input [(ngModel)]="code"></ion-input>
+              </ion-item>
+          </ion-col> 
+          <ion-col></ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col></ion-col>
+          <ion-col  size="9">
+              <ion-button  class="emailSend" *ngIf="sendStat" (click)="SendEmail()" expand="block">send</ion-button>
+              <ion-button  *ngIf="!sendStat" (click)="Login()" expand="block">Login</ion-button>
+          </ion-col> 
+          <ion-col></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col></ion-col>
+      </ion-row>
+      <ion-row class="bottomText">
+          <ion-col></ion-col>
+          <ion-col  size="8">
+              <ion-text class="">
+                  Enter your email correctly.     
+              </ion-text>
+          </ion-col> 
+          <ion-col></ion-col>
+      </ion-row>
+      <ion-row class="bottomText">
+          <ion-col></ion-col>
+          <ion-col  size="8">
+              <ion-text class="">
+                  Click SUBMIT button.&nbsp; &nbsp; &nbsp; &nbsp;    
+              </ion-text>
+          </ion-col> 
+          <ion-col></ion-col>
+      </ion-row>
+      <ion-row class="bottomText">
+          <ion-col></ion-col>
+          <ion-col  size="8">
+              <ion-text class="">
+                  The system will send you email to above 
+                  address shortly with authentication code.  
+              </ion-text>
+          </ion-col> 
+          <ion-col></ion-col>
+      </ion-row>
+      
+     
+                              
+  </ion-grid>
 </ion-content>
