@@ -4,8 +4,9 @@
   </ion-toolbar>
 </ion-header>
  
-<ion-content padding class="firstLogin">
-   <!-- Inputs with labels -->
+<ion-content  [fullscreen]="false" class="firstLogin" hide-nav-bar="true" >
+    <ion-img class="top_log" [src]="img" ></ion-img>
+  
   <ion-item *ngIf="sendStat">
     <ion-label>Email:</ion-label>
     <ion-input [(ngModel)]="email" ></ion-input>

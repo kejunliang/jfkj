@@ -1,6 +1,9 @@
 .firstLogin {
 
-    --background: url('/assets/icon/firstLogin.png') ;
+    --background: url('/assets/icon/firstLogin.png') no-repeat center center / cover;
     
 
+}
+.top_log {
+   width: 50%
 }

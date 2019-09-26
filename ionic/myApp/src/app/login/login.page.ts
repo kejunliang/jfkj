@@ -12,6 +12,7 @@ export class LoginPage implements OnInit {
   public email: string;
   public code: string ;
   public sendStat:Boolean;
+  public img="/assets/icon/INTEGRUM_logo.png";
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router) { }
 
   ngOnInit() {
