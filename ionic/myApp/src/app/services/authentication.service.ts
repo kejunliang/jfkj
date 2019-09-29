@@ -23,7 +23,7 @@ export class AuthenticationService {
   }
 
   sendEmail(email:string,slid:string):Observable<any>{
-    console.log("服务"+email)
+    
     let  data=new HttpParams().set("email",email);
     return this.http.post('/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data).pipe(
        map(
