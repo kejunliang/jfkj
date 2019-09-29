@@ -4,6 +4,7 @@ import { AuthenticationService} from '../services/authentication.service'
 import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { ResourceLoader } from '@angular/compiler';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
