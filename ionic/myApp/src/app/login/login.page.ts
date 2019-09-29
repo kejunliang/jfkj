@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService} from '../services/authentication.service'
 import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
+import { ResourceLoader } from '@angular/compiler';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,15 +13,12 @@ export class LoginPage implements OnInit {
   public email: string;
   public code: string ;
   public sendStat:Boolean;
-  public img="/assets/icon/INTEGRUM_logo.png";
+
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router) { }
 
   ngOnInit() {
-
-
     this.sendStat=true;
   }
-
   //log in system
   Login() {
    
@@ -28,7 +26,13 @@ export class LoginPage implements OnInit {
     this.auth.login(this.code)
       .pipe(first())
       .subscribe(
-        result => this.router.navigate(['tabs']),
+        result => {
+          if(result.status=="sucess"){
+            this.router.navigate(['tabs/tab1'])
+          }else{
+            this.presentAlert("验证码错误！");
+          }
+        },
       );
   }
   SendEmail(){
@@ -39,21 +43,20 @@ export class LoginPage implements OnInit {
         {
           console.log(result)
           if(result.status!="fail"){
-
-           
             this.sendStat=false;
            
           }else{
-            this.presentAlert();
+            this.presentAlert("请输入正确的邮箱地址！");
           }
         }
       );
   }
-  async presentAlert() {
+  // 
+  async presentAlert(msg:string) {
     const alert = await this.alertController.create({
       header: '提示',
       subHeader: '',
-      message: '请输入正确的邮箱地址！',
+      message: msg,
       buttons: ['OK']
     });
 

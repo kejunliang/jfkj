@@ -16,7 +16,8 @@ export class AuthenticationService {
     return this.http.post<{token: string}>('/sfv3/appmgt.nsf/xp_ws.xsp/ValidateAuthCode',data)
       .pipe(
         map(result => { 
-                 console.log(result)
+                 console.log(result);
+                 return result;
         })
       );
   }
