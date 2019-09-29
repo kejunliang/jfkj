@@ -19,6 +19,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     // private translate:TranslateService
   ) {
+    let hasLogged=localStorage.getItem('hasLogged');
+    console.log(hasLogged)
     this.initializeApp();
     this.initTranslate()
   }

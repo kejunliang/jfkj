@@ -15,7 +15,8 @@ export class LoginPage implements OnInit {
   public code: string ;
   public sendStat:Boolean;
 
-  constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router) { }
+  constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
+    ,private storage:Storage) { }
 
   ngOnInit() {
     this.sendStat=true;
@@ -29,6 +30,7 @@ export class LoginPage implements OnInit {
       .subscribe(
         result => {
           if(result.status=="sucess"){
+            localStorage.setItem('hasLogged','true');
             this.router.navigate(['tabs/tab1'])
           }else{
             this.presentAlert("验证码错误！");

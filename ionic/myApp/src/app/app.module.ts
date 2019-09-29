@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginPageModule } from "../app/login/login.module";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TabsPageModule } from "../app/tabs/tabs.module";
+import { IonicStorageModule } from '@ionic/storage';
 //
 // import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 // import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -22,7 +23,7 @@ import { TabsPageModule } from "../app/tabs/tabs.module";
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, TabsPageModule, 
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, TabsPageModule,    IonicStorageModule.forRoot(),
     // TranslateModule.forRoot({loader: {provide:TranslateLoader,useFactory: HttpLoaderFactory,deps: [HttpClient]}})
   ],
   providers: [
