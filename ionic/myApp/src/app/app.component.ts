@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { Router } from '@angular/router';
 //
 // import { TranslateService } from '@ngx-translate/core';
 
@@ -13,14 +13,21 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+ 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private router:Router
     // private translate:TranslateService
   ) {
     let hasLogged=localStorage.getItem('hasLogged');
+    console.log("apprun")
     console.log(hasLogged)
+    if(hasLogged){
+      console.log("找到登录状态，设置")
+      this.router.navigate(['tabs/tab1'])
+    }
     this.initializeApp();
     this.initTranslate()
   }
