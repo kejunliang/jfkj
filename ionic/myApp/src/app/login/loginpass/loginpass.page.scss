@@ -1,0 +1,36 @@
+.Loginpass{
+    --background: url('/assets/icon/loginpass.png') no-repeat center center / cover;
+}
+.logo{
+    margin-top: 40px;
+}
+.userName {
+    width:244px;
+height:36px;
+font-size:48px;
+font-family:PingFang SC;
+font-weight:400;
+color:rgba(255,255,255,1);
+}
+.pass{
+
+background:rgba(255,255,255,0);
+border:1px solid rgba(255,255,255,1);
+box-shadow:0px 4px 16px 0px rgba(255,255,255,0.5);
+border-radius:43px;
+}
+.btnloginpass{
+    --background:rgba(255,255,255,1);
+    --box-shadow:0px 4px 15px 0px rgba(255,255,255,0.2);
+    --border-radius:43px;
+}
+.btnText{
+    font-size:16px;
+font-family:PingFang SC;
+font-weight:400;
+color:rgba(224,48,36,1);
+}
+.btnloginsso{
+    --background:rgba(224,48,36,1);
+    --border-radius:43px;
+}
