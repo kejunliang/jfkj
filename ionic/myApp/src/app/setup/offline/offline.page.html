@@ -3,7 +3,7 @@
       <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/tab1" text=""></ion-back-button>
         </ion-buttons>
-    <ion-title>Switch to offline mode</ion-title>
+    <ion-title>{{'public.offline' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,15 +11,15 @@
   <div class="account-box">
     <p class="accountHr"></p>
     <ion-item lines="none">
-      <ion-label>Switch to Offline Mode</ion-label>
+      <ion-label>{{'offline.name' | translate}}</ion-label>
       <ion-toggle [(ngModel)]="offlineFlag"></ion-toggle>
     </ion-item>
     <div class="description">
-      <p class="title">The following functionalities are supported by offline mode:</p>
+      <p class="title">{{'offline.title' | translate}}:</p>
       <ul>
-        <li>Raising new forms</li>
-        <li>View and edit saved draft forms</li>
-        <li>View and edit bookmarked forms</li>
+        <li>{{'offline.content' | translate}}</li>
+        <li>{{'offline.content2' | translate}}</li>
+        <li>{{'offline.content3' | translate}}</li>
       </ul>
     </div>
   </div>

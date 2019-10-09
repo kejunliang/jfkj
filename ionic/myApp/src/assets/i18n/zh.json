@@ -1,7 +1,26 @@
+
 {
-    "name":"名字",
-    "account":"Account",
-    "password":"密码",
-    "offline":"脱机",
-    "language":"语言"
+    "public":{
+        "home":"首页",
+        "account":"基础信息",
+        "password":"密码",
+        "offline":"脱机模式",
+        "language":"语言"
+    },
+    "account":{
+        "name":"名称",
+        "company":"公司",
+        "email":"邮件",
+        "language":"语言",
+        "logout":"上次登录",
+        "activated":"激活"
+    },
+    "offline":{
+        "title":"离线模式支持以下功能:",
+        "content":"提出新表单",
+        "content2":"查看和编辑已保存的草稿表单",
+        "content3":"查看和编辑已保存的已加书签表单",
+        "name":"切换至离线模式"
+       
+    }
 }

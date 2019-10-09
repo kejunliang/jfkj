@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/tab1" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Language</ion-title>
+    <ion-title>{{'public.language' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,8 +19,6 @@
           <ion-radio [value]="item.lan" (click)="radioCheck(item)"></ion-radio>
         </ion-item>
       </ion-radio-group>
-    </ion-list>
-    {{name}}
-    
+    </ion-list>    
   </div>
 </ion-content>

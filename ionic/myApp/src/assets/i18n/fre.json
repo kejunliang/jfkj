@@ -1,7 +1,24 @@
-{
-    "name":"Nom",
+{ "public":{
+    "home":"Domicile",
     "account":"Note explicative",
     "password":"Mot de passe",
-    "offline":"Decharger",
+    "offline":"Passer en mode hors ligne",
     "language":"Langue"
+    },
+    "account":{
+        "name":"Nom",
+        "company":"compagnie",
+        "email":"email",
+        "language":"la langue",
+        "logout":"se déconnecter",
+        "activated":"activé"
+    },
+    "offline":{
+        "title":"Le mode hors ligne prend en charge les fonctionnalités suivantes:",
+        "content":"Relever de nouvelles formes",
+        "content2":"Voir et éditer les brouillons sauvegardés",
+        "content3":"Afficher et modifier des formulaires marqués d'un signet",
+        "name":"Passer en mode hors ligne"
+       
+    }
 }

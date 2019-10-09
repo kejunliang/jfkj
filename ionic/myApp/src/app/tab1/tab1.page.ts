@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-//
-// import { TranslateService    } from '@ngx-translate/core';
+import { PopoverController } from '@ionic/angular';
+import { PopoverComponent } from './component/popover/popover.component';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -9,16 +10,21 @@ import { Component } from '@angular/core';
 export class Tab1Page {
   public name:string;
   constructor(
-    // public translate:TranslateService
+    public popoverController: PopoverController,
+    public Nav:NavController
   ) {
     // this.translate.setDefaultLang('en');
-
-    // this.translate.get('name').subscribe((value)=>{
-      // console.log(value);
-      // this.name=value;
-    // })
+  }
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverComponent,
+      event: ev,
+      translucent: true
+    });
+    return await popover.present();
   }
   logout(){
-    
+
+    this.Nav.navigateRoot('login')
   }
 }

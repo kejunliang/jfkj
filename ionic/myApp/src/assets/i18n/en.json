@@ -1,7 +1,26 @@
+
 {
-    "Name":"Name",
-    "account":"Account",
-    "password":"Password",
-    "offline":"offline",
-    "language":"language"
+    "public":{
+        "home":"Home",
+        "account":"Account",
+        "password":"Password",
+        "offline":"Switch to offline mode",
+        "language":"language"
+    },
+    "account":{
+        "name":"Name",
+        "company":"Company",
+        "email":"Email",
+        "language":"Language",
+        "logout":"Last Time Logout",
+        "activated":"Activated on"
+    },
+    "offline":{
+        "title":"The following functionalities are supported by offline mode:",
+        "content":"Raising new forms",
+        "content2":"View and edit saved draft forms",
+        "content3":"View and edit bookmarked forms",
+        "name":"Switch to offline mode"
+       
+    }
 }
