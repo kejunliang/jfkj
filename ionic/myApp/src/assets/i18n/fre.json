@@ -3,7 +3,9 @@
     "account":"Note explicative",
     "password":"Mot de passe",
     "offline":"Passer en mode hors ligne",
-    "language":"Langue"
+    "language":"Langue",
+    "me":"Moi",
+    "task":"Ma tâche"
     },
     "account":{
         "name":"Nom",

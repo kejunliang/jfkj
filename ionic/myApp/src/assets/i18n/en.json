@@ -5,7 +5,9 @@
         "account":"Account",
         "password":"Password",
         "offline":"Switch to offline mode",
-        "language":"language"
+        "language":"language",
+        "me":"Me",
+        "task":"My task"
     },
     "account":{
         "name":"Name",

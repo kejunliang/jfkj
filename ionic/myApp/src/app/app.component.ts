@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 //
-// import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +18,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private router:Router
-    // private translate:TranslateService
+    private router:Router,
+    private translate:TranslateService
   ) {
     let hasLogged=localStorage.getItem('hasLogged');
     console.log("apprun")
@@ -40,7 +40,7 @@ export class AppComponent {
   }
   initTranslate(){
     //设置默认语言，一般在无法匹配的时候使用
-    // this.translate.setDefaultLang('zh');
+    this.translate.setDefaultLang('zh');
     //获取当前浏览器的语言
     // let broswerLang=this.translate.getBrowserLang();
     // if (this.translate.getBrowserLang() !==undefined){

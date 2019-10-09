@@ -5,7 +5,9 @@
         "account":"基础信息",
         "password":"密码",
         "offline":"脱机模式",
-        "language":"语言"
+        "language":"语言",
+        "me":"我的",
+        "task":" 我的任务"
     },
     "account":{
         "name":"名称",
