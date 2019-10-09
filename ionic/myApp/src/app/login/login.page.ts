@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
         result => {
           if(result.status=="sucess"){
             localStorage.setItem('hasLogged','true');
-            this.router.navigate(['tabs/tab1'])
+            this.router.navigate(['loginpass'])
           }else{
             this.presentAlert("验证码错误！");
           }
