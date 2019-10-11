@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
       );
   }
   SendEmail(){
-    this.auth.sendEmail(this.email, "12345678")
+    this.auth.sendEmail(this.email, "12345678",this.code)
       .pipe(first())
       .subscribe(
         result => 

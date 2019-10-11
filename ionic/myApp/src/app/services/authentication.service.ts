@@ -22,9 +22,9 @@ export class AuthenticationService {
       );
   }
 
-  sendEmail(email:string,slid:string):Observable<any>{
+  sendEmail(email:string,slid:string,code:string ):Observable<any>{
     
-    let  data=new HttpParams().set("email",email);
+    let  data=new HttpParams().set("email",email).set("code",code); 
     return this.http.post('/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data).pipe(
        map(
         result => { 

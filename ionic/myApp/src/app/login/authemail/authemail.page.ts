@@ -15,12 +15,14 @@ export class AuthemailPage implements OnInit {
   public email: string;
   public code: string ;
   public sendStat:Boolean;
+  public year:string ;
 
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage) { }
 
   ngOnInit() {
     this.sendStat=true;
+    this.year = new Date().getFullYear().toString();
   }
   //log in system
   Login() {
@@ -40,7 +42,7 @@ export class AuthemailPage implements OnInit {
       );
   }
   SendEmail(){
-    this.auth.sendEmail(this.email, "12345678")
+    this.auth.sendEmail(this.email,"12345678",this.code)
       .pipe(first())
       .subscribe(
         result => 

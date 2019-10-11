@@ -1,5 +1,5 @@
 <ion-content  [fullscreen]="false" class="firstLogin" hide-nav-bar="true" >
-  <ion-grid>
+  <ion-grid class="grid" >
       <ion-row>
             <ion-col></ion-col>
             <ion-col>
@@ -8,7 +8,7 @@
             <ion-col></ion-col>
       </ion-row>
       <ion-row>
-          <ion-col>
+          <ion-col align-self-center>
               <div>  
                 <ion-text class="top_textOne">
                 Welcome to integrumNow (v2)
@@ -33,16 +33,19 @@
       <ion-row>
           <ion-col></ion-col>
           <ion-col  size="9">
-              <ion-item class="email" *ngIf="sendStat">
+              <ion-item class="email" >
                 <ion-thumbnail class="emailthumbnail">
                     <ion-img class="emailpng" [src]="'/assets/icon/email.png'"></ion-img>
                 </ion-thumbnail>
                 <ion-text>|&nbsp;&nbsp;</ion-text>
-                <ion-input [(ngModel)]="email"   placeholder="E-mail"></ion-input>
+                <ion-input class="autinput" [(ngModel)]="email"   placeholder="E-mail"></ion-input>
               </ion-item> 
-              <ion-item *ngIf="!sendStat">
-                  <ion-label>Verification code:</ion-label>
-                  <ion-input [(ngModel)]="code"></ion-input>
+              <ion-item class="email" >
+                  <ion-thumbnail class="auththumbnail">
+                        <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
+                  </ion-thumbnail>
+                  <ion-text>|&nbsp;&nbsp;</ion-text>
+                  <ion-input [(ngModel)]="code" placeholder="Authentication Code"></ion-input>
               </ion-item>
           </ion-col> 
           <ion-col></ion-col>
@@ -96,7 +99,17 @@
           </ion-col> 
           <ion-col></ion-col>
       </ion-row>
-      
+      <ion-row class="bottomCopy"  style="flex-grow: 1;">
+        <ion-col></ion-col>
+        <ion-col  align-self-center size="9">
+            <ion-text class="">
+                  <div>
+                   -  Copyright (c) {{year}}
+                  </div>
+            </ion-text>
+        </ion-col> 
+        <ion-col></ion-col>
+    </ion-row>
      
                               
   </ion-grid>
