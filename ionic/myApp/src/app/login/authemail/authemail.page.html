@@ -11,7 +11,7 @@
           <ion-col align-self-center>
               <div>  
                 <ion-text class="top_textOne">
-                Welcome to integrumNow (v2)
+                {{'login.welcom1' | translate}}
                 </ion-text>
               </div>
           </ion-col> 
@@ -20,32 +20,32 @@
         <ion-col>
             <div>  
               <ion-text class="top_textTwo">
-                  The most comprehensive business optimisation risk and           
+                  {{'login.welcom2' | translate}}          
               </ion-text>
             </div>
             <div>  
               <ion-text class="top_textTwo">
-                  compliance platform.                
+                {{'login.welcom3' | translate}}          
               </ion-text>
             </div>
         </ion-col> 
       </ion-row>
       <ion-row>
-          <ion-col></ion-col>
+          <ion-col> </ion-col>
           <ion-col  size="9">
               <ion-item class="email" >
                 <ion-thumbnail class="emailthumbnail">
                     <ion-img class="emailpng" [src]="'/assets/icon/email.png'"></ion-img>
                 </ion-thumbnail>
                 <ion-text>|&nbsp;&nbsp;</ion-text>
-                <ion-input class="autinput" [(ngModel)]="email"   placeholder="E-mail"></ion-input>
+                <ion-input class="autinput" [(ngModel)]="email"   placeholder="{{'login.password' | translate}} "></ion-input>
               </ion-item> 
               <ion-item class="email" >
                   <ion-thumbnail class="auththumbnail">
                         <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
                   </ion-thumbnail>
                   <ion-text>|&nbsp;&nbsp;</ion-text>
-                  <ion-input [(ngModel)]="code" placeholder="Authentication Code"></ion-input>
+                  <ion-input [(ngModel)]="code" placeholder="{{'login.authcode' | translate}} "></ion-input>
               </ion-item>
           </ion-col> 
           <ion-col></ion-col>
@@ -53,8 +53,8 @@
       <ion-row>
           <ion-col></ion-col>
           <ion-col  size="9">
-              <ion-button  class="emailSend" *ngIf="sendStat" (click)="SendEmail()" expand="block">send</ion-button>
-              <ion-button  *ngIf="!sendStat" (click)="Login()" expand="block">Login</ion-button>
+              <ion-button  class="emailSend" *ngIf="sendStat" (click)="SendEmail()" expand="block">{{'login.submit' | translate}}</ion-button>
+              <ion-button  *ngIf="!sendStat" (click)="Login()" expand="block">{{'login.next' | translate}}</ion-button>
           </ion-col> 
           <ion-col></ion-col>
       </ion-row>
@@ -67,7 +67,7 @@
               <ion-text class="">
                     <div class="list1"></div>
                     <div class="list2"></div>
-                    <div> Enter your email correctly.</div>
+                    <div> {{'login.explain1' | translate}}</div>
               </ion-text>
           </ion-col> 
           <ion-col></ion-col>
@@ -78,7 +78,7 @@
               <ion-text class="">
                     <div class="list1"></div>
                     <div class="list2"></div>
-                    <div>Click SUBMIT button.&nbsp; &nbsp; &nbsp; &nbsp; </div>
+                    <div>{{'login.explain2' | translate}}&nbsp; &nbsp; &nbsp; &nbsp; </div>
                      
               </ion-text>
           </ion-col> 
@@ -91,8 +91,8 @@
                     <div class="list1"></div>
                     <div class="list2"></div>
                     <div>
-                        The system will send you email to above 
-                        address shortly with authentication code. 
+                        {{'login.explain3' | translate}}
+                        {{'login.explain4' | translate}} 
                     </div>
                    
               </ion-text>
@@ -104,7 +104,7 @@
         <ion-col  align-self-center size="9">
             <ion-text class="">
                   <div>
-                   -  Copyright (c) {{year}}
+                   -  {{'login.copyright' | translate}} {{year}} -
                   </div>
             </ion-text>
         </ion-col> 

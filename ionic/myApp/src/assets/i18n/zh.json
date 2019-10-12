@@ -24,5 +24,19 @@
         "content3":"查看和编辑已保存的已加书签表单",
         "name":"切换至离线模式"
        
+    },
+    "login":{
+        "password":"密碼",
+        "authcode":"验证码",
+        "welcom1":"欢迎来到integrumNow（v2）",
+        "welcom2":"最全面的业务优化风险和",
+        "welcom3":"合规平台。",
+        "submit":"提交",
+        "next":"下一步",
+        "explain1":"正确输入您的电子邮件。",
+        "explain2":"单击提交按钮。",
+        "explain3":"系统将很快向您发送带有验证码的",  
+        "explain4":"电子邮件至上述地址。",
+        "copyright":"版权 "
     }
 }
