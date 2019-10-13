@@ -26,6 +26,7 @@
        
     },
     "login":{
+        "email":"Email",
         "password":"Password",
         "authcode":"Authentication Code",
         "welcom1":"Welcome to integrumNow (v2)",
@@ -37,6 +38,10 @@
         "explain2":"Click SUBMIT button.",
         "explain3":"The system will send you email to above",
         "explain4":"address shortly with authentication code. ",
-        "copyright":"Copyright (c) "
+        "copyright":"Copyright (c) ",
+        "rememberpass":"Remember password",
+        "or":"or",
+        "login":"Log In",
+        "ssologin":"SSO Log In"
     }
 }

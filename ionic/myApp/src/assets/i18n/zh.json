@@ -26,6 +26,7 @@
        
     },
     "login":{
+        "email":"邮箱",
         "password":"密碼",
         "authcode":"验证码",
         "welcom1":"欢迎来到integrumNow（v2）",
@@ -37,6 +38,10 @@
         "explain2":"单击提交按钮。",
         "explain3":"系统将很快向您发送带有验证码的",  
         "explain4":"电子邮件至上述地址。",
-        "copyright":"版权 "
+        "copyright":"版权 ",
+        "rememberpass":"记住密码",
+        "or":"或",
+        "login":"登录",
+        "ssologin":"SSO登录"
     }
 }
