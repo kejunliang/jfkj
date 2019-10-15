@@ -7,7 +7,9 @@
         "offline":"Switch to offline mode",
         "language":"language",
         "me":"Me",
-        "task":"My task"
+        "task":"My task",
+        "calender":"Calender",
+        "inbox":"Inbox"
     },
     "account":{
         "name":"Name",
@@ -43,5 +45,12 @@
         "or":"or",
         "login":"Log In",
         "ssologin":"SSO Log In"
+    },
+    "setting":{
+        "account":"My account",
+        "language":"language",
+        "offline":"Switch to offline mode",
+        "logout":"log out"
     }
+    
 }

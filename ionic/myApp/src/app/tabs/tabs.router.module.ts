@@ -38,6 +38,26 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'inbox',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../inbox/inbox.module').then(m => m.InboxPageModule)
+          }
+        ]
+      },
+      {
+        path: 'calender',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../calender/calender.module').then(m => m.CalenderPageModule)
+          }
+        ]
+      },
+      {
         path: 'tabs',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

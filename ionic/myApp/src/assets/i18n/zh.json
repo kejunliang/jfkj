@@ -7,7 +7,9 @@
         "offline":"脱机模式",
         "language":"语言",
         "me":"我的",
-        "task":" 我的任务"
+        "task":" 我的任务",
+        "calender":"日历",
+        "inbox":"收件箱"
     },
     "account":{
         "name":"名称",
@@ -43,5 +45,12 @@
         "or":"或",
         "login":"登录",
         "ssologin":"SSO登录"
+    },
+    "setting":{
+        "account":"我的账户",
+        "language":"语言",
+        "offline":"切换至脱机模式",
+        "logout":"退出登录"
     }
+   
 }

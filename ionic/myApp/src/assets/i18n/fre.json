@@ -5,7 +5,9 @@
     "offline":"Passer en mode hors ligne",
     "language":"Langue",
     "me":"Moi",
-    "task":"Ma tâche"
+    "task":"Ma tâche",
+    "calender":"calendrier",
+    "inbox":"boîte de réception"
     },
     "account":{
         "name":"Nom",
@@ -21,6 +23,11 @@
         "content2":"Voir et éditer les brouillons sauvegardés",
         "content3":"Afficher et modifier des formulaires marqués d'un signet",
         "name":"Passer en mode hors ligne"
-       
+    },
+    "setting":{
+        "account":"Mon compte",
+        "language":"la langue",
+        "offline":"Passer en mode hors ligne",
+        "logout":"se déconnecter"
     }
 }
