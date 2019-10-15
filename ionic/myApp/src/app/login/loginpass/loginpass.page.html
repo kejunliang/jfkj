@@ -9,10 +9,10 @@
      </ion-row>
      <ion-row >
         <ion-col></ion-col>
-        <ion-col>
+        <ion-col  size="9">
           <div> 
               <ion-text class="userName">
-                 user
+                 {{user}}
               </ion-text>
           </div>
         </ion-col> 
@@ -22,7 +22,7 @@
         <ion-col></ion-col>
         <ion-col  size="9">
           
-              <ion-input type="password" class="pass" placeholder="{{'login.password'|translate}}"></ion-input>
+              <ion-input [(ngModel)]="pass" type="password" class="pass" placeholder="{{'login.password'|translate}}"></ion-input>
            
         </ion-col> 
         <ion-col></ion-col>
@@ -40,7 +40,7 @@
     <ion-row>
         <ion-col></ion-col>
         <ion-col  size="9">
-            <ion-button   class="btnloginpass" expand="block">
+            <ion-button   class="btnloginpass" expand="block"  (click)="Login()" >
                 <ion-text class="btnText">
                    {{'login.login' | translate}}
                  </ion-text>

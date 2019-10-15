@@ -17,7 +17,7 @@ export class AuthemailPage implements OnInit {
   public code: string ;
   public sendStat:Boolean;
   public year:string ;
-
+  public user:string ;
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage) { }
 
@@ -25,23 +25,7 @@ export class AuthemailPage implements OnInit {
     this.sendStat=true;
     this.year = new Date().getFullYear().toString();
   }
-  //log in system
-  Login() {
-   
-    this.sendStat=false;
-    this.auth.login(this.code)
-      .pipe(first())
-      .subscribe(
-        result => {
-          if(result.status=="sucess"){
-            localStorage.setItem('hasLogged','true');
-            this.router.navigate(['loginpass'])
-          }else{
-            this.presentAlert("验证码错误！");
-          }
-        },
-      );
-  }
+ 
   SendEmail(){
     this.auth.sendEmail(this.email,"12345678",this.code)
       .pipe(first())
@@ -50,8 +34,9 @@ export class AuthemailPage implements OnInit {
         {
           console.log(result)
           if(result.status!="fail"){
-            this.sendStat=false;
-           
+            this.sendStat=true;
+            localStorage.setItem('user',result.username);
+            this.router.navigate(['loginpass'])
           }else{
             this.presentAlert("请输入正确的邮箱地址！");
           }

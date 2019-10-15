@@ -14,6 +14,8 @@ export class LoginPage implements OnInit {
   public email: string;
   public code: string ;
   public sendStat:Boolean;
+  public userid :string ;
+  public password :string ;
 
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage) { }
@@ -25,7 +27,7 @@ export class LoginPage implements OnInit {
   Login() {
    
     this.sendStat=false;
-    this.auth.login(this.code)
+    this.auth.login(this.userid,this.password)
       .pipe(first())
       .subscribe(
         result => {
@@ -47,7 +49,6 @@ export class LoginPage implements OnInit {
           console.log(result)
           if(result.status!="fail"){
             this.sendStat=false;
-           
           }else{
             this.presentAlert("请输入正确的邮箱地址！");
           }
