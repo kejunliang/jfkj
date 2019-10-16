@@ -25,6 +25,6 @@ export class Tab1Page {
   }
   logout(){
 
-    this.Nav.navigateRoot('login')
+    this.Nav.navigateRoot('loginpass')
   }
 }

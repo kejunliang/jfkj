@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/authemail', pathMatch: 'full' },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./portal/tabs/tabs.module').then(m => m.TabsPageModule)
   },
   { path: 'account', loadChildren: './setup/account/account.module#AccountPageModule' },
   { path: 'password', loadChildren: './setup/password/password.module#PasswordPageModule' },

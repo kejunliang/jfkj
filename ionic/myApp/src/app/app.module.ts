@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageModule } from "../app/login/login.module";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TabsPageModule } from "../app/tabs/tabs.module";
+import { TabsPageModule } from "../app/portal/tabs/tabs.module";
 import { IonicStorageModule } from '@ionic/storage';
 //
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
