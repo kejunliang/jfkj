@@ -4,6 +4,7 @@ import { AuthenticationService} from '../../services/authentication.service';
 import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'app-loginpass',
   templateUrl: './loginpass.page.html',
@@ -12,11 +13,14 @@ import { Storage } from '@ionic/storage';
 export class LoginpassPage implements OnInit {
   public user: string ;
   public pass:string;
-  
-  constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
-    ,private storage:Storage) {
-
-       
+  constructor(
+    public  alertController:AlertController,
+    private auth: AuthenticationService,
+    private router: Router,
+    private storage:Storage
+    ){
+     
+    
      }
 
  
