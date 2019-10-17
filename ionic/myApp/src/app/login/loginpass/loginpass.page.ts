@@ -4,7 +4,7 @@ import { AuthenticationService} from '../../services/authentication.service';
 import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
+import { GetousService } from "../../services/getous.service";
 @Component({
   selector: 'app-loginpass',
   templateUrl: './loginpass.page.html',
@@ -17,7 +17,8 @@ export class LoginpassPage implements OnInit {
     public  alertController:AlertController,
     private auth: AuthenticationService,
     private router: Router,
-    private storage:Storage
+    private storage:Storage,
+    private getou:GetousService
     ){
      
     
@@ -40,7 +41,13 @@ export class LoginpassPage implements OnInit {
       result => {
         if(result.returnResponse=="Success"){
           localStorage.setItem('hasLogged','true');
+          this.getou.getous(this.user,this.pass).pipe(first()).subscribe(
+            data => {
+              this.storage.set('ous', JSON.stringify(data));    
+            }
+          )
           this.router.navigate(['tabs/tab1'])
+
         }else{
           this.presentAlert("密码错误！");
         }

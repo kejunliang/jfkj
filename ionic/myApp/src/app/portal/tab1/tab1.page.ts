@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from './component/popover/popover.component';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -11,9 +12,13 @@ export class Tab1Page {
   public name:string;
   constructor(
     public popoverController: PopoverController,
-    public Nav:NavController
+    public Nav:NavController,
+    private storage:Storage,
   ) {
     // this.translate.setDefaultLang('en');
+    this.storage.get("ous").then(data=>{
+      console.log("获取到ous"+data)
+    })
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
