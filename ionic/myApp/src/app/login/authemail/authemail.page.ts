@@ -4,7 +4,7 @@ import { AuthenticationService} from '../../services/authentication.service';
 import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
+import { FormControl, FormGroup, Validators ,FormBuilder} from '@angular/forms'; 
 
 @Component({
   selector: 'app-authemail',
@@ -13,13 +13,24 @@ import { Storage } from '@ionic/storage';
 })
 export class AuthemailPage implements OnInit {
 
-  public email: string;
-  public code: string ;
+  public email: any;
+  public code: any ;
   public sendStat:Boolean;
   public year:string ;
   public user:string ;
+  public authform : FormGroup;
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
-    ,private storage:Storage) { }
+    ,private storage:Storage,
+    private formBuilder: FormBuilder,
+    ) {
+      this.authform = formBuilder.group({
+        email: ['', Validators.compose([ Validators.required,])],
+        code: ['', Validators.compose([Validators.required,])]
+      });
+      this.email = this.authform.controls['email']
+      this.code = this.authform.controls['code'];
+
+     }
 
   ngOnInit() {
     this.sendStat=true;
@@ -27,7 +38,7 @@ export class AuthemailPage implements OnInit {
   }
  
   SendEmail(){
-    this.auth.sendEmail(this.email,"12345678",this.code)
+    this.auth.sendEmail(this.authform.value.email,"12345678",this.authform.value.code)
       .pipe(first())
       .subscribe(
         result => 
