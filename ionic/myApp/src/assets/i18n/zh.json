@@ -44,7 +44,8 @@
         "rememberpass":"记住密码",
         "or":"或",
         "login":"登录",
-        "ssologin":"SSO登录"
+        "ssologin":"SSO登录",
+        "authmailerr":"邮箱或者验证码错误，请重新输入！"
     },
     "setting":{
         "account":"我的账户",

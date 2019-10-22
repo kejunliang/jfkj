@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { FormControl, FormGroup, Validators ,FormBuilder} from '@angular/forms'; 
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-authemail',
   templateUrl: './authemail.page.html',
@@ -22,6 +22,7 @@ export class AuthemailPage implements OnInit {
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
     private formBuilder: FormBuilder,
+    private translate:TranslateService
     ) {
       this.authform = formBuilder.group({
         email: ['', Validators.compose([ Validators.required,])],
@@ -49,13 +50,17 @@ export class AuthemailPage implements OnInit {
             localStorage.setItem('user',result.username);
             this.router.navigate(['loginpass'])
           }else{
-            this.presentAlert("请输入正确的邮箱地址！");
+            this.translate.get('login').subscribe((res: any) => {
+              this.presentAlert(res.authmailerr);
+          });
+           
           }
         }
       );
   }
   // 
   async presentAlert(msg:string) {
+
     const alert = await this.alertController.create({
       header: '提示',
       subHeader: '',
