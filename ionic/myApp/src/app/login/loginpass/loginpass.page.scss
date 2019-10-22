@@ -17,6 +17,9 @@ color:rgba(255,255,255,1);
     font-weight:400;
     color:rgba(255,255,255,1);
 }
+.text-center{
+    text-align: center;
+}
 .pass{
 
 background:rgba(255,255,255,0);
@@ -33,9 +36,9 @@ color: white;
 }
 .btnText{
     font-size:16px;
-font-family:PingFang SC;
-font-weight:400;
-color:rgba(224,48,36,1);
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(224,48,36,1);
 }
 .btnloginsso{
     --background:rgba(224,48,36,1);

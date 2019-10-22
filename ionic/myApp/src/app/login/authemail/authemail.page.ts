@@ -19,6 +19,7 @@ export class AuthemailPage implements OnInit {
   public year:string ;
   public user:string ;
   public authform : FormGroup;
+  public resmsg:string;
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
     private formBuilder: FormBuilder,
@@ -50,22 +51,24 @@ export class AuthemailPage implements OnInit {
             localStorage.setItem('user',result.username);
             this.router.navigate(['loginpass'])
           }else{
-            this.translate.get('login').subscribe((res: any) => {
-              this.presentAlert(res.authmailerr);
-          });
+             this.translate.get('login').subscribe((res: any) => {
+             this.resmsg=res.authmailerr;
+          }).add(this.translate.get('alert').subscribe((res: any) => {
+              this.presentAlert( this.resmsg,res.title,res.btn);
+          }));
            
           }
         }
       );
   }
   // 
-  async presentAlert(msg:string) {
+  async presentAlert(msg:string,header:string,btn:string) {
 
     const alert = await this.alertController.create({
-      header: '提示',
+      header: header,
       subHeader: '',
       message: msg,
-      buttons: ['OK']
+      buttons: [btn]
     });
 
     await alert.present();

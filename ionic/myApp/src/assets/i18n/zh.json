@@ -52,6 +52,10 @@
         "language":"语言",
         "offline":"切换至脱机模式",
         "logout":"退出登录"
+    },
+    "alert":{
+        "title":"提示",
+        "btn":"确定"
     }
    
 }

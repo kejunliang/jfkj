@@ -52,6 +52,10 @@
         "language":"language",
         "offline":"Switch to offline mode",
         "logout":"log out"
+    },
+    "alert":{
+        "title":"prompt",
+        "btn":"ok"
     }
     
 }

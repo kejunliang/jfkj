@@ -6,12 +6,11 @@ import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GetousService {
+export class GetpersoninfoService {
 
   constructor(private http: HttpClient) { }
 
-
-  getous(userid: string,pass:string): Observable<any> {
+getpersoninfo(userid: string,pass:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -19,7 +18,7 @@ export class GetousService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getOUs',options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo',options)
       .pipe(
         map(result => { 
                  return result;
@@ -41,4 +40,6 @@ export class GetousService {
     console.log(errMsg);
     return "{'returnResponse':'failure'}";
   };
+
+
 }
