@@ -6,13 +6,12 @@ import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class GetousService {
 
   constructor(private http: HttpClient) { }
 
-  login(userid: string,pass:string): Observable<any> {
-    console.log("code")
-    let  data=new HttpParams().set("Code","");
+
+  getous(userid: string,pass:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -20,10 +19,9 @@ export class AuthenticationService {
         "Authorization":auth
       }
     };
-    return this.http.post<{token: string}>('sfv3/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getOUs',options)
       .pipe(
         map(result => { 
-                 console.log(result);
                  return result;
         }),
         catchError(this.handleError)
@@ -40,22 +38,7 @@ export class AuthenticationService {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.log("登录错误")
     console.log(errMsg);
     return "{'returnResponse':'failure'}";
   };
-  
-  sendEmail(email:string,slid:string,code:string ):Observable<any>{
-    
-    let  data=new HttpParams().set("email",email).set("code",code); 
-    return this.http.post('/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data).pipe(
-       map(
-        result => { 
-          console.log(result)
-          return result;
-        } 
-       )
-      
-    )
-  }
 }

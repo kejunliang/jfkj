@@ -44,13 +44,18 @@
         "rememberpass":"记住密码",
         "or":"或",
         "login":"登录",
-        "ssologin":"SSO登录"
+        "ssologin":"SSO登录",
+        "authmailerr":"邮箱或者验证码错误，请重新输入！"
     },
     "setting":{
         "account":"我的账户",
         "language":"语言",
         "offline":"切换至脱机模式",
         "logout":"退出登录"
+    },
+    "alert":{
+        "title":"提示",
+        "btn":"确定"
     }
    
 }

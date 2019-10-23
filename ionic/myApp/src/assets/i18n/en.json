@@ -44,13 +44,18 @@
         "rememberpass":"Remember password",
         "or":"or",
         "login":"Log In",
-        "ssologin":"SSO Log In"
+        "ssologin":"SSO Log In",
+        "authmailerr":"The mailbox or verification code is incorrect, please re-enter!"
     },
     "setting":{
         "account":"My account",
         "language":"language",
         "offline":"Switch to offline mode",
         "logout":"log out"
+    },
+    "alert":{
+        "title":"prompt",
+        "btn":"ok"
     }
     
 }

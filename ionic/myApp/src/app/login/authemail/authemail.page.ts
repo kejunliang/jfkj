@@ -4,8 +4,8 @@ import { AuthenticationService} from '../../services/authentication.service';
 import { first } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
-
+import { FormControl, FormGroup, Validators ,FormBuilder} from '@angular/forms'; 
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-authemail',
   templateUrl: './authemail.page.html',
@@ -13,58 +13,62 @@ import { Storage } from '@ionic/storage';
 })
 export class AuthemailPage implements OnInit {
 
-  public email: string;
-  public code: string ;
+  public email: any;
+  public code: any ;
   public sendStat:Boolean;
   public year:string ;
-
+  public user:string ;
+  public authform : FormGroup;
+  public resmsg:string;
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
-    ,private storage:Storage) { }
+    ,private storage:Storage,
+    private formBuilder: FormBuilder,
+    private translate:TranslateService
+    ) {
+      this.authform = formBuilder.group({
+        email: ['', Validators.compose([ Validators.required,])],
+        code: ['', Validators.compose([Validators.required,])]
+      });
+      this.email = this.authform.controls['email']
+      this.code = this.authform.controls['code'];
+
+     }
 
   ngOnInit() {
     this.sendStat=true;
     this.year = new Date().getFullYear().toString();
   }
-  //log in system
-  Login() {
-   
-    this.sendStat=false;
-    this.auth.login(this.code)
-      .pipe(first())
-      .subscribe(
-        result => {
-          if(result.status=="sucess"){
-            localStorage.setItem('hasLogged','true');
-            this.router.navigate(['loginpass'])
-          }else{
-            this.presentAlert("验证码错误！");
-          }
-        },
-      );
-  }
+ 
   SendEmail(){
-    this.auth.sendEmail(this.email,"12345678",this.code)
+    this.auth.sendEmail(this.authform.value.email,"12345678",this.authform.value.code)
       .pipe(first())
       .subscribe(
         result => 
         {
           console.log(result)
           if(result.status!="fail"){
-            this.sendStat=false;
-           
+            this.sendStat=true;
+            localStorage.setItem('user',result.username);
+            this.router.navigate(['loginpass'])
           }else{
-            this.presentAlert("请输入正确的邮箱地址！");
+             this.translate.get('login').subscribe((res: any) => {
+             this.resmsg=res.authmailerr;
+          }).add(this.translate.get('alert').subscribe((res: any) => {
+              this.presentAlert( this.resmsg,res.title,res.btn);
+          }));
+           
           }
         }
       );
   }
   // 
-  async presentAlert(msg:string) {
+  async presentAlert(msg:string,header:string,btn:string) {
+
     const alert = await this.alertController.create({
-      header: '提示',
+      header: header,
       subHeader: '',
       message: msg,
-      buttons: ['OK']
+      buttons: [btn]
     });
 
     await alert.present();
