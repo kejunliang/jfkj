@@ -14,10 +14,6 @@ const routes: Routes = [
   { path: 'language', loadChildren: './setup/language/language.module#LanguagePageModule' },
   { path: 'loginpass', loadChildren: './login/loginpass/loginpass.module#LoginpassPageModule' },
   { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },
-
-  
-
-
 ];
 @NgModule({
   imports: [

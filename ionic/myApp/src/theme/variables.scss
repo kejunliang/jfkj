@@ -74,17 +74,22 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
-
-  /** zhu **/
-  --ion-color-Main: #E03024;
-  --ion-color-Main-rgb: 244, 244, 244;
-  --ion-color-Main-contrast: #000000;
-  --ion-color-Main-contrast-rgb: 0, 0, 0;
-  --ion-color-Main-shade: #E03024;
-  --ion-color-Main-tint: #E03024;
 }
-
-
+//新增内置主题颜色
+.ion-color-favorite {
+  --ion-color-base: #3a7ab2;
+  --ion-color-base-rgb: 105,187,123;
+  --ion-color-base-contrast: #ffffff;
+  --ion-color-base-contrast-rgb: 255,255,255;
+  --ion-color-base-shade: #3a7ab2;
+  --ion-color-base-tint: #3a7ab2;
+}
+ion-toolbar{
+  -moz-box-shadow:0px 0px 10px rgba(184,207,227,0.5); -webkit-box-shadow:0px 0px 10px rgba(184,207,227,0.5); box-shadow:0px 00px 10px rgba(184,207,227,0.5);
+}
+ion-item{
+  --border-color:#e0e0e0;
+}
 a, article, aside, b, body, button, dd, div, dl, dt, figcaption, figure, footer, h1, h2, h3, h4, h5, h6, header, i, input, li, nav, p, section, select, span, textarea, ul {
   padding: 0;
   margin: 0;
@@ -101,7 +106,7 @@ a, article, aside, b, body, button, dd, div, dl, dt, figcaption, figure, footer,
 }
 
 html {
-font-size: 62.5%;
+font-size: 14px;
 }
 
 .clear:after {
@@ -139,14 +144,6 @@ ul,ol{
   list-style-type: none;
 }
 ion-toolbar{
-  --background:#333333;
-  ion-title{
-    --color:#fff;
-  }
-  ion-back-button{
-    --color:#fff;
-  }
-  ion-icon{
-    --background:#fff;
-  }
+  min-height: 4rem;
+  line-height: 4rem;
 }

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
-
+import { HttpClientModule } from '@angular/common/http';
 import { LanguagePage } from './language.page';
 
 const routes: Routes = [
@@ -20,7 +20,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    TranslateModule
+    TranslateModule,
+    HttpClientModule
   ],
   declarations: [LanguagePage]
 })

@@ -29,7 +29,8 @@ export class AppComponent {
      // this.router.navigate(['tabs/tab1'])
     }
     this.initializeApp();
-    this.initTranslate()
+    this.initTranslate();
+    this.isUserAgent();
   }
 
   initializeApp() {
@@ -48,5 +49,28 @@ export class AppComponent {
     // }else {
     //   this.translate.use('zh');
     // }
+    
+  //   let bIsIpad=userAgent.match(/ipad/i)=='ipad';
+  //  console.log(bIsIpad,'ipad')
+  //  //判断是否是iphone
+  //  let bIsIpone=userAgent.match(/iphone/i)=='iphone';
+  //  console.log(bIsIpone,'iphone')
+  //   //判断安卓
+  //  let bISAdndroid=userAgent.match(/androis/i)=='android';
+  //  console.log(bISAdndroid,'android')
+  }
+  isUserAgent(){
+    var u = navigator.userAgent, app = navigator.appVersion;
+    console.log(app)
+    var isAndroid = (/android/gi).test(app)
+    var isIOS = (/iphone/gi).test(app); //ios终端
+    let isTouchPad=(/ipad/gi).test(app);
+    if (isAndroid) {
+        console.dir('android')
+    }
+    if (isIOS) {
+        // window.location.href = 'iosDownload.html';
+        console.dir('iphone')
+    }
   }
 }
