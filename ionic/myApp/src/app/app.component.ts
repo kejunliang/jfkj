@@ -22,9 +22,8 @@ export class AppComponent {
     private translate:TranslateService
   ) {
     let hasLogged=localStorage.getItem('hasLogged');
-    console.log("apprun")
-    console.log(hasLogged)
-    if(hasLogged){
+    console.log("hasLogged="+hasLogged)
+    if(hasLogged=="true"){
       console.log("找到登录状态，设置")
       this.router.navigate(['tabs/tab1'])
     }

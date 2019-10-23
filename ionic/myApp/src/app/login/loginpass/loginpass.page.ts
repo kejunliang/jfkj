@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { GetousService } from "../../services/getous.service";
 import { GetpersoninfoService } from "../../services/getpersoninfo.service";
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-loginpass',
   templateUrl: './loginpass.page.html',
@@ -14,13 +15,15 @@ import { GetpersoninfoService } from "../../services/getpersoninfo.service";
 export class LoginpassPage implements OnInit {
   public user: string ;
   public pass:string;
+  public resmsg:string;
   constructor(
     public  alertController:AlertController,
     private auth: AuthenticationService,
     private router: Router,
     private storage:Storage,
     private getou:GetousService,
-    private getpsn:GetpersoninfoService
+    private getpsn:GetpersoninfoService,
+    private translate:TranslateService,
     ){
      
     
@@ -56,18 +59,24 @@ export class LoginpassPage implements OnInit {
           this.router.navigate(['tabs/tab1'])
 
         }else{
-          this.presentAlert("密码错误！");
+          //this.presentAlert("密码错误！");
+          this.translate.get('login').subscribe((res: any) => {
+            this.resmsg=res.authpasserr;
+         }).add(this.translate.get('alert').subscribe((res: any) => {
+             this.presentAlert( this.resmsg,res.title,res.btn);
+         }));
         }
       },
     );
 }
 
-async presentAlert(msg:string) {
+async presentAlert(msg:string,header:string,btn:string) {
+
   const alert = await this.alertController.create({
-    header: '提示',
+    header: header,
     subHeader: '',
     message: msg,
-    buttons: ['OK']
+    buttons: [btn]
   });
 
   await alert.present();

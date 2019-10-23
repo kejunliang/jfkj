@@ -32,7 +32,8 @@ export class Tab1Page {
   }
   logout(){
 
-    this.Nav.navigateRoot('loginpass')
+    this.Nav.navigateRoot('loginpass');
+    localStorage.setItem('hasLogged',"false");
   }
   getInfo(){
     console.log(this.storageService.get('ous'))
