@@ -3,6 +3,7 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from './component/popover/popover.component';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { StorageService } from '../../services/storage/storage.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -14,6 +15,7 @@ export class Tab1Page {
     public popoverController: PopoverController,
     public Nav:NavController,
     private storage:Storage,
+    public storageService:StorageService
   ) {
     // this.translate.setDefaultLang('en');
     this.storage.get("ous").then(data=>{
@@ -31,5 +33,8 @@ export class Tab1Page {
   logout(){
 
     this.Nav.navigateRoot('loginpass')
+  }
+  getInfo(){
+    console.log(this.storageService.get('ous'))
   }
 }

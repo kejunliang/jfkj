@@ -2,3 +2,64 @@
   max-height: 35vh;
   overflow: hidden;
 }
+.portal-box{
+  padding: 1.5rem;
+  .portal-title{
+    background-color:#3A7AB2 ;
+    border-radius: 5px;
+    color:#fff;
+    height: 3.5rem;
+    line-height: 3.5rm;
+    text-align: center;
+    span{
+      line-height: 3.5rem;
+     font-size: 1.7rem;
+    }
+    ion-icon{
+      font-size: 3rem;
+      float: right;
+      color: #fff;
+      padding: 0.2rem 1.5rem 0.2rem 0;
+      cursor: pointer;
+    }
+  }
+  .portal-list{
+    // padding-top: 2rem;
+    li{
+      height: 4.75rem;
+      line-height: 4.75rem;
+      border-bottom:1px solid #E0E0E0 ;
+      text-align: center;
+      span{
+        color: #333333;
+        font-size: 1.6rem;
+      }
+      ion-icon{
+        font-size: 3rem;
+        cursor: pointer;
+        padding: 1rem 0 1rem 1rem;
+      }
+      ion-icon:first-child{
+        float: left;
+        color:orange;
+      }
+      // ion-icon:last-child{
+      //   float: right;
+      // }
+      img{
+        float: right;
+        padding: 1rem;
+        cursor: pointer;
+      }
+    }
+    
+    
+  }
+  // ion-item{
+  //   min-height: 4.75rem;
+  //   ion-label{
+  //     text-align: center;
+      
+  //   }
+  // }
+}
