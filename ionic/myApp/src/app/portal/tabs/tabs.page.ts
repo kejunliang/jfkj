@@ -7,6 +7,11 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
+
+   flag = 'home';
+  change(event) {
+      this.flag=event.detail.tab;
+  }
   constructor() {}
 
 }

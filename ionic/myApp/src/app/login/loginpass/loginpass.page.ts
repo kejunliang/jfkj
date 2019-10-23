@@ -50,7 +50,6 @@ export class LoginpassPage implements OnInit {
           )
           this.getpsn.getpersoninfo(this.user,this.pass).pipe(first()).subscribe(
             data => {
-              console.log("人员信息="+JSON.stringify(data))
               this.storage.set('psninfo', JSON.stringify(data));    
             }
           )
