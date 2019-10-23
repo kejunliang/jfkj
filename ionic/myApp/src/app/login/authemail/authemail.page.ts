@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService} from '../../services/authentication.service';
 import { first } from 'rxjs/operators';
-import { AlertController } from '@ionic/angular';
+import { AlertController,NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { FormControl, FormGroup, Validators ,FormBuilder} from '@angular/forms'; 
 import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-authemail',
   templateUrl: './authemail.page.html',
@@ -23,7 +24,8 @@ export class AuthemailPage implements OnInit {
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
     private formBuilder: FormBuilder,
-    private translate:TranslateService
+    private translate:TranslateService,
+    public navCtrl:NavController
     ) {
       this.authform = formBuilder.group({
         email: ['', Validators.compose([ Validators.required,])],

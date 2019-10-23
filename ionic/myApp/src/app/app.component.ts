@@ -26,7 +26,7 @@ export class AppComponent {
     console.log(hasLogged)
     if(hasLogged){
       console.log("找到登录状态，设置")
-     // this.router.navigate(['tabs/tab1'])
+      this.router.navigate(['tabs/tab1'])
     }
     this.initializeApp();
     this.initTranslate();
