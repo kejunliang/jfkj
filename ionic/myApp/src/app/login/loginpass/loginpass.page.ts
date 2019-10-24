@@ -16,6 +16,10 @@ export class LoginpassPage implements OnInit {
   public user: string ;
   public pass:string;
   public resmsg:string;
+  public loginDetails ={
+    username:"",
+    password:"",
+  }
   constructor(
     public  alertController:AlertController,
     private auth: AuthenticationService,
@@ -45,6 +49,10 @@ export class LoginpassPage implements OnInit {
     .subscribe(
       result => {
         if(result.returnResponse=="Success"){
+          this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
+          this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
+          console.log(this.loginDetails)
+          this.storage.set("loginDetails",this.loginDetails)
           localStorage.setItem('hasLogged','true');
           this.getou.getous(this.user,this.pass).pipe(first()).subscribe(
             data => {

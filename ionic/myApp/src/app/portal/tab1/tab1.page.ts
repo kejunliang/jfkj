@@ -21,6 +21,10 @@ export class Tab1Page {
     this.storage.get("ous").then(data=>{
       console.log("获取到ous"+data)
     })
+    this.storage.get("loginDetails").then(data => {
+      console.log("loginDetails=="+JSON.stringify(data))
+      
+    })
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
