@@ -37,6 +37,10 @@ export class LoginpassPage implements OnInit {
 
   ngOnInit() {
    this.user=localStorage.getItem('user');
+   this.storage.get("loginDetails").then(data => {
+     this.pass=data.password
+    
+  })
   }
 
   //log in system

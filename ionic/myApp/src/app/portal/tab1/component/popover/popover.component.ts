@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController,NavParams } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-popover',
   templateUrl: './popover.component.html',
@@ -9,16 +10,22 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PopoverComponent implements OnInit {
   public setting:any=[];
-  constructor(public nav:NavController,public Popover:PopoverController,public translate:TranslateService) { 
+  public type:string;
+  constructor(public nav:NavController,public Popover:PopoverController,public translate:TranslateService,
+    public params:NavParams
+    ) { 
     this.translate.get('setting').subscribe(res=>{
       this.setting=res;
     })
+    console.log(this.params.get("type")) 
+    this.type=this.params.get("type")
   }
-
+ 
   ngOnInit() {
-
+   
   }
   ngAfterViewInit(){
+   
     let popover=document.querySelector('.popover-content');
     popover['style'].width='23rem';
     popover['style'].height='17rem'

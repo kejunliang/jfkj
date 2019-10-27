@@ -1,4 +1,4 @@
-<ion-list>
+<ion-list *ngIf="type=='setup'">
   <ion-item lines="full" (click)="getLink(1)">
     <ion-icon slot="start" name="person"></ion-icon>
     <ion-label>{{setting.account}}</ion-label>
@@ -16,3 +16,9 @@
     <ion-label>{{setting.logout}}</ion-label>
   </ion-item>
 </ion-list>
+<ion-list *ngIf="type=='portal'">
+    <ion-item lines="full" (click)="getLink(1)">
+      <ion-label>portal1</ion-label>
+    </ion-item>
+
+  </ion-list>

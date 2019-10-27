@@ -11,6 +11,7 @@ import { StorageService } from '../../services/storage/storage.service';
 })
 export class Tab1Page {
   public name:string;
+  public type: string;
   constructor(
     public popoverController: PopoverController,
     public Nav:NavController,
@@ -26,10 +27,21 @@ export class Tab1Page {
       
     })
   }
+
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
+      componentProps:{type:"setup"},
+      translucent: true
+    });
+    return await popover.present();
+  }
+  async presentPopoverPortal(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverComponent,
+      event: ev,
+      componentProps:{type:"portal"},
       translucent: true
     });
     return await popover.present();
