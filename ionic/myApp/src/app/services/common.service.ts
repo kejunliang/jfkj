@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-
+import { Storage } from '@ionic/storage';
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor() { }
+  constructor(
+    public storage:Storage
+  ) { 
+  
+
+  }
 
 
   public handleError (error: Response | any) {
@@ -20,5 +25,14 @@ export class CommonService {
     }
     console.log(errMsg);
     return "{'returnResponse':'failure'}";
-  };
+  }
+
+
+
+  async getDataStorage(key:any): Promise<any>{
+    return new Promise(resolve => {
+      this.storage.get(key).then( res => resolve(res))
+    });
+  }
+
 }

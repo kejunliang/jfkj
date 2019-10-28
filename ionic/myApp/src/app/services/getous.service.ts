@@ -28,5 +28,23 @@ export class GetousService {
       )
   }
 
+  getLoginPic(userid: string,pass:string): Observable<any> {
+  
+    let auth='Basic '+btoa(userid+':'+pass);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppKeyword',options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+
   
 }

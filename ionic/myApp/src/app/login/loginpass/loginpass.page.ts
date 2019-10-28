@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import { GetousService } from "../../services/getous.service";
 import { GetpersoninfoService } from "../../services/getpersoninfo.service";
 import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-loginpass',
   templateUrl: './loginpass.page.html',
@@ -19,6 +20,10 @@ export class LoginpassPage implements OnInit {
   public loginDetails ={
     username:"",
     password:"",
+  }
+  public logPic={
+    log:"/assets/icon/logo.png",
+    background:"/assets/icon/loginpass.png"
   }
   constructor(
     public  alertController:AlertController,
@@ -38,9 +43,19 @@ export class LoginpassPage implements OnInit {
   ngOnInit() {
    this.user=localStorage.getItem('user');
    this.storage.get("loginDetails").then(data => {
-     this.pass=data.password
+     if(data){
+      this.pass=data.password
+      this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
+        console.log(data)
+        this.logPic.log=data.LoginCompanyLogo
+        this.logPic.background=data.LoginBKImage
+      });
+     }
     
-  })
+    })
+   
+    
+   
   }
 
   //log in system
