@@ -14,8 +14,8 @@
         "company":"compagnie",
         "email":"email",
         "language":"la langue",
-        "logout":"se déconnecter",
-        "activated":"activé"
+        "lasttimelogout":"se déconnecter",
+        "activatedon":"activé"
     },
     "offline":{
         "title":"Le mode hors ligne prend en charge les fonctionnalités suivantes:",
@@ -26,8 +26,8 @@
     },
     "setting":{
         "account":"Mon compte",
-        "language":"la langue",
+        "language":"La langue",
         "offline":"Passer en mode hors ligne",
-        "logout":"se déconnecter"
+        "logout":"Se déconnecter"
     }
 }
