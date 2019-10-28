@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { CommonService } from './common.service';
 @Injectable({
   providedIn: 'root'
 })
 export class GetousService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private common:CommonService) { }
 
 
   getous(userid: string,pass:string): Observable<any> {
@@ -24,7 +24,7 @@ export class GetousService {
         map(result => { 
                  return result;
         }),
-        catchError(this.handleError)
+        catchError(this.common.handleError)
       )
   }
 

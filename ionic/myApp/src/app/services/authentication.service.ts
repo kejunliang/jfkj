@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { CommonService } from './common.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private common:CommonService) { }
 
   login(userid: string,pass:string): Observable<any> {
     console.log("code")
@@ -26,7 +26,7 @@ export class AuthenticationService {
                  console.log(result);
                  return result;
         }),
-        catchError(this.handleError)
+        catchError(this.common.handleError)
       )
   }
 
