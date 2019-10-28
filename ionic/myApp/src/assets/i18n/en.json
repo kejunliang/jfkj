@@ -2,7 +2,7 @@
 {
     "public":{
         "home":"Home",
-        "account":"Account",
+        "account":"My account",
         "password":"Password",
         "offline":"Switch to offline mode",
         "language":"language",
@@ -16,8 +16,8 @@
         "company":"Company",
         "email":"Email",
         "language":"Language",
-        "logout":"Last Time Logout",
-        "activated":"Activated on"
+        "lasttimelogout":"Last Time Logout",
+        "activatedon":"Activated on"
     },
     "offline":{
         "title":"The following functionalities are supported by offline mode:",
@@ -50,9 +50,9 @@
     },
     "setting":{
         "account":"My account",
-        "language":"language",
+        "language":"Language",
         "offline":"Switch to offline mode",
-        "logout":"log out"
+        "logout":"Log out"
     },
     "alert":{
         "title":"prompt",

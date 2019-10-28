@@ -16,8 +16,8 @@
         "company":"公司",
         "email":"邮件",
         "language":"语言",
-        "logout":"上次登录",
-        "activated":"激活"
+        "lasttimelogout":"上次登录",
+        "activatedon":"激活"
     },
     "offline":{
         "title":"离线模式支持以下功能:",
