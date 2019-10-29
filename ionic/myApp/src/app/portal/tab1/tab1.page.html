@@ -18,31 +18,18 @@
 
 <ion-content>
   <div class="portal-box">
-      <div class="portal-title">
-        <span>Portal title</span>
-        <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
-      </div>
-      <ul class="portal-list">
-        <li>
-            <ion-icon slot="start" name="git-network"></ion-icon>
-            <span>Hotspot Title 1</span>
-            <!-- <ion-icon slot="end" name="add"></ion-icon> -->
-            <img src="../../../assets/icon/add.png" alt="">
-        </li>
-        <li>
-            <ion-icon slot="start" name="git-network"></ion-icon>
-            <span>Hotspot Title 2</span>
-            <!-- <ion-icon slot="end" name="add"></ion-icon> -->
-            <img src="../../../assets/icon/add.png" alt="" (click)="getInfo()">
-        </li>
-      </ul>
-      <!-- <ion-list>
-        <ion-item lines="full">
-          <ion-icon slot="start" name="git-network"></ion-icon>
-          <ion-label>Hotspot Title 1</ion-label>
-          <ion-icon slot="end" name="add"></ion-icon>
-        </ion-item>
-      </ion-list> -->
+    <div class="portal-title">
+      <span>{{portalTile}}</span>
+      <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
+    </div>
+    <ul class="portal-list">
+      <li *ngFor="let item of data">
+        <ion-icon slot="start" name="git-network"></ion-icon>
+        <span>{{item.name}}</span>
+        <!-- <ion-icon slot="end" name="add"></ion-icon> -->
+        <img src="../../../assets/icon/add.png" alt="">
+      </li>
+    </ul>
   </div>
-  
+
 </ion-content>
