@@ -90,7 +90,8 @@ export class Tab1Page {
   }
   async  show() {
     this.loading = await this.loadingController.create({
-      message: 'loading....'
+      message: 'loading....',
+      duration: 2000
     });
     await this.loading.present();
   }
