@@ -47,8 +47,8 @@ export class PopoverComponent implements OnInit {
       this.nav.navigateBack('offline');
     }
   }
-  getPortalLink(data){
-    this.router.navigate(['tabs/tab1'], {queryParams: {key:data}});
+  getPortalLink(data,title){
+    this.router.navigate(['tabs/tab1'], {queryParams: {key:data,title:title}});
     this.Popover.dismiss()
   }
 }

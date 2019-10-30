@@ -16,9 +16,9 @@
     <ion-label>{{setting.logout}}</ion-label>
   </ion-item>
 </ion-list>
-<ion-list *ngIf="type=='portal'&&portalList.length>0" >
-    <ion-item    *ngFor="let item of portalList" lines="full"  (click)="getPortalLink(item.TemplateID)">
-      <ion-label>{{item.Title}}</ion-label>
-    </ion-item>
+<ion-list *ngIf="type=='portal'&&portalList.length>0">
+  <ion-item *ngFor="let item of portalList" lines="full" (click)="getPortalLink(item.TemplateID,item.Title)">
+    <ion-label>{{item.Title}}</ion-label>
+  </ion-item>
 
-  </ion-list>
+</ion-list>

@@ -44,7 +44,7 @@ export class Tab1Page {
   ) {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
-      this.portalTile=res.key
+      this.portalTile=res.title
       if(res.key){
         console.log("laile")
         
@@ -54,6 +54,8 @@ export class Tab1Page {
     });
     this.show()
     this.storage.get("loginDetails").then(data => {
+    //  alert(JSON.stringify(data))
+      console.log(data)
       this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
           console.log(data)

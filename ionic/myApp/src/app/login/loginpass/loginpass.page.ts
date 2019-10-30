@@ -45,6 +45,7 @@ export class LoginpassPage implements OnInit {
    this.user=localStorage.getItem('user');
    this.storage.get("loginDetails").then(data => {
      if(data){
+      
        console.log(data)
        this.loginDetails.email=data.email
       this.pass=data.password
@@ -73,8 +74,9 @@ export class LoginpassPage implements OnInit {
         if(result.returnResponse=="Success"){
           this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
           this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-          
+          this.loginDetails.email= this.loginDetails.email
           console.log(this.loginDetails)
+         // alert(JSON.stringify(this.loginDetails))
           this.storage.set("loginDetails",this.loginDetails)
           localStorage.setItem('hasLogged','true');
           this.getou.getous(this.user,this.pass).pipe(first()).subscribe(
