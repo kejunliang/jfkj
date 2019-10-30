@@ -21,6 +21,10 @@ export class AuthemailPage implements OnInit {
   public user:string ;
   public authform : FormGroup;
   public resmsg:string;
+  public loginDetails ={
+      email:"",
+      code:""
+  }
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
     private formBuilder: FormBuilder,
@@ -51,6 +55,9 @@ export class AuthemailPage implements OnInit {
           if(result.status!="fail"){
             this.sendStat=true;
             localStorage.setItem('user',result.username);
+            this.loginDetails.email=this.authform.value.email
+            this.loginDetails.code=this.authform.value.code
+            this.storage.set("loginDetails",this.loginDetails)
             this.router.navigate(['loginpass'])
           }else{
              this.translate.get('login').subscribe((res: any) => {

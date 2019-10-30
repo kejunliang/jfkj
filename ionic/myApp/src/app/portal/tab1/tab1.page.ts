@@ -54,10 +54,11 @@ export class Tab1Page {
     });
     this.show()
     this.storage.get("loginDetails").then(data => {
-      this.geapp.getPortalInfo(data.username, data.password).pipe(first())
+      this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
+          console.log(data)
           this.portalInfo = data
-          this.portalTile=data.items[0].Title
+          this.portalTile=data.selectedPortal
           this.hide()
         })
 

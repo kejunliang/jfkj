@@ -11,15 +11,15 @@ export class GetAppPortalService {
 
   constructor(private http: HttpClient,private common:CommonService) { }
 
-  getPortalInfo(userid: string,pass:string): Observable<any> {
-    let auth='Basic '+btoa(userid+':'+pass);
+  getPortalInfo(logindetail:any): Observable<any> {
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
     const options = {
       headers: {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppPortal',options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,options)
       .pipe(
         map(result => { 
                  return result;

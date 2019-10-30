@@ -20,6 +20,7 @@ export class LoginpassPage implements OnInit {
   public loginDetails ={
     username:"",
     password:"",
+    email:"",
   }
   public logPic={
     log:"/assets/icon/logo.png",
@@ -44,11 +45,13 @@ export class LoginpassPage implements OnInit {
    this.user=localStorage.getItem('user');
    this.storage.get("loginDetails").then(data => {
      if(data){
+       console.log(data)
+       this.loginDetails.email=data.email
       this.pass=data.password
       this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
         console.log(data)
-        this.logPic.log=data.LoginCompanyLogo
-        this.logPic.background=data.LoginBKImage
+       // this.logPic.log=data.LoginCompanyLogo
+      //  this.logPic.background=data.LoginBKImage
       });
      }
     
@@ -70,6 +73,7 @@ export class LoginpassPage implements OnInit {
         if(result.returnResponse=="Success"){
           this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
           this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
+          
           console.log(this.loginDetails)
           this.storage.set("loginDetails",this.loginDetails)
           localStorage.setItem('hasLogged','true');
