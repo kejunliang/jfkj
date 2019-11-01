@@ -37,7 +37,7 @@
       ion-icon{
         font-size: 3rem;
         cursor: pointer;
-        padding: 10px 0px 0px 10px;;
+        padding: 10px 0px 0px 10px;
         float: left;
         color:orange;
       }
@@ -50,12 +50,36 @@
     }
     
     
+    
   }
-  // ion-item{
-  //   min-height: 4.75rem;
-  //   ion-label{
-  //     text-align: center;
-      
-  //   }
-  // }
+
+  ion-list{
+    margin-top: 1rem !important;
+  }
+  ion-item{
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    div{
+      min-height: 4rem;
+      width: 100%;
+      text-align: center;
+    }
+    div:last-child{
+      width: 100%;
+      text-align: right;
+    }
+  }
+  
 }
+
+.portal-pad {
+   div {
+    background-image: url("../../../assets/icon/pad1.png") ;
+  }
+
+
+}
+
+
+
+

@@ -17,17 +17,9 @@ export class Tab1Page {
   public name: string;
   public type: string;
   public  portalTile:string;
+  public portalKey:string;
   public data = [
-    { "name": "测试1" },
-    { "name": "测试2" },
-    { "name": "测试3" },
-    { "name": "测试4" },
-    { "name": "测试5" },
-    { "name": "测试6" },
-    { "name": "测试7" },
-    { "name": "测试8" },
-    { "name": "测试9" },
-    { "name": "测试10" }
+   
   ];
   public portalInfo: any;
   public loading: any
@@ -48,7 +40,8 @@ export class Tab1Page {
       if(res.key){
         console.log("laile")
         
-        this.data.unshift({"name":res.key})
+       // this.data.unshift({"name":res.key})
+        this.data=this.getDataBykey(res.title)
       }
       
     });
@@ -61,10 +54,17 @@ export class Tab1Page {
           console.log(data)
           this.portalInfo = data
           this.portalTile=data.selectedPortal
+          console.log("来了")
+          console.log(this.portalTile)
+          this.data=this.getDataBykey(this.portalTile)
           this.hide()
         })
 
     })
+  }
+
+  ngOnInit(){
+   // this.data=this.getDataBykey(this.portalTile)
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -102,6 +102,22 @@ export class Tab1Page {
     if (this.loading) {
       await this.loading.dismiss();
     }
+  }
+
+   getDataBykey(key:string):any{
+  //   console.log("查找关键信息===")
+      let res:any;
+     this.portalInfo.items.forEach(element => {
+      // console.log(element)
+         console.log(element.Title)
+         console.log(key)
+         if(element.Title.trim()==key.trim()){
+           console.log("找到了")
+           console.log(element.allportal)
+           res= element.allportal
+         }
+     });
+     return res
   }
 
 

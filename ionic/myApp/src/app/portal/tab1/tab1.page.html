@@ -22,14 +22,36 @@
       <span>{{portalTile}}</span>
       <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
     </div>
+    <ion-list *ngIf="'isPad'=='true'">
+      <ion-item color="secondary" lines="none">
+        <div>
+            <div>标题</div>
+            <div>内容</div> 
+            <div>按钮</div>
+        </div>
+       
+      </ion-item>
+      <ion-item color="primary" lines="none">
+          <div>
+              <div>标题</div>
+              <div>内容</div> 
+              <div>按钮</div>
+          </div>
+         
+        </ion-item>
+    </ion-list>
+
     <ul class="portal-list">
+
       <li *ngFor="let item of data">
         <ion-icon slot="start" name="git-network"></ion-icon>
-        <span>{{item.name}}</span>
+        <span>{{item.LinkTitle1}}</span> 
         <!-- <ion-icon slot="end" name="add"></ion-icon> -->
         <img src="../../../assets/icon/add.png" alt="">
       </li>
+
     </ul>
+
   </div>
 
 </ion-content>
