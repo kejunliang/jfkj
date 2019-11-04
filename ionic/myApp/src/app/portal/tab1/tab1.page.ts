@@ -111,13 +111,25 @@ export class Tab1Page {
       // console.log(element)
          console.log(element.Title)
          console.log(key)
-         if(element.Title.trim()==key.trim()){
+         if(element.Title.trim()==key.trim()&&element.Title!=""){
            console.log("找到了")
            console.log(element.allportal)
-           res= element.allportal
+           res= this.getNoBlankData(element.allportal)
          }
      });
      return res
+  }
+  getNoBlankData(data:any):any{
+          let arr=[];
+          let index=0
+          data.forEach(function (obj) {
+              if(obj.LinkTitle!=""){
+               // obj.index=index
+                arr.push(obj)
+              //  index=index+1
+              }
+          })
+          return arr;
   }
 
 

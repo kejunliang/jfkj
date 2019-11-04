@@ -13,7 +13,7 @@
     text-align: center;
     span{
       line-height: 3.5rem;
-     font-size: 1.7rem;
+      font-size: 1.7rem;
     }
     ion-icon{
       font-size: 3rem;
@@ -25,9 +25,17 @@
   }
   .portal-list{
     
-    ion-item div{
-      text-align: left;
-    }
+    ion-item{
+    
+      div{
+        text-align: left;
+      }
+      ion-row {
+        width: 100%;
+      }
+    } 
+    
+  
     
     
   }
@@ -35,11 +43,27 @@
   ion-list{
     margin-top: 1rem !important;
   }
-  ion-item{
+  .padList{
     border-radius: 5px;
     margin-bottom: 0.5rem;
+    max-height: 110px;
+    --background: url("../../../assets/icon/pad1.png") no-repeat center center / cover;
     div{
-      min-height: 4rem;
+      width: 100%;
+      text-align: center;
+    }
+    div:last-child{
+      width: 100%;
+      text-align: right;
+    }
+  }
+
+  .padList2{
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    max-height: 110px;
+    --background: url("../../../assets/icon/pad2.png") no-repeat center center / cover;
+    div{
       width: 100%;
       text-align: center;
     }
@@ -51,10 +75,10 @@
   
 }
 
-.portal-pad {
-   div {
-    background-image: url("../../../assets/icon/pad1.png") ;
-  }
+.portal-pad  {
+
+   
+  
 
 
 }
