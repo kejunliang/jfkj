@@ -25,33 +25,36 @@
     <ion-list *ngIf="'isPad'=='true'">
       <ion-item color="secondary" lines="none">
         <div>
-            <div>标题</div>
-            <div>内容</div> 
-            <div>按钮</div>
+          <div>标题</div>
+          <div>内容</div>
+          <div>按钮</div>
         </div>
-       
+
       </ion-item>
       <ion-item color="primary" lines="none">
-          <div>
-              <div>标题</div>
-              <div>内容</div> 
-              <div>按钮</div>
-          </div>
-         
-        </ion-item>
-    </ion-list>
-
-
-    <ul class="portal-list">
-      <li *ngFor="let item of data" >
-        <div *ngIf="item.LinkTitle!=''">
-            <ion-icon  slot="start" name="git-network"></ion-icon>
-            <span>{{item.LinkTitle}}</span> 
-            <!-- <ion-icon slot="end" name="add"></ion-icon> -->
-            <img src="../../../assets/icon/add.png" alt="">
+        <div>
+          <div>标题</div>
+          <div>内容</div>
+          <div>按钮</div>
         </div>
-      </li>
-    </ul>
+
+      </ion-item>
+    </ion-list>
+    <ion-list class="portal-list">
+      <ion-item *ngFor="let item of data">
+        <div *ngIf="item.LinkTitle!=''">
+          <ion-row>
+            <ion-col>
+              <span><ion-icon slot="start" name="git-network"></ion-icon></span>
+            </ion-col>
+            <ion-col size="9">
+              <span>{{item.LinkTitle}}</span>
+            </ion-col>
+            <ion-col><span><img src="../../../assets/icon/add.png" alt=""></span></ion-col>
+          </ion-row>
+        </div>
+      </ion-item>
+    </ion-list>
 
   </div>
 
