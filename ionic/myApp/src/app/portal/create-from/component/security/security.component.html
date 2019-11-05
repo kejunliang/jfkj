@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button  text="" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Security Manager</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="dismiss()">
+         close
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="searchTop">
+   <div class="search-box">
+      <img src="../../../../../assets/icon/search.png" alt="">
+      <input type="text" placeholder="Search" [(ngModel)]="searchName" (keyup)="getSearch()" placeholder="">
+      <img src="../../../../../assets/icon/delect.png" class="delect" (click)="delectSelect()" *ngIf="isDelect">
+   </div>
+   | 
+    <div class="searchRight">
+        <p class="selectName">{{selectText}}</p>
+        <img src="../../../../../assets/icon/down.png" alt="" class="down" (click)="getSelectlist()">
+    </div>
+    <ul class="selectList" *ngIf="isSelectList">
+        <li *ngFor="let item of listSlect;let index=index"  [ngClass]="{'active': index==selectIndex}" (click)="select(item,index)">{{item.person}}</li>
+    </ul>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of listData">
+      <ion-label>{{item.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

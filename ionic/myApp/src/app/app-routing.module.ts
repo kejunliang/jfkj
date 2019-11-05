@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'offline', loadChildren: './setup/offline/offline.module#OfflinePageModule' },
   { path: 'language', loadChildren: './setup/language/language.module#LanguagePageModule' },
   { path: 'loginpass', loadChildren: './login/loginpass/loginpass.module#LoginpassPageModule' },
-  { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },
+  { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },  { path: 'create-from', loadChildren: './portal/create-from/create-from.module#CreateFromPageModule' },
+
 ];
 @NgModule({
   imports: [

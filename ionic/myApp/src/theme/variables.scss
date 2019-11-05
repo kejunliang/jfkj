@@ -147,3 +147,20 @@ ion-toolbar{
   min-height: 4rem;
   line-height: 4rem;
 }
+select,option{
+  //清除select的边框样式
+  border: none;
+  //清除select聚焦时候的边框颜色
+  outline: none;
+  //将select的宽高等于div的宽高
+  width: 100%;
+  //隐藏select的下拉图标
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #eeeeee;
+  //通过padding-left的值让文字居中
+  // padding-left: 60px;
+}
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand {display: none;}

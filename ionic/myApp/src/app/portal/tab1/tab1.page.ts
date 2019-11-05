@@ -8,6 +8,7 @@ import { GetAppPortalService } from '../../services/get-app-portal.service';
 import { first } from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute, Params } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -31,8 +32,8 @@ export class Tab1Page {
     public storageService: StorageService,
     public geapp: GetAppPortalService,
     public loadingController: LoadingController,
-    public activeRoute: ActivatedRoute
-
+    public activeRoute: ActivatedRoute,
+    public translate:TranslateService
   ) {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
@@ -70,7 +71,7 @@ export class Tab1Page {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "setup" },
+      componentProps: { type: "setup",portalTile:this.portalTile },
       translucent: true
     });
     return await popover.present();
@@ -85,6 +86,10 @@ export class Tab1Page {
     return await popover.present();
   }
   logout() {
+    //portalTile  
+    
+    let lan=this.translate.getDefaultLang();
+    console.log(lan)
     this.Nav.navigateRoot('loginpass');
     localStorage.setItem('hasLogged', "false");
   }

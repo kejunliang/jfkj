@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>AuditDetail</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="dismiss()">
+         close
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list class="ion-no-margin ion-no-padding">
+      <div class="itemList">
+          <ion-item  lines="none">
+              <ion-label position="stacked">Business Unit<ion-text color="danger">*</ion-text>
+              <ion-icon name="help-circle-outline" (click)="onClick()"></ion-icon>
+            </ion-label>
+          </ion-item>
+          <ion-select placeholder="Select One" interface="action-sheet">
+              <ion-select-option value="f">Female</ion-select-option>
+              <ion-select-option value="m">Male</ion-select-option>
+          </ion-select>
+         
+        </div>
+    </ion-list>
+  </ion-content>

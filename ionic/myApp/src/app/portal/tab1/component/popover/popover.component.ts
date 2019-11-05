@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PopoverController, NavParams } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,8 +32,8 @@ export class PopoverComponent implements OnInit {
   ngAfterViewInit() {
 
     let popover = document.querySelector('.popover-content');
-    popover['style'].width = '23rem';
-    popover['style'].height = '17rem'
+    popover['style'].width = 'auto';
+    popover['style'].height = '18rem'
   }
   getLink(code) {
     if (code == 1) {
@@ -45,6 +45,13 @@ export class PopoverComponent implements OnInit {
     } else if (code == 3) {
       this.Popover.dismiss()
       this.nav.navigateBack('offline');
+    }else{
+      let paramsSet=this.params.get("portalTile")
+      console.log(paramsSet)
+     // let lan=this.translate.getDefaultLang();
+      this.nav.navigateRoot('loginpass');
+      localStorage.setItem('hasLogged', "false");
+      this.Popover.dismiss()
     }
   }
   getPortalLink(data,title){
