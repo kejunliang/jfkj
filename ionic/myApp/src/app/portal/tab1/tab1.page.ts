@@ -42,7 +42,7 @@ export class Tab1Page {
         console.log("laile")
         
        // this.data.unshift({"name":res.key})
-        this.data=this.getDataBykey(res.title)
+        this.data=this.getDataBykey(res.title,"Title")
       }
       
     });
@@ -57,7 +57,7 @@ export class Tab1Page {
           this.portalTile=data.selectedPortal
           console.log("来了")
           console.log(this.portalTile)
-          this.data=this.getDataBykey(this.portalTile)
+          this.data=this.getDataBykey(this.portalTile,"Group")
           this.hide()
         })
 
@@ -109,14 +109,15 @@ export class Tab1Page {
     }
   }
 
-   getDataBykey(key:string):any{
+   getDataBykey(key:string,objkey:string):any{
   //   console.log("查找关键信息===")
       let res:any;
      this.portalInfo.items.forEach(element => {
-      // console.log(element)
+         console.log(objkey)
+         console.log(element[objkey])
          console.log(element.Title)
          console.log(key)
-         if(element.Title.trim()==key.trim()&&element.Title!=""){
+         if(element[objkey].trim()==key.trim()&&element[objkey]!=""){
            console.log("找到了")
            console.log(element.allportal)
            res= this.getNoBlankData(element.allportal)
@@ -130,6 +131,7 @@ export class Tab1Page {
           data.forEach(function (obj) {
               if(obj.LinkTitle!=""){
                // obj.index=index
+               obj.SFMImage="sfv3/"+obj.SFMImage
                 arr.push(obj)
               //  index=index+1
               }
