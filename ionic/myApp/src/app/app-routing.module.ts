@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'language', loadChildren: './setup/language/language.module#LanguagePageModule' },
   { path: 'loginpass', loadChildren: './login/loginpass/loginpass.module#LoginpassPageModule' },
   { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },  { path: 'create-from', loadChildren: './portal/create-from/create-from.module#CreateFromPageModule' },
+  { path: 'form-list', loadChildren: './portal/form-list/form-list.module#FormListPageModule' },
 
 ];
 @NgModule({

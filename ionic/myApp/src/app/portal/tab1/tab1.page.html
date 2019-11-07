@@ -47,7 +47,7 @@
               <ion-col size="9">
                 <div>
                   <ion-text>
-                    {{item.LinkTitle}}
+                   <a [routerLink]="['/form-list']"  [queryParams]="{aid:item.LinkTitle}" > {{item.LinkTitle}} </a>
                   </ion-text>
                 </div>
               </ion-col>
