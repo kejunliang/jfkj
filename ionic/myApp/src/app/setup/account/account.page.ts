@@ -32,7 +32,6 @@ export class AccountPage implements OnInit {
       data => {
         console.log(data)
         this.accountData=data;
-       
       }
     )
   })

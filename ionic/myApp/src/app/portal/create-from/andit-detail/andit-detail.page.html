@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="create-from" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>AuditDetail</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list class="ion-no-margin ion-no-padding">
+    <div class="itemList">
+      <ion-item lines="none">
+        <ion-label position="stacked">Business Unit<ion-text color="danger">*</ion-text>
+          <ion-icon name="help-circle-outline" (click)="getTips(1)"></ion-icon>
+        </ion-label>
+        <div class="tips-box" *ngIf="showTips">
+          <img src="../../../../../assets/icon/triangle.png" alt="">
+          ksdsadlkasdalkdlakdlasklsalkjhjjhklj jfhjfhfvcvcxvcxdsfsf lklklkjlkjlk
+        </div>
+
+      </ion-item>
+
+      <ion-select placeholder="Select One" interface="action-sheet">
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+      </ion-select>
+
+    </div>
+    <div class="itemList">
+      <ion-item lines="none">
+        <ion-label position="stacked">Funtion/Country<ion-text color="danger">*</ion-text>
+          <ion-icon name="help-circle-outline" (click)="getTips(2)"></ion-icon>
+        </ion-label>
+        <div class="tips-box" *ngIf="showTips2">
+          <img src="../../../../../assets/icon/triangle.png" alt="">
+          k请注意，$scopeAngularJS中不再存在这种东西。它已被组件类中的成员变量替换
+          。另外，也没有基于原型继承的范围解析算法-它要么解析为组件类成员，要么不解析为组件类成员。
+        </div>
+        <button type="button" class="btn btn-outline-secondary" placement="top" ngbTooltip="Tooltip on top">
+          Tooltip on top
+        </button>
+      </ion-item>
+      <ion-select placeholder="Select One" interface="action-sheet">
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+      </ion-select>
+
+    </div>
+  </ion-list>
+</ion-content>

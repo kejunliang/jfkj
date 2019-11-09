@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuditDetailModalComponent } from './audit-detail-modal.component';
+import { PerimeterComponent } from './perimeter.component';
 
-describe('AuditDetailModalComponent', () => {
-  let component: AuditDetailModalComponent;
-  let fixture: ComponentFixture<AuditDetailModalComponent>;
+describe('PerimeterComponent', () => {
+  let component: PerimeterComponent;
+  let fixture: ComponentFixture<PerimeterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuditDetailModalComponent ],
+      declarations: [ PerimeterComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AuditDetailModalComponent);
+    fixture = TestBed.createComponent(PerimeterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

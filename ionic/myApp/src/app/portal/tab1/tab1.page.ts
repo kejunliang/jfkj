@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { LogoutService } from '../../services/logout/logout.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -31,9 +32,10 @@ export class Tab1Page {
     private storage: Storage,
     public storageService: StorageService,
     public geapp: GetAppPortalService,
+    public logoutService:LogoutService,
     public loadingController: LoadingController,
     public activeRoute: ActivatedRoute,
-    public translate:TranslateService
+    public translate:TranslateService,
   ) {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
@@ -86,12 +88,24 @@ export class Tab1Page {
     return await popover.present();
   }
   logout() {
-    //portalTile  
-    
+    //portalTile http://oa.jf81.com/sfv3/appmgt.nsf/xp_ws.xsp/Logout?&email=zding@jf81.com&languageCode=zh&portalGroup=app.integrum Group A
+    console.log(this.portalTile)
     let lan=this.translate.getDefaultLang();
-    console.log(lan)
-    this.Nav.navigateRoot('loginpass');
-    localStorage.setItem('hasLogged', "false");
+    console.log(this.logoutService)
+    this.storage.get("loginDetails").then(data => {
+      this.logoutService.setLogout(data.username,data.password,data.email,lan,this.portalTile).pipe(first())
+      .subscribe(res => {
+        console.log(res)
+        if(res.status){
+          console.log('退出登录');
+          this.Nav.navigateRoot('loginpass');
+          localStorage.setItem('hasLogged', "false");
+        }
+      })
+  })
+   
+  
+    
   }
   getInfo() {
 

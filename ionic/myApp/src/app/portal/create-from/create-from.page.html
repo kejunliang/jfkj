@@ -31,14 +31,17 @@
             </ion-textarea>
           </div>
           <ion-item lines="none">
-            <ion-label>Scheduler</ion-label>
-            <ion-text color="favorite">
+            <ion-label color="favorite">Scheduler</ion-label>
+            <ion-text>
               <h5>App01 user</h5>
             </ion-text>
           </ion-item>
           <ion-item >
-            <ion-label>Security Nanager</ion-label>
+            <ion-label position="stacked">Security Nanager</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getSecurity()"></ion-icon>
+            <ion-text color="primary">
+              <h6>{{managerName}}</h6>
+            </ion-text>
             <!-- <ion-select [(ngModel)]="selectText" (change)="changeSelect()" placeholder="select an option">
               <div *ngFor="let item of listSlect">
                   <ion-select-option value="{{item.person}}">{{item.Manager}}</ion-select-option>
@@ -51,11 +54,11 @@
             <span class="down"><ion-icon slot="end" name="calendar" mode="md"></ion-icon></span>
           </ion-item>
           <ion-item-divider></ion-item-divider>
-          <ion-item lines="full" (click)="showAuditModal()">
+          <ion-item lines="full" (click)="auditDetail()">
             <ion-label>Audit Details</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
-          <ion-item lines="full">
+          <ion-item lines="full" (click)="fencingDetail()">
             <ion-label>Fencing & Lighting</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>

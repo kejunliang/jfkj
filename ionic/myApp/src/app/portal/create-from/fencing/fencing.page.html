@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="create-from" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>fencing</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="bagBox">
+    <div class="reference-box">
+      <p>Reference Meterial</p>
+      <ol>
+        <li><a href="javascript:;" (click)="getBarriers()">Gates and Barriers</a></li>
+        <li><a href="javascript:;">IIIIumination</a></li>
+        <li><a href="javascript:;">Fences</a></li>
+      </ol>
+    </div>
+    <ion-list>
+    <ion-item>
+      <ion-label>Perimeter</ion-label>
+      <ion-icon name="arrow-down" slot="end" (click)="getPerimeter()"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label>Gates</ion-label>
+      <ion-icon name="arrow-down" slot="end" (click)="getGates()"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label>Fence</ion-label>
+      <ion-icon name="arrow-down" slot="end" (click)="getFence()"></ion-icon>
+    </ion-item>
+  </ion-list>
+  </div>
+  
+
+</ion-content>

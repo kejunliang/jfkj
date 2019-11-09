@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { AuditDetailModalComponent } from './component/audit-detail-modal/audit-detail-modal.component';
+import { ModalController,NavController } from '@ionic/angular';
 import { SecurityComponent } from './component/security/security.component';
 
-import { PopoverController } from '@ionic/angular';
 @Component({
   selector: 'app-create-from',
   templateUrl: './create-from.page.html',
@@ -22,9 +20,11 @@ export class CreateFromPage implements OnInit {
   public btnBox:any=[
   'sava','Edit','Copy','Bookmark'
   ];
+  public listTiltle:'123456'
   public isShowBtn:boolean=false;
-  public content:string=''
-  constructor(public modal: ModalController,public el:ElementRef) { }
+  public content:string='';
+  public managerName:string;
+  constructor(public modal: ModalController,public el:ElementRef,public nav:NavController) { }
 
   ngOnInit() {
 
@@ -34,16 +34,13 @@ export class CreateFromPage implements OnInit {
     // let nativeGuidance=this.el.nativeElement.querySelector('#guidance');
    this.content=' <a href="https://fanyi.baidu.com/?aldtype=16047#en/zh/" target="_blank">link到百度</a>'
   }
-  async showAuditModal() {
-    const modal = await this.modal.create({
-      showBackdrop: true,
-      component: AuditDetailModalComponent,
-      componentProps: { value: this.guidanceData }
-    });
-    return await modal.present();
-    //监听销毁的事件
-    const { data } = await modal.onDidDismiss();
-    console.log(data)
+  //AuditDetail
+  auditDetail() {
+    this.nav.navigateForward(['/andit-detail'],{
+      queryParams:{
+        audit:'bb'
+      }
+    })
   }
   //查找名称
   async getSecurity(){
@@ -52,7 +49,10 @@ export class CreateFromPage implements OnInit {
       component: SecurityComponent,
       componentProps: { value: this.guidanceData }
     });
-    return await modal.present();
+    modal.present();
+     //监听销毁的事件
+     const { data } = await modal.onDidDismiss();
+     this.managerName=data.result;
   }
   changeSelect() {
     console.log(this.selectText)
@@ -75,6 +75,13 @@ export class CreateFromPage implements OnInit {
   }
   closeZoom(){
     this.isShowBtn=false;
+  }
+  fencingDetail(){
+    this.nav.navigateForward(['/fencing'],{
+      queryParams:{
+        aa:'bb'
+      }
+    })
   }
 
 }

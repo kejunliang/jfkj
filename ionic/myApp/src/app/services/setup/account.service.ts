@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError,map } from 'rxjs/operators'
+import { CommonService } from '../common.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient,private common:CommonService) { }
+  
   getAccount(userid: string,pass:string,email:string): Observable<any> {
-    console.dir(userid+':'+pass)
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -17,26 +18,13 @@ export class AccountService {
         "Authorization":auth
       }
     };
-    return this.http.get('/sfv3/integrumws.nsf/xp_App.xsp/getMyAccount?email='+email,options)
+    return this.http.get<{token: string}>('/sfv3/appmgt.nsf/xp_ws.xsp/getMyAccount?email='+email,options)
       .pipe(
         map(result => { 
                  return result;
         }),
-        catchError(this.handleError)
+        catchError(this.common.handleError)
       )
   };
-  private handleError (error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err =  JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.log(errMsg);
-    return "{'returnResponse':'failure'}";
-  };
- 
+  
 }

@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CreateFromPage } from './create-from.page';
-import { SecurityComponent } from './component/security/security.component';
-
+import { FencingPage } from './fencing.page';
+import { PerimeterComponent } from '../component/perimeter/perimeter.component';
 const routes: Routes = [
   {
     path: '',
-    component: CreateFromPage
+    component: FencingPage
   }
 ];
 
@@ -22,7 +21,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CreateFromPage,SecurityComponent],
-  entryComponents:[SecurityComponent]
+  declarations: [FencingPage,PerimeterComponent],
+  entryComponents:[PerimeterComponent]
 })
-export class CreateFromPageModule {}
+export class FencingPageModule {}

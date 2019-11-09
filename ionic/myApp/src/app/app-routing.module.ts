@@ -12,8 +12,11 @@ const routes: Routes = [
   { path: 'offline', loadChildren: './setup/offline/offline.module#OfflinePageModule' },
   { path: 'language', loadChildren: './setup/language/language.module#LanguagePageModule' },
   { path: 'loginpass', loadChildren: './login/loginpass/loginpass.module#LoginpassPageModule' },
-  { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },  { path: 'create-from', loadChildren: './portal/create-from/create-from.module#CreateFromPageModule' },
+  { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },
+  { path: 'create-from', loadChildren: './portal/create-from/create-from.module#CreateFromPageModule' },
   { path: 'form-list', loadChildren: './portal/form-list/form-list.module#FormListPageModule' },
+  { path: 'fencing', loadChildren: './portal/create-from/fencing/fencing.module#FencingPageModule' },
+  { path: 'andit-detail', loadChildren: './portal/create-from/andit-detail/andit-detail.module#AnditDetailPageModule' },
 
 ];
 @NgModule({

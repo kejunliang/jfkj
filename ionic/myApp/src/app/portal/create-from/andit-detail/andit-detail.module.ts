@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CreateFromPage } from './create-from.page';
-import { SecurityComponent } from './component/security/security.component';
+import { AnditDetailPage } from './andit-detail.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: CreateFromPage
+    component: AnditDetailPage
   }
 ];
 
@@ -22,7 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CreateFromPage,SecurityComponent],
-  entryComponents:[SecurityComponent]
+  declarations: [AnditDetailPage]
 })
-export class CreateFromPageModule {}
+export class AnditDetailPageModule {}

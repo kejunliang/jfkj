@@ -37,6 +37,10 @@
             line-height: 4rem;
             width: 80%;
         }
+        ion-icon{
+            font-size: 2rem;
+            margin: 1rem;
+        }
     .down{
             width: 1.3rem;
             height: 0.7rem;
@@ -71,4 +75,11 @@ ion-item:first-child{
 }
 ion-item{
     padding-inline-end: 1rem;
+}
+ion-toolbar{
+    ion-buttons{
+        ion-icon{
+            font-size: 3rem;
+        }
+    }
 }

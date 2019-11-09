@@ -1,0 +1,40 @@
+ion-item{
+    position: relative;
+    ion-label{
+        ion-icon{
+            font-size: 2rem;
+            cursor: pointer;
+            padding-left: 1rem;
+        }
+       
+    }
+    .tips-box{
+        position: fixed;
+        top: 4rem;
+        left:2rem;
+        background-color:#F2F9FF ;
+        color: #3A7AB2;
+        padding: 1rem;
+        width: 23.2rem;
+        border-radius: 4px;z-index:11;
+        img{
+            position: absolute;
+            top: -10px;
+            left: 8rem;
+            width: 2rem;
+            height: 1.5rem;
+        }
+    }
+}
+.itemList{
+    border-bottom: 1px solid #eeeeee;
+    position: relative;
+    
+}
+ion-toolbar{
+    ion-buttons{
+        ion-icon{
+            font-size: 3rem;
+        }
+    }
+}
