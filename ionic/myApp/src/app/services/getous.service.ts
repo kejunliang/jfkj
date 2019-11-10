@@ -37,7 +37,7 @@ export class GetousService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppKeyword',options)
+    return this.http.get<{token: string}>('sfv3/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum')
       .pipe(
         map(result => { 
                  return result;

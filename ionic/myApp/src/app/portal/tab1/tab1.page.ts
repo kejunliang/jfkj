@@ -59,7 +59,7 @@ export class Tab1Page {
           this.portalTile=data.selectedPortal
           console.log("来了")
           console.log(this.portalTile)
-          this.data=this.getDataBykey(this.portalTile,"Group")
+          this.data=this.getDataBykey(this.portalTile,"Title")
           this.hide()
         })
 

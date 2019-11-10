@@ -51,7 +51,7 @@
                   </ion-text>
                 </div>
               </ion-col>
-              <ion-col ><span><img src="../../../assets/icon/add.png" alt=""></span></ion-col>
+              <ion-col ><span> <a [routerLink]="['/create-from']"  [queryParams]="{aid:item.LinkTitle}" ><img src="../../../assets/icon/add.png" alt=""></a></span></ion-col>
             </ion-row>
       </ion-item>
     </ion-list>

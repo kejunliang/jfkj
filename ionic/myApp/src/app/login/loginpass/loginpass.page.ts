@@ -51,8 +51,8 @@ export class LoginpassPage implements OnInit {
       this.pass=data.password
       this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
         console.log(data)
-       // this.logPic.log=data.LoginCompanyLogo
-      //  this.logPic.background=data.LoginBKImage
+        this.logPic.log=data.LoginCompanyLogo
+        this.logPic.background=data.LoginBKImage
       });
      }
     
