@@ -25,6 +25,7 @@ export class Tab1Page {
   ];
   public portalInfo: any;
   public loading: any
+  public listIco={'background':'url(../../../assets/icon/track.svg) no-repeat top left'};
 
   constructor(
     public popoverController: PopoverController,

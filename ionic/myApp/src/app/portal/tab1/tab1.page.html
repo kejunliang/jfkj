@@ -28,6 +28,7 @@
         <div *ngIf="item.LinkTitle!=''">
           <div>
             <ion-icon slot="start" name="git-network"></ion-icon>
+
           </div>
           <div>{{item.LinkTitle}}</div>
           <div><span><img src="../../../assets/icon/add.png" alt=""></span></div>
@@ -37,22 +38,22 @@
 
     <ion-list class="portal-list">
       <ion-item *ngFor="let item of data">
-            <ion-row>
-              <ion-col >
-                <span>
-                  <ion-icon slot="start" name="git-network"></ion-icon>
-                  <span><img [src]="item.SFMImage" alt=""></span>
-                </span>
-              </ion-col>
-              <ion-col size="9">
-                <div>
-                  <ion-text>
-                   <a [routerLink]="['/form-list']"  [queryParams]="{aid:item.LinkTitle}" > {{item.LinkTitle}} </a>
-                  </ion-text>
-                </div>
-              </ion-col>
-              <ion-col ><span> <a [routerLink]="['/create-from']"  [queryParams]="{aid:item.LinkTitle}" ><img src="../../../assets/icon/add.png" alt=""></a></span></ion-col>
-            </ion-row>
+        <ion-row>
+          <ion-col>
+            <span>
+              <ion-icon [ngStyle]="listIco" class="commonIcon"></ion-icon>
+            </span>
+          </ion-col>
+          <ion-col size="9">
+            <div>
+              <ion-text>
+                <a [routerLink]="['/form-list']" [queryParams]="{aid:item.LinkTitle}"> {{item.LinkTitle}} </a>
+              </ion-text>
+            </div>
+          </ion-col>
+          <ion-col><span> <a [routerLink]="['/create-from']" [queryParams]="{aid:item.LinkTitle}"><img
+                  src="../../../assets/icon/add.png" alt=""></a></span></ion-col>
+        </ion-row>
       </ion-item>
     </ion-list>
   </div>
