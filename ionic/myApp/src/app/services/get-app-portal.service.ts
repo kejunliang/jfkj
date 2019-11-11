@@ -27,4 +27,25 @@ export class GetAppPortalService {
         catchError(this.common.handleError)
       )
   }
+  //sfv3/integrumws.nsf/xp_App.xsp/getViewData?key=Activity_form_New_Iberian&countperpage=10&curpage=4
+  getViewData(logindetail:any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let key="Activity_form_New_Iberian"
+    let count="10"
+    let curpage="4"
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getViewData?key='+key+'&countperpage='+count+'&curpage='+curpage,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+
 }
