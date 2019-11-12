@@ -43,7 +43,7 @@ export class SecurityComponent implements OnInit {
   }
   dismiss(){
     this.navParams.data.modal.dismiss({
-      result:'关闭返回的内容'
+      result:''
     })
   }
   setManager(item){
