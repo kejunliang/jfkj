@@ -3,10 +3,12 @@ import { Storage } from '@ionic/storage';
 import { GetAppPortalService } from '../../services/get-app-portal.service';
 import { first } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { commonCtrl } from "../../common/common";
 @Component({
   selector: 'app-form-list',
   templateUrl: './form-list.page.html',
   styleUrls: ['./form-list.page.scss'],
+  providers: [commonCtrl] 
 })
 export class FormListPage implements OnInit {
   public data=[]
@@ -21,6 +23,7 @@ export class FormListPage implements OnInit {
     private storage: Storage,
     public geapp: GetAppPortalService,
     public activeRoute: ActivatedRoute,
+    public commonCtrl:commonCtrl
   ) {
     
     this.activeRoute.queryParams.subscribe(res => {
@@ -30,6 +33,7 @@ export class FormListPage implements OnInit {
         console.log(res.vid)
         this.vid=res.vid.split("/")[1].split("?")[0]
         this.vtitle=res.vtitle
+        this.commonCtrl.show()
         this.storage.get("loginDetails").then(data => {
           console.log(data)
           this.para.key=this.vid;
@@ -39,6 +43,7 @@ export class FormListPage implements OnInit {
           .subscribe(data => {
             console.log(data)
             this.data=data.data
+            this.commonCtrl.hide()
           })
         })
       } 
