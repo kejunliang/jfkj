@@ -37,7 +37,7 @@ export class FormListPage implements OnInit {
         this.storage.get("loginDetails").then(data => {
           console.log(data)
           this.para.key=this.vid;
-          this.para.count="10"
+          this.para.count="20"
           this.para.curpage ="1"
           this.geapp.getViewData(data,this.para).pipe(first())
           .subscribe(data => {

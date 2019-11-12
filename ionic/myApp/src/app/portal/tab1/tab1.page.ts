@@ -18,14 +18,14 @@ import { LogoutService } from '../../services/logout/logout.service';
 export class Tab1Page {
   public name: string;
   public type: string;
-  public  portalTile:string;
-  public portalKey:string;
+  public portalTile: string;
+  public portalKey: string;
   public data = [
-   
+
   ];
   public portalInfo: any;
   public loading: any
-  public listIco={'background':'url(../../../assets/icon/track.svg) no-repeat top left'};
+  public listIco = { 'background': 'url(../../../assets/icon/track.svg) no-repeat top left' };
 
   constructor(
     public popoverController: PopoverController,
@@ -33,48 +33,40 @@ export class Tab1Page {
     private storage: Storage,
     public storageService: StorageService,
     public geapp: GetAppPortalService,
-    public logoutService:LogoutService,
+    public logoutService: LogoutService,
     public loadingController: LoadingController,
     public activeRoute: ActivatedRoute,
-    public translate:TranslateService,
+    public translate: TranslateService,
   ) {
-    this.activeRoute.queryParams.subscribe(res => {
-      console.log(res);
-      this.portalTile=res.title
-      if(res.key){
-        console.log("laile")
-        
-       // this.data.unshift({"name":res.key})
-        this.data=this.getDataBykey(res.title,"Title")
-      }
-      
-    });
+
     this.show()
     this.storage.get("loginDetails").then(data => {
-    //  alert(JSON.stringify(data))
-      console.log(data)
       this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
           console.log(data)
           this.portalInfo = data
-          this.portalTile=data.selectedPortal
-          console.log("来了")
-          console.log(this.portalTile)
-          this.data=this.getDataBykey(this.portalTile,"Title")
+          this.portalTile = data.selectedPortal
+          this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })
 
     })
+    this.activeRoute.queryParams.subscribe(res => {
+      this.portalTile = res.title
+      if (res.key) {
+        this.data = this.getDataBykey(res.title, "Title")
+      }
+    });
   }
 
-  ngOnInit(){
-   // this.data=this.getDataBykey(this.portalTile)
+  ngOnInit() {
+
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "setup",portalTile:this.portalTile },
+      componentProps: { type: "setup", portalTile: this.portalTile },
       translucent: true
     });
     return await popover.present();
@@ -91,22 +83,22 @@ export class Tab1Page {
   logout() {
     //portalTile http://oa.jf81.com/sfv3/appmgt.nsf/xp_ws.xsp/Logout?&email=zding@jf81.com&languageCode=zh&portalGroup=app.integrum Group A
     console.log(this.portalTile)
-    let lan=this.translate.getDefaultLang();
+    let lan = this.translate.getDefaultLang();
     console.log(this.logoutService)
     this.storage.get("loginDetails").then(data => {
-      this.logoutService.setLogout(data.username,data.password,data.email,lan,this.portalTile).pipe(first())
-      .subscribe(res => {
-        console.log(res)
-        if(res.status){
-          console.log('退出登录');
-          this.Nav.navigateRoot('loginpass');
-          localStorage.setItem('hasLogged', "false");
-        }
-      })
-  })
-   
-  
-    
+      this.logoutService.setLogout(data.username, data.password, data.email, lan, this.portalTile).pipe(first())
+        .subscribe(res => {
+          console.log(res)
+          if (res.status) {
+            console.log('退出登录');
+            this.Nav.navigateRoot('loginpass');
+            localStorage.setItem('hasLogged', "false");
+          }
+        })
+    })
+
+
+
   }
   getInfo() {
 
@@ -124,43 +116,36 @@ export class Tab1Page {
     }
   }
 
-   getDataBykey(key:string,objkey:string):any{
-  //   console.log("查找关键信息===")
-      let res:any;
-     this.portalInfo.items.forEach(element => {
-         console.log(objkey)
-         console.log(element[objkey])
-         console.log(element.Title)
-         console.log(key)
-         if(element[objkey].trim()==key.trim()&&element[objkey]!=""){
-           console.log("找到了")
-           console.log(element.allportal)
-           res= this.getNoBlankData(element.allportal)
-         }
-     });
-     return res
+  getDataBykey(key: string, objkey: string): any {
+    let res: any;
+    this.portalInfo.items.forEach(element => {
+      if (element[objkey].trim() == key.trim() && element[objkey] != "") {
+        res = this.getNoBlankData(element.allportal)
+      }
+    });
+    return res
   }
-  getNoBlankData(data:any):any{
-          let arr=[];
-          let index=0
-          data.forEach(function (obj) {
-              if(obj.LinkTitle!=""){
-               // obj.index=index
-               obj.SFMImage="sfv3/"+obj.SFMImage
-                arr.push(obj)
-              //  index=index+1
-              }
-          })
-          return arr;
+  getNoBlankData(data: any): any {
+    let arr = [];
+    let index = 0
+    data.forEach(function (obj) {
+      if (obj.LinkTitle != "") {
+        // obj.index=index
+        obj.SFMImage = "sfv3/" + obj.SFMImage
+        arr.push(obj)
+        //  index=index+1
+      }
+    })
+    return arr;
   }
   //跳转newFrom
-  newFrom(item){
+  newFrom(item) {
     console.log(item)
-    this.Nav.navigateForward( ['/create-from'],{
-        queryParams:{
-          value:item.LinkTitle
-        }
-      })
+    this.Nav.navigateForward(['/create-from'], {
+      queryParams: {
+        value: item.LinkTitle
+      }
+    })
   }
 
 
