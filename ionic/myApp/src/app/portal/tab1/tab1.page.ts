@@ -10,6 +10,7 @@ import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LogoutService } from '../../services/logout/logout.service';
+import { GetousService } from "../../services/getous.service";
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -26,7 +27,7 @@ export class Tab1Page {
   public portalInfo: any;
   public loading: any
   public listIco = { 'background': 'url(../../../assets/icon/track.svg) no-repeat top left' };
-
+  public titlelog :string ;
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -37,6 +38,7 @@ export class Tab1Page {
     public loadingController: LoadingController,
     public activeRoute: ActivatedRoute,
     public translate: TranslateService,
+    private getou:GetousService
   ) {
 
     this.show()
@@ -49,6 +51,11 @@ export class Tab1Page {
           this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })
+        this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
+          console.log(data)
+          this.titlelog=data.HeaderCompanyLogo
+          
+        });
 
     })
     this.activeRoute.queryParams.subscribe(res => {

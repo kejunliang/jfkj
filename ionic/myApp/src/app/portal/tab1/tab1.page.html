@@ -5,9 +5,12 @@
         <ion-icon slot="start" name="settings" color="dark"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>
-      {{'public.home' | translate}}
+    <ion-title class="welcome-card">
+        <ion-img [src]="titlelog"></ion-img>
     </ion-title>
+  
+     
+   
     <ion-buttons slot="end">
       <ion-button (click)="logout()">
         <ion-icon slot="start" name="power" color="dark"></ion-icon>
