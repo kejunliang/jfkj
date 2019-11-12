@@ -28,11 +28,11 @@ export class GetAppPortalService {
       )
   }
   //sfv3/integrumws.nsf/xp_App.xsp/getViewData?key=Activity_form_New_Iberian&countperpage=10&curpage=4
-  getViewData(logindetail:any):Observable<any>{
+  getViewData(logindetail:any,para:any ):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
-    let key="Activity_form_New_Iberian"
-    let count="10"
-    let curpage="4"
+    let key=para.key
+    let count=para.count
+    let curpage=para.curpage
     const options = {
       headers: {
         "Content-Type":"application/json; charset=utf-8",
