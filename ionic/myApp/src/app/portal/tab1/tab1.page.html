@@ -38,7 +38,6 @@
 
     <ion-list class="portal-list">
       <ion-item *ngFor="let item of data">
-<<<<<<< HEAD
         <ion-row>
           <ion-col>
             <span>
@@ -48,31 +47,14 @@
           <ion-col size="9">
             <div>
               <ion-text>
-                <a [routerLink]="['/form-list']" [queryParams]="{vid:item.SFMView,vtitle:item.LinkTitle}"> {{item.LinkTitle}} </a>
+                <a [routerLink]="['/form-list']" [queryParams]="{vid:item.SFMView,vtitle:item.LinkTitle}">
+                  {{item.LinkTitle}} </a>
               </ion-text>
             </div>
           </ion-col>
           <ion-col><span> <a [routerLink]="['/create-from']" [queryParams]="{aid:item.LinkTitle}"><img
                   src="../../../assets/icon/add.png" alt=""></a></span></ion-col>
         </ion-row>
-=======
-            <ion-row>
-              <ion-col >
-                <span>
-                  <ion-icon slot="start" name="git-network"></ion-icon>
-                  <span><img [src]="item.SFMImage" alt=""></span>
-                </span>
-              </ion-col>
-              <ion-col size="9">
-                <div>
-                  <ion-text>
-                   <a [routerLink]="['/form-list']"  [queryParams]="{aid:item.LinkTitle}" > {{item.LinkTitle}} </a>
-                  </ion-text>
-                </div>
-              </ion-col>
-              <ion-col (click)="newFrom(item)"><span><img src="../../../assets/icon/add.png" alt=""></span></ion-col>
-            </ion-row>
->>>>>>> renxuze
       </ion-item>
     </ion-list>
   </div>
