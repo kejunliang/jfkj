@@ -11,7 +11,7 @@ import { commonCtrl } from "../../common/common";
   providers: [commonCtrl] 
 })
 export class FormListPage implements OnInit {
-  public data=[]
+  public data=[{"DocRefNumber":"测试我得标题啦"},{"DocRefNumber":"texttest"}]
   public vid:string ;
   public para={
     "key":"",
@@ -42,7 +42,7 @@ export class FormListPage implements OnInit {
           this.geapp.getViewData(data,this.para).pipe(first())
           .subscribe(data => {
             console.log(data)
-            this.data=data.data
+            this.data=this.data.concat(data.data)
             this.commonCtrl.hide()
           })
         })

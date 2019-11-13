@@ -6,11 +6,27 @@
     <ion-title>{{vtitle}}</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<div class="searchTop">
+  <div class="search-box">
+    <img src="../../../assets/icon/search.png" alt="">
+    <ion-input type="text" placeholder="Search"></ion-input>
+  </div>
+  <div class="searchRight">
+       <ion-icon ios="ios-funnel" md="md-funnel"></ion-icon>
+  </div>
+</div>
 <ion-content>
   <ion-list>
-     <ion-item *ngFor="let item of data">
-        <span>{{item.DocRefNumber}}</span>       
-     </ion-item>
+    <ion-item *ngFor="let item of data">
+      <div class="contentLeft">
+          <div class="title"> <span>{{item.DocRefNumber}}</span></div>
+          <div class="action">
+            <span>draft</span>
+            <span>test</span>
+            <span>2019</span>
+          </div>
+      </div>
+      <div class="contentright"> <ion-icon mode="ios" slot="end" name="arrow-forward"></ion-icon></div>
+    </ion-item>
   </ion-list>
 </ion-content>
