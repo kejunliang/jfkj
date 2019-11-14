@@ -50,6 +50,13 @@
 }
 ion-item {
     margin: 0.5rem;
+    .contentIcon{
+        float: left;
+        margin-right: 1rem;
+        ion-icon{
+            color:#00bcd4
+        }
+    }
     .contentLeft{
         width: 90%;
         div{

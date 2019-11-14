@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import { GetousService } from "../../services/getous.service";
 import { GetpersoninfoService } from "../../services/getpersoninfo.service";
 import { TranslateService } from '@ngx-translate/core';
+import { GetallformsService } from "../../services/getallforms.service";
 
 @Component({
   selector: 'app-loginpass',
@@ -34,6 +35,7 @@ export class LoginpassPage implements OnInit {
     private getou:GetousService,
     private getpsn:GetpersoninfoService,
     private translate:TranslateService,
+    private getallforms:GetallformsService
     ){
      
     
@@ -89,6 +91,10 @@ export class LoginpassPage implements OnInit {
               this.storage.set('psninfo', JSON.stringify(data));    
             }
           )
+          this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
+             // console.log("forms信息"+JSON.stringify(data))
+              this.storage.set('allforms', JSON.stringify(data));    
+          })
           this.router.navigate(['tabs/tab1'])
 
         }else{

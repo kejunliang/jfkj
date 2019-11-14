@@ -12,21 +12,37 @@
     <ion-input type="text" placeholder="Search"></ion-input>
   </div>
   <div class="searchRight">
-       <ion-icon ios="ios-funnel" md="md-funnel"></ion-icon>
+    <ion-icon ios="ios-funnel" md="md-funnel"></ion-icon>
   </div>
 </div>
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let item of data">
-      <div class="contentLeft">
-          <div class="title"> <span>{{item.DocRefNumber}}</span></div>
-          <div class="action">
-            <span>draft</span>
-            <span>test</span>
-            <span>2019</span>
-          </div>
+      <div class="contentIcon">
+        <ion-icon *ngIf="item.WFStatus=='Completed'" name="checkmark-circle"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Open'"  name="checkmark-circle-outline"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Draft'"  name="close-circle"></ion-icon>
       </div>
-      <div class="contentright"> <ion-icon mode="ios" slot="end" name="arrow-forward"></ion-icon></div>
+      <div class="contentLeft">
+        <div class="title"> <span>{{item.DocRefNumber}}</span></div>
+        <div class="action">
+          <span>{{item.WFStatus}}</span>
+          <span>{{item.formMR}}</span>
+          <span>{{item}}</span>
+        </div>
+      </div>
+      <div class="contentright">
+        <ion-icon mode="ios" slot="end" name="arrow-forward"></ion-icon>
+      </div>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

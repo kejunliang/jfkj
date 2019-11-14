@@ -11,7 +11,7 @@ import { commonCtrl } from "../../common/common";
   providers: [commonCtrl] 
 })
 export class FormListPage implements OnInit {
-  public data=[{"DocRefNumber":"测试我得标题啦"},{"DocRefNumber":"texttest"}]
+  public data=[] //{"DocRefNumber":"测试我得标题啦","WFStatus":"","formMR":""}
   public vid:string ;
   public para={
     "key":"",
@@ -56,4 +56,27 @@ export class FormListPage implements OnInit {
   ngOnInit() {
   }
 
+   
+   doRefresh(evt:any):void {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      evt.target.complete();
+    }, 2000);
+   }
+
+   
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      if (this.data.length == 1000) {
+        event.target.disabled = true;
+      }
+    }, 500);
+  }
 }
