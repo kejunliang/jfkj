@@ -30,6 +30,7 @@
                 <!-- <a href="/appdev/integrumws.nsf/xp_App.xsp/getAllViews?languageid" target="_blank">link到百度</a> -->
             </ion-textarea>
           </div>
+          <ion-item-divider></ion-item-divider>
           <ion-item lines="none">
             <ion-label color="favorite">Scheduler</ion-label>
             <ion-text>
@@ -50,7 +51,7 @@
           </ion-item>
           <ion-item lines="none">
             <ion-label>Dhe for Completion</ion-label>
-            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="YYYY MM DD" value=""></ion-datetime>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="YYYY MM DD" value=""  color="favorite"></ion-datetime>
             <span class="down"><ion-icon slot="end" name="calendar" mode="md"></ion-icon></span>
           </ion-item>
           <ion-item-divider></ion-item-divider>
@@ -62,7 +63,7 @@
             <ion-label>Fencing & Lighting</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
-          <ion-item lines="full">
+          <ion-item lines="full" (click)="production()">
               <ion-label>Production Code Details</ion-label>
               <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
@@ -74,6 +75,7 @@
             <ion-label>Production Code Details</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
+          <ion-item-divider></ion-item-divider>
           <ion-item lines="none" color="favorite">
               <ion-label color="light">Audit Trail</ion-label>
              <ion-icon color="light" slot="end" name="arrow-forward" mode="ios" (click)="isShowAudit()" *ngIf="!showAudit"></ion-icon>

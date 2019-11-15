@@ -8,11 +8,13 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class AnditDetailPage implements OnInit {
   public showTips:boolean=false;
+  public headerTitle:string
   constructor(public activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activeRoute.queryParams.subscribe((params: Params) => {
-     console.log(params['audit']);
+      console.log(params['title'])
+      this.headerTitle=params['title']
       })
   }
   getTips(i){

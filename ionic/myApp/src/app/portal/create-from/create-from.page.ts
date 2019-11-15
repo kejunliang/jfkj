@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalController,NavController } from '@ionic/angular';
 import { SecurityComponent } from './component/security/security.component';
-
+import {  ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-create-from',
   templateUrl: './create-from.page.html',
@@ -24,24 +24,18 @@ export class CreateFromPage implements OnInit {
   public isShowBtn:boolean=false;
   public content:string='';
   public managerName:string;
-  constructor(public modal: ModalController,public el:ElementRef,public nav:NavController) { }
+  constructor(public modal: ModalController,public el:ElementRef,public nav:NavController,public activatedRoute:ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+     console.log( params['aid']);
+    });
   }
   ngAfterViewInit() {
-    console.log(this.el.nativeElement);
     // let nativeGuidance=this.el.nativeElement.querySelector('#guidance');
    this.content=' <a href="https://fanyi.baidu.com/?aldtype=16047#en/zh/" target="_blank">link到百度</a>'
   }
-  //AuditDetail
-  auditDetail() {
-    this.nav.navigateForward(['/andit-detail'],{
-      queryParams:{
-        audit:'bb'
-      }
-    })
-  }
+  
   //查找名称
   async getSecurity(){
     const modal = await this.modal.create({
@@ -76,10 +70,26 @@ export class CreateFromPage implements OnInit {
   closeZoom(){
     this.isShowBtn=false;
   }
+  //AuditDetail
+  auditDetail() {
+    this.nav.navigateForward(['/andit-detail'],{
+      queryParams:{
+        title:'AuditDetail'
+      }
+    })
+  }
   fencingDetail(){
     this.nav.navigateForward(['/fencing'],{
       queryParams:{
-        aa:'bb'
+        title:'Fencing & Lighting'
+      }
+    })
+  }
+  production(){
+    console.log(1)
+    this.nav.navigateForward(['/production'],{
+      queryParams:{
+        title:'Production Code Details'
       }
     })
   }

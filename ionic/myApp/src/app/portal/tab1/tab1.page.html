@@ -18,27 +18,9 @@
 
 <ion-content>
   <div class="portal-box">
-    <div class="portal-title">
-      <span>{{portalTile}}</span>
-      <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
-    </div>
-    <ion-list *ngIf="'true1'=='true'" class="">
-      <ion-item [ngClass]="{'padList':item.index%2=='0','padList2':item.index%2!='0'}" lines="none"
-        *ngFor="let item of data">
-        <div *ngIf="item.LinkTitle!=''">
-          <div>
-            <ion-icon slot="start" name="git-network"></ion-icon>
-
-          </div>
-          <div>{{item.LinkTitle}}</div>
-          <div><span><img src="../../../assets/icon/add.png" alt=""></span></div>
-        </div>
-      </ion-item>
-    </ion-list>
-
+   
     <ion-list class="portal-list">
       <ion-item *ngFor="let item of data">
-<<<<<<< HEAD
         <ion-row>
           <ion-col>
             <span>
@@ -55,24 +37,6 @@
           <ion-col><span> <a [routerLink]="['/create-from']" [queryParams]="{aid:item.LinkTitle}"><img
                   src="../../../assets/icon/add.png" alt=""></a></span></ion-col>
         </ion-row>
-=======
-            <ion-row>
-              <ion-col >
-                <span>
-                  <ion-icon slot="start" name="git-network"></ion-icon>
-                  <span><img [src]="item.SFMImage" alt=""></span>
-                </span>
-              </ion-col>
-              <ion-col size="9">
-                <div>
-                  <ion-text>
-                   <a [routerLink]="['/form-list']"  [queryParams]="{aid:item.LinkTitle}" > {{item.LinkTitle}} </a>
-                  </ion-text>
-                </div>
-              </ion-col>
-              <ion-col (click)="newFrom(item)"><span><img src="../../../assets/icon/add.png" alt=""></span></ion-col>
-            </ion-row>
->>>>>>> renxuze
       </ion-item>
     </ion-list>
   </div>
