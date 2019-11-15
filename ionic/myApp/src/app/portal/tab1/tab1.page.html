@@ -21,7 +21,10 @@
 
 <ion-content>
   <div class="portal-box">
-   
+    <div class="portal-title">
+      <span>{{portalTile}}</span>
+      <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
+    </div>
     <ion-list class="portal-list">
       <ion-item *ngFor="let item of data">
         <ion-row>
