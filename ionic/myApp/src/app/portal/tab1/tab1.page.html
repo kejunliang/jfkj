@@ -21,24 +21,7 @@
 
 <ion-content>
   <div class="portal-box">
-    <div class="portal-title">
-      <span>{{portalTile}}</span>
-      <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
-    </div>
-    <ion-list *ngIf="'true1'=='true'" class="">
-      <ion-item [ngClass]="{'padList':item.index%2=='0','padList2':item.index%2!='0'}" lines="none"
-        *ngFor="let item of data">
-        <div *ngIf="item.LinkTitle!=''">
-          <div>
-            <ion-icon slot="start" name="git-network"></ion-icon>
-
-          </div>
-          <div>{{item.LinkTitle}}</div>
-          <div><span><img src="../../../assets/icon/add.png" alt=""></span></div>
-        </div>
-      </ion-item>
-    </ion-list>
-
+   
     <ion-list class="portal-list">
       <ion-item *ngFor="let item of data">
         <ion-row>

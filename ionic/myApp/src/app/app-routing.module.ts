@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'create-from', loadChildren: './portal/create-from/create-from.module#CreateFromPageModule' },
   { path: 'form-list', loadChildren: './portal/form-list/form-list.module#FormListPageModule' },
   { path: 'fencing', loadChildren: './portal/create-from/fencing/fencing.module#FencingPageModule' },
-  { path: 'andit-detail', loadChildren: './portal/create-from/andit-detail/andit-detail.module#AnditDetailPageModule' },
+  { path: 'andit-detail', loadChildren: './portal/create-from/andit-detail/andit-detail.module#AnditDetailPageModule' },  { path: 'production', loadChildren: './portal/create-from/production/production.module#ProductionPageModule' },
+
 
 ];
 @NgModule({

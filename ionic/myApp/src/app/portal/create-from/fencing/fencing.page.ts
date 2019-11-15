@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ModalController,NavController } from '@ionic/angular';
+import { ActivatedRoute, Params } from '@angular/router';
 import { PerimeterComponent } from '../component/perimeter/perimeter.component';
 @Component({
   selector: 'app-fencing',
@@ -8,10 +9,14 @@ import { PerimeterComponent } from '../component/perimeter/perimeter.component';
   styleUrls: ['./fencing.page.scss'],
 })
 export class FencingPage implements OnInit {
-
-  constructor(public alertController: AlertController,public modal: ModalController) { }
+  public hearderTitle:String
+  constructor(public alertController: AlertController,public modal: ModalController,public activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.activeRoute.queryParams.subscribe((params: Params) => {
+      console.log(params['title']);
+      this.hearderTitle=params['title'];
+       })
   }
   async getBarriers() {
     const alert = await this.alertController.create({

@@ -9,7 +9,7 @@ ion-item:nth-child(3){
 --background: #f2f3f5;
 }
 ion-item:nth-child(4),ion-item:nth-child(5){
-    --padding-end:2rem;  
+    --padding-end:1rem;  
 
     }
     ion-item-divider{
@@ -17,10 +17,13 @@ ion-item:nth-child(4),ion-item:nth-child(5){
        --background: #f2f3f5;
     }
    
-     .down ion-icon{
-       font-size: 2rem;
-      //  color: #ccc;
-    }
+     .down{
+        float: right;
+      ion-icon{
+         font-size: 2rem;
+        //  color: #ccc;
+      }
+     } 
 .btn-box{
    width: 12.8rem;
    position: absolute;
