@@ -26,7 +26,7 @@ export class Tab1Page {
   ];
   public portalInfo: any;
   public loading: any
-  public listIco = { 'background': 'url(../../../assets/icon/track.svg) no-repeat top left' };
+  public listIco = { 'background': 'url(sfv3/appmgt.nsf//va_IconLib//collect.png//$FILE//collect.png) no-repeat top left' };
   public titlelog :string ;
   constructor(
     public popoverController: PopoverController,
