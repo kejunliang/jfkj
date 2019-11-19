@@ -17,7 +17,8 @@
         "email":"Email",
         "language":"Language",
         "lasttimelogout":"Last Time Logout",
-        "activatedon":"Activated on"
+        "activatedon":"Activated on",
+        "accountLan":"Englist"
     },
     "offline":{
         "title":"The following functionalities are supported by offline mode:",

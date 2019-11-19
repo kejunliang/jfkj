@@ -76,3 +76,6 @@ ion-item:nth-child(4),ion-item:nth-child(5){
  ion-item{
     touch-action: none;
  }
+ ion-item-divider{
+    min-height: 1rem;
+ }

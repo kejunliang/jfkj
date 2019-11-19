@@ -65,11 +65,11 @@ export class AppComponent {
     var isIOS = (/iphone/gi).test(app); //ios终端
     let isTouchPad=(/ipad/gi).test(app);
     if (isAndroid) {
-        console.dir('android')
+        // console.dir('android')
     }
     if (isIOS) {
         // window.location.href = 'iosDownload.html';
-        console.dir('iphone')
+        // console.dir('iphone')
     }
   }
 }

@@ -17,7 +17,8 @@
         "email":"邮件",
         "language":"语言",
         "lasttimelogout":"上次登录",
-        "activatedon":"激活"
+        "activatedon":"激活",
+        "accountLan":"Englist"
     },
     "offline":{
         "title":"离线模式支持以下功能:",

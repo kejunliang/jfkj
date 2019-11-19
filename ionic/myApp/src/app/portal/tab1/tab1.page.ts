@@ -145,15 +145,7 @@ export class Tab1Page {
     })
     return arr;
   }
-  //跳转newFrom
-  newFrom(item) {
-    console.log(item)
-    this.Nav.navigateForward(['/create-from'], {
-      queryParams: {
-        value: item.LinkTitle
-      }
-    })
-  }
+  
 
 
 }
