@@ -26,28 +26,7 @@ export class FormListPage implements OnInit {
     public commonCtrl:commonCtrl
   ) {
     
-    this.activeRoute.queryParams.subscribe(res => {
-      console.log(res);
-      if(res){
-        console.log("laile")
-        console.log(res.vid)
-        this.vid=res.vid.split("/")[1].split("?")[0]
-        this.vtitle=res.vtitle
-        this.commonCtrl.show()
-        this.storage.get("loginDetails").then(data => {
-          console.log(data)
-          this.para.key=this.vid;
-          this.para.count="20"
-          this.para.curpage ="1"
-          this.geapp.getViewData(data,this.para).pipe(first())
-          .subscribe(data => {
-            console.log(data)
-            this.data=this.data.concat(data.data)
-            this.commonCtrl.hide()
-          })
-        })
-      } 
-    })
+    this.getData();
    
 
 
@@ -59,7 +38,7 @@ export class FormListPage implements OnInit {
    
    doRefresh(evt:any):void {
     console.log('Begin async operation');
-
+    this.getData();
     setTimeout(() => {
       console.log('Async operation has ended');
       evt.target.complete();
@@ -78,5 +57,29 @@ export class FormListPage implements OnInit {
         event.target.disabled = true;
       }
     }, 500);
+  }
+  getData() {
+    this.activeRoute.queryParams.subscribe(res => {
+      console.log(res);
+      if(res){
+        console.log("laile")
+        console.log(res.vid)
+        this.vid=res.vid.split("/")[1].split("?")[0]
+        this.vtitle=res.vtitle
+        this.commonCtrl.show()
+        this.storage.get("loginDetails").then(data => {
+          console.log(data)
+          this.para.key=this.vid;
+          this.para.count="20"
+          this.para.curpage ="1"
+          this.geapp.getViewData(data,this.para).pipe(first())
+          .subscribe(data => {
+            console.log(data)
+            this.data=data.data
+            this.commonCtrl.hide()
+          })
+        })
+      } 
+    })
   }
 }

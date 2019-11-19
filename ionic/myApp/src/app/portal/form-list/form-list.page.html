@@ -27,14 +27,14 @@
         <ion-icon *ngIf="item.WFStatus=='Draft'"  name="close-circle"></ion-icon>
       </div>
       <div class="contentLeft">
-        <div class="title"> <span>{{item.DocRefNumber}}</span></div>
+        <div class="title"> <span>{{item.title}}</span></div>
         <div class="action">
           <span>{{item.WFStatus}}</span>
           <span>{{item.formMR}}</span>
-          <span>{{item}}</span>
+          <span>{{item.calendarDate }}</span>
         </div>
       </div>
-      <div class="contentright">
+      <div class="contentright" *ngIf="item.hasResponse=='yes'">
         <ion-icon mode="ios" slot="end" name="arrow-forward"></ion-icon>
       </div>
     </ion-item>
