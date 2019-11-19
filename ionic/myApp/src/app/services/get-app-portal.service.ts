@@ -39,7 +39,7 @@ export class GetAppPortalService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getViewData?key='+key+'&countperpage='+count+'&curpage='+curpage,options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getViewData?viewid='+key+'&countperpage='+count+'&curpage='+curpage,options)
       .pipe(
         map(result => { 
                  return result;
