@@ -3,7 +3,7 @@
       <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/tab1" text="" color="dark"></ion-back-button>
       </ion-buttons>
-    <ion-title>createFrom</ion-title>
+    <ion-title>{{hearderTitle}}</ion-title>
     <ion-buttons slot="end">
         <ion-button (click)="getBtnPopover()">
           <ion-icon slot="start" name="list" color="dark"></ion-icon>
@@ -26,15 +26,16 @@
             <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="isShowGuidance()" *ngIf="showGuidance"></ion-icon>
           </ion-item>
           <div *ngIf="showGuidance" class="guidance-box">
-            <ion-textarea #guidance [innerHTML]="content">健康撒按时艰苦拉萨卡就打算惊恐的神色
+            <ion-textarea #guidance [innerHTML]="content">
+              
                 <!-- <a href="/appdev/integrumws.nsf/xp_App.xsp/getAllViews?languageid" target="_blank">link到百度</a> -->
             </ion-textarea>
           </div>
-          <ion-item-divider></ion-item-divider>
+          <ion-item-divider *ngIf="showGuidance"></ion-item-divider>
           <ion-item lines="none">
             <ion-label color="favorite">Scheduler</ion-label>
             <ion-text>
-              <h5>App01 user</h5>
+              <h5>{{userName}}</h5>
             </ion-text>
           </ion-item>
           <ion-item >
@@ -43,11 +44,6 @@
             <ion-text color="primary">
               <h6>{{managerName}}</h6>
             </ion-text>
-            <!-- <ion-select [(ngModel)]="selectText" (change)="changeSelect()" placeholder="select an option">
-              <div *ngFor="let item of listSlect">
-                  <ion-select-option value="{{item.person}}">{{item.Manager}}</ion-select-option>
-              </div>
-            </ion-select> -->
           </ion-item>
           <ion-item lines="none">
             <ion-label>Dhe for Completion</ion-label>
@@ -55,26 +51,30 @@
             <span class="down"><ion-icon slot="end" name="calendar" mode="md"></ion-icon></span>
           </ion-item>
           <ion-item-divider></ion-item-divider>
-          <ion-item lines="full" (click)="auditDetail()">
-            <ion-label>Audit Details</ion-label>
+           <ion-item lines="full" *ngFor="let item of listFiled;let index=index" (click)="auditDetail(item)">
+            <ion-label>{{item.title}}</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
+         <!-- <ion-item lines="full" (click)="auditDetail()">
+            <ion-label>Audit Details</ion-label>
+            <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
+          </ion-item> -->
           <ion-item lines="full" (click)="fencingDetail()">
             <ion-label>Fencing & Lighting</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
-          <ion-item lines="full" (click)="production()">
+          <!-- <ion-item lines="full" (click)="production()">
               <ion-label>Production Code Details</ion-label>
               <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
           </ion-item>
           <ion-item lines="full">
               <ion-label>Visual Inspection</ion-label>
               <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
-          </ion-item>
-          <ion-item lines="full">
+          </ion-item> -->
+           <!-- <ion-item lines="full">
             <ion-label>Production Code Details</ion-label>
             <ion-icon slot="end" name="arrow-forward" mode="ios"></ion-icon>
-          </ion-item>
+          </ion-item> -->
           <ion-item-divider></ion-item-divider>
           <ion-item lines="none" color="favorite">
               <ion-label color="light">Audit Trail</ion-label>

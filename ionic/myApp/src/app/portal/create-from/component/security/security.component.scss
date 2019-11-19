@@ -9,9 +9,12 @@
     position: relative;
    .search-box{
        width: 65%;
-       padding-left: 1rem;
+       padding-left: .5rem;
        line-height: 48px;
        display: flex;
+       ion-input{
+           margin-left: .5rem;
+       }
        input{
            border:none;
            background: none;

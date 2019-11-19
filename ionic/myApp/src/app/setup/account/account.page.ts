@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
 import { first } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 import { AccountService } from "../../services/setup/account.service";
+import { LanguageService } from "../../services/setup/language.service";
 import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-account',
@@ -13,8 +15,13 @@ export class AccountPage implements OnInit {
   };
   public user:string='';
   public pass:string='';
-  public email:string=''
-  constructor(public http:HttpClient,public account:AccountService,private storage:Storage) { 
+  public email:string='';
+  public accountLan:string
+  constructor(
+    public translate :TranslateService,
+    public http:HttpClient,public account:AccountService,
+    private storage:Storage,public LanguageService:LanguageService,
+    ) { 
     
   }
 //http://oa.jf81.com/sfv3/integrumws.nsf/xp_App.xsp/getMyAccount?email=zding@jf81.com
@@ -32,10 +39,40 @@ export class AccountPage implements OnInit {
       data => {
         console.log(data)
         this.accountData=data;
+        this.getLan()
       }
     )
   })
   
+ }
+ getLan(){
+    //获取当前设置的语言
+    let browerLang=this.translate.getDefaultLang();
+    console.log(browerLang)
+   if(this.accountData.language==browerLang){
+    this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+      data => {
+       let langularArr=data.Languages;
+       langularArr.forEach(item => {
+         if(item.SelectedLanguages==this.accountData.language){
+          this.accountData.language=item.NativeNames
+         }
+       });
+      }
+    )
+   }else{
+    this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+      data => {
+       let langularArr=data.Languages;
+       langularArr.forEach(item => {
+         if(item.SelectedLanguages==browerLang){
+          this.accountData.language=item.NativeNames
+         }
+       });
+      }
+    )
+   }
+ 
  }
 
 }
