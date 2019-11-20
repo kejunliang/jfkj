@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'form-list', loadChildren: './portal/form-list/form-list.module#FormListPageModule' },
   { path: 'fencing', loadChildren: './portal/create-from/fencing/fencing.module#FencingPageModule' },
   { path: 'andit-detail', loadChildren: './portal/create-from/andit-detail/andit-detail.module#AnditDetailPageModule' },  { path: 'production', loadChildren: './portal/create-from/production/production.module#ProductionPageModule' },
+  { path: 'new-form', loadChildren: './portal/new-form/new-form.module#NewFormPageModule' },
 
 
 ];
