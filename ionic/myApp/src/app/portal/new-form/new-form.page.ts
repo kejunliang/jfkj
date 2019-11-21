@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -47,11 +49,11 @@ export class NewFormPage implements OnInit {
   public lon;
 
   public attachedImages=[];
-
-
+  public guidanceData: any = [{ value: '1' }];
+  public resvalue:any;
   constructor(
     private storage: Storage,
-    public modalCtrl: ModalController
+    public modal: ModalController
   ) { 
 
     console.log("进")
@@ -233,4 +235,11 @@ export class NewFormPage implements OnInit {
   ionViewDidLoad() {
     
   };
+
+
+
+    //查找名称
+    async getSecurity() {
+     
+    }
 }
