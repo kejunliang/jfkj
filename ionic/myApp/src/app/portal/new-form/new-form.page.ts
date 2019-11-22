@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-form',
@@ -10,7 +10,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class NewFormPage implements OnInit {
   public formType;
-  public templates:any;
+  public templates: any;
   public title: string;
   public formID: string;
   public loadSecs: any = [];
@@ -18,29 +18,29 @@ export class NewFormPage implements OnInit {
 
   public activeActionsheetIdex;
   public sigleEmpChoice;
-  public multiEmpChoice:any=[];
-  public empLists:any=[];
-  public oulist:any=[];
+  public multiEmpChoice: any = [];
+  public empLists: any = [];
+  public oulist: any = [];
   public selectOudata;
-  public ouHierarchy:any=[];
- // public hideSecs:any=[];
+  public ouHierarchy: any = [];
+  // public hideSecs:any=[];
 
   public quesFiledValue;
   public quesFiledName;
-  public quesValueArray:any=[];
+  public quesValueArray: any = [];
 
-  public sublistFiledOptions:any=[];
+  public sublistFiledOptions: any = [];
   public sublistObjId;
- 
- // public currentDate=new Date().toISOString();
 
-  public today=new Date().toISOString();
-  public viewColumns=[];
+  // public currentDate=new Date().toISOString();
 
-  public riskName:string = '';
+  public today = new Date().toISOString();
+  public viewColumns = [];
+
+  public riskName: string = '';
   //public isShowRiskMatrix:boolean;
   public labelSize;
-  
+
   public customiseColor;
   public draftStatus;
   public riskMatrixArray = [];
@@ -48,49 +48,77 @@ export class NewFormPage implements OnInit {
   public lat;
   public lon;
 
-  public attachedImages=[];
+  public attachedImages = [];
   public guidanceData: any = [{ value: '1' }];
-  public resvalue:any;
+  public resvalue: any;
+  public selecttemplat:any;
   constructor(
     private storage: Storage,
-    public modal: ModalController
-  ) { 
+    public modal: ModalController,
+    public activeRoute: ActivatedRoute,
+  ) {
 
-    console.log("进")
-    this.storage.get("allforms").then(data => {
-    
-      this.templates=JSON.parse(data).templates
-      console.log(this.templates)
-    // alert(fileName);
-    for (let i = 0; i < this.templates[0].template.secs.length; i++) {
-      for (let b = 0; b < this.templates[0].template.secs[i].fields.length; b++) {
-        //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
-        if ((this.templates[0].template.secs[i].fields[b].xtype == 'date') || (this.templates[0].template.secs[i].fields[b].xtype == 'time')) {
-          let now = new Date();
-          this.templates[0].template.secs[i].fields[b].value = now;
+    this.activeRoute.queryParams.subscribe(res => {
+      console.log(res);
+      console.log("进")
+      this.storage.get("allforms").then(data => {
+        console.log(JSON.parse(data))
+        this.templates = JSON.parse(data).templates
+        console.log(this.templates)
+        // alert(fileName);
+        this.selecttemplat=this.getTemplatByViewId( this.templates,res.aid)
+        console.log(this.selecttemplat)
+        if(!this.selecttemplat){
+          return false;
         }
-        if (this.templates[0].template.secs[i].fields[b].xtype == 'singleou') {
+        for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+          for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
+            //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
+            if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
+              let now = new Date();
+              this.selecttemplat.template.secs[i].fields[b].value = now;
+            }
+            if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
+            }
+          }
+          console.log(this.selecttemplat.template.secs[i].fields)
+          this.selecttemplat.template.secs[i].fields.forEach(data => {
+            this.loadSecs.push(data);
+          })
+        
         }
-      }
-      this.loadSecs.push(this.templates[0].template.secs[i]);
-    }
-    this.fields = this.loadSecs[0].fields;
+        this.fields = this.loadSecs;
+        console.log(this.fields)
+      })
     })
 
 
+
+
+
   }
+
+getTemplatByViewId(data,vid){
+   let res;
+   data.forEach(element => {
+        if(element.template.template_id==vid){
+          res= element
+        }
+   });
+ return res;
+}
 
   ngOnInit() {
 
-   
-    
+
+
   }
 
 
-  getemplistData(type,name,value){
-  
+  getemplistData(type, name, value) {
 
- };
+
+  };
 
   getSublistdetails(name, value) {
     // this.hasSubFiledValue=value;
@@ -233,13 +261,13 @@ export class NewFormPage implements OnInit {
     }//End for loop
   };
   ionViewDidLoad() {
-    
+
   };
 
 
 
-    //查找名称
-    async getSecurity() {
-     
-    }
+  //查找名称
+  async getSecurity() {
+
+  }
 }
