@@ -51,6 +51,7 @@ export class CreateFromPage implements OnInit {
     });
     this.storage.get("allforms").then(data => {
       let dataFrom= JSON.parse(data)
+      console.log(dataFrom)
       console.log(dataFrom.templates)
       dataFrom.templates.forEach((item,index) => {
           if(item.template.template_id==this.aid){

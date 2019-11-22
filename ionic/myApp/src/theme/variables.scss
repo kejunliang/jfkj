@@ -164,3 +164,9 @@ select,option{
 }
 /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
 select::-ms-expand {display: none;}
+
+.action-sheet-group.sc-ion-action-sheet-ios{
+  color: #f53d3d;
+  overflow: scroll;
+  max-height: 520px;
+}
