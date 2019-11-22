@@ -1,267 +1,168 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+          <ion-icon name="arrow-back" (click)="backTo()" mode="ios" color="dark"></ion-icon>
+      </ion-buttons>
+    <!-- <ion-buttons slot="start">
       <ion-back-button defaultHref="create-from" text="" color="dark"></ion-back-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title>{{headerTitle}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="form-container">
-    <div  class="field-container">
-        <ion-list>
-          <div *ngFor="let field of filedData;let index = index;">
-            <ion-item  *ngIf="field.xtype==='text'">
-              <ion-label position="stacked">{{field.label}}<ion-text color="danger">*</ion-text>
-              </ion-label>
-              <ion-input type="text" placeholder="Enter text" required></ion-input>
-            </ion-item>
-            <ion-item  *ngIf="field.xtype==='number'">
-                <ion-label position="stacked">{{field.label}}<ion-text color="danger">*</ion-text>
-                </ion-label>
-                <ion-input type="number" placeholder="Enter number" required></ion-input>
-              </ion-item>
-              <ion-item *ngIf="field.xtype==='textarea'">
-                  <ion-label position="stacked">{{field.label}}<ion-text color="danger">*</ion-text>
-                  </ion-label>
-                  <ion-textarea placeholder="Enter textarea"></ion-textarea>
-                </ion-item>
-            <ion-item *ngIf="field.xtype==='multiselect'">
-              <ion-label position="stacked">{{field.name}}<ion-text color="danger">*</ion-text>
-              </ion-label>
-              <ion-select value="notifications" multiple="true" interface="action-sheet" okText="ok" cancelText="clear">
-                <ion-select-option value="enable">Enable</ion-select-option>
-                <ion-select-option value="mute">Mute</ion-select-option>
-                <ion-select-option value="mute_week">Mute for a week</ion-select-option>
-                <ion-select-option value="mute_year">Mute for a year</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item  *ngIf="field.xtype==='date'">
-                <ion-label>{{field.label}}</ion-label>
-                <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="YYYY MM DD" value=""  color="favorite"></ion-datetime>
-                <span class="down"><ion-icon slot="end" name="calendar" mode="md"></ion-icon></span>
-              </ion-item>
-            <ion-item  *ngIf="field.xtype==='radio'">
-                <ion-label position="stacked">{{field.label}}<ion-text color="danger">*</ion-text>
-                </ion-label>
-                <ion-select value="notifications"  interface="action-sheet" okText="ok" cancelText="clear">
-                  <ion-select-option value="k.value" *ngFor="let k of field.options"></ion-select-option>
-                </ion-select>
-              </ion-item>
-              <ion-item  *ngIf="field.xtype==='select'" [(ngModel)]="selectLabel">
-                  <ion-label position="stacked">{{field.label}}<ion-text color="danger">*</ion-text>
-                  </ion-label>
-                  <ion-select  interface="action-sheet" okText="ok" cancelText="clear">
-                    <div *ngFor="let k of field.options">
-                        <ion-select-option value="{{k.value}}" >{{k.text}}</ion-select-option>
-                    </div>
-                    
-                  </ion-select>
+    <div class="field-container">
+      <ion-list>
+        <div *ngFor="let field of filedData;let index = index;">
+          <ion-item *ngIf="field.xtype==='text'">
+            <ion-label position="stacked"><span class="fieldLable">{{field.label}}</span>
+              <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input type="text" placeholder="Enter text" required [(ngModel)]="field.value"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="field.xtype==='headline'">
+            <p style="margin: 1rem 0;"
+              [ngStyle]="{'background-color': field.labelBgColor,'color':field.labelColor,'font-size':field.labelSize,'font-weight':field.labelFontWeight}">
+              <span class="fieldLable">{{field.label}}</span>
+            </p>
+            <!-- <ion-input type="text" placeholder="Enter headline"></ion-input> -->
+          </ion-item>
+          <ion-item *ngIf="field.xtype==='number'">
+            <ion-label position="stacked"><span class="fieldLable">{{field.label}}</span>
+              <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input type="number" placeholder="Enter number" required [(ngModel)]="field.value" [(ngModel)]="field.value"></ion-input>
+          </ion-item>
+          <div *ngIf="field.xtype==='textarea'" class="textarea-box" >
+            <p class="head">{{field.label}}</p>
+            <textarea name="" id=""  rows="3" placeholder="Enter textarea" class="textareaS" [(ngModel)]="field.value"></textarea>
+            <!-- <ion-textarea placeholder="Enter textarea"></ion-textarea> -->
+          </div>
+          <ion-item *ngIf="field.xtype==='multiselect'" [(ngModel)]="field.value" ngDefaultControl>
+            <ion-label position="stacked"><span class="fieldLable">{{field.label}}</span>
+              <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-select interface="action-sheet" multiple="true" okText="ok" cancelText="clear">
+              <div *ngFor="let k of field.options">
+                <ion-select-option value="{{k.value}}" *ngIf="k.value!=''">{{k.text}}</ion-select-option>
+              </div>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="field.xtype==='date'">
+            <ion-label><span class="fieldLable">{{field.label}}</span></ion-label>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="YYYY MM DD" value="" color="favorite" [(ngModel)]="field.value"></ion-datetime>
+            <span class="down">
+              <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
+            </span>
+          </ion-item>
+          <ion-item *ngIf="field.xtype==='time'">
+            <ion-label><span class="fieldLable">{{field.label}}</span></ion-label>
+            <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" value="" color="favorite" [(ngModel)]="field.value"></ion-datetime>
+            <!-- <span class="down"><ion-icon slot="end" name="calendar" mode="md"></ion-icon></span> -->
+          </ion-item>
+          <div *ngIf="field.xtype==='radio'" class="radio-box">
+            <ion-radio-group>
+              <p  class="head">{{field.label}}</p>
+              <div *ngFor="let k of field.options">
+                <ion-item *ngIf="k.value!=''">
+                  <ion-label>{{k.text}}</ion-label>
+                  <ion-radio slot="start" color="danger" value="{{k.value}}" mode="md" [(ngModel)]='field.value' (ionChange)=getRadio(field.value)></ion-radio>
                 </ion-item>
               </div>
-          </ion-list>
-      <!--multiselectfield-->
-      <!-- <div *ngIf="field.xtype==='multiselect'">
-
-        <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-
-          <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
-            (ionChange)=getSublistdetails(field.name,field.value)>
-            <ion-option *ngFor="let option of field.options">{{option.text}}</ion-option>
-          </ion-select>
-        </ion-item>
-      </div> -->
-
-      <!--textareafield-->
-      <!-- <div *ngIf="field.xtype==='textarea'">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-
-        <textarea rows="4" [(ngModel)]='field.value' style="background-color:#eee;height:80px;width:100%;border:0;"
-          placeholder="Enter a description"></textarea>
-
-      </div> -->
-
-      <!--singleou-->
-      <!-- <div *ngIf="field.xtype==='singleou'" [hidden]="field.hide">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <button ion-item block color="basic" (click)="getOulistData(field.name,field.value)">Tap to choose</button>
-        <ion-item *ngIf="field.value">
-          {{field.value}}
-        </ion-item>
-
-      </div> -->
-
-      <!--riskmatrix   [hidden]="!isShowRiskMatrix"-->
-      <!-- <div *ngIf="field.xtype==='riskmatrix'">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <button style="padding-left:10px;" ion-item block color="secondary"
-          (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button>
-        <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
-          {{field.value.TheScore}}
-        </ion-item>
-      </div> -->
-
-      <!--richtext-->
-      <!-- <div *ngIf="field.xtype==='richtext'" [hidden]="field.hide">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <textarea rows="6" [(ngModel)]='field.value' style="background-color:#eee;height:120px;width:100%;border:0;"
-          placeholder="richtext"></textarea>
-      </div> -->
-
-      <!--time-->
-      <!-- <div *ngIf="field.xtype==='time'" [hidden]="field.hide">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <ion-item style="background-color:#eee;">
-          <ion-datetime displayFormat="hh:mm" [(ngModel)]='field.value' placeholder="Tap To Pick A Time"></ion-datetime>
-        </ion-item>
-      </div> -->
-
-      <!--questionnaire quesType='multiple'-->
-      <!-- <div *ngIf="field.xtype==='questionnaire' && field.quesType==='true'" [hidden]="field.hide">
-        <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-          <ion-select [(ngModel)]='field.value' multiple="true" (ionChange)=changeQuestion(field.value,field.name)>
-            <ion-option *ngFor="let option of field.options">{{option.text}}</ion-option>
-          </ion-select>
-        </ion-item>
-      </div> -->
-      <!--questionnaire quesType='single'-->
-      <!-- <div *ngIf="field.xtype==='questionnaire' && field.quesType==='false'" [hidden]="field.hide">
-        <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-          <ion-select [(ngModel)]='field.value' (ionChange)=changeQuestion(field.value,field.name)>
-            <ion-option *ngFor="let option of field.options">{{option.text}}</ion-option>
-          </ion-select>
-        </ion-item>
-      </div> -->
-      <!-- signature
-      <div *ngIf="field.xtype==='signature'" [hidden]="field.hide">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <ion-input style="display:none;" [(ngModel)]='field.value'></ion-input>
-        <div *ngIf="!field.value" class="signature-area">
-          <button ion-button clear (click)="signaturePanel(field.name)">Sign Here</button>
-        </div>
-        <div *ngIf="field.value">
-          <ion-item (click)="signaturePanel(field.name)">
-            <img [src]="field.value" />
+            </ion-radio-group>
+          </div>
+          <div *ngIf="field.xtype==='checkbox'" class="radio-box">
+            <p class="head">{{field.label}}</p>
+            <ion-item *ngFor="let k of field.options;let index=index">
+              <ion-checkbox  slot="start" mode="md" (ionChange)="setCheck(k,index)" [(ngModel)]="k.selected"></ion-checkbox>
+              <ion-label>{{k.text}}</ion-label>
+            </ion-item>
+          </div> 
+          <ion-item *ngIf="field.xtype==='select'" [(ngModel)]="selectLabel" ngDefaultControl>
+            <ion-label position="stacked"><span class="fieldLable">{{field.label}}</span>
+              <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-select interface="action-sheet" okText="ok" cancelText="clear">
+              <div *ngFor="let k of field.options">
+                <ion-select-option value="{{k.value}}" *ngIf="k.value!=''">{{k.text}}</ion-select-option>
+              </div>
+            </ion-select>
+          </ion-item>
+          <!--attachment-->
+          <ion-item *ngIf="field.xtype==='attachment'">
+            <ion-label position="stacked">{{field.label}}</ion-label>
+            <ul class="attachment-box">
+                <li (click)="getCamera()">
+                    <img src="../../../../assets/icon/attachment/camera.png" alt="">
+                    <p>camera</p>
+                  </li>
+                <li>
+                    <img src="../../../../assets/icon/attachment/photo.png" alt="">
+                  <p>Photos</p>
+                </li>
+                
+                <li>
+                    <img src="../../../../assets/icon/attachment/document.png" alt="">
+                  <p>Document</p>
+                </li>
+                <li>
+                    <img src="../../../../assets/icon/attachment/locate.png" alt="">
+                  <p>Location</p>
+                </li>
+                <li>
+                    <img src="../../../../assets/icon/attachment/audio.png" alt="">
+                  <p>Audio</p>
+                </li>
+                
+            </ul>
+          </ion-item>
+          <!--singleou-->
+          <ion-item *ngIf="field.xtype==='singleou'">
+            <ion-label stacked>{{field.label}}</ion-label>
+            <ion-button color="primary" (click)="getOulistData(field.name,field.value)">Tap to choose</ion-button>
+            <ion-item *ngIf="field.value">
+              {{field.value}}
+            </ion-item>
+          </ion-item>
+          <!--riskmatrix   [hidden]="!isShowRiskMatrix"-->
+          <ion-item *ngIf="field.xtype==='riskmatrix'">
+            <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+            <button style="padding-left:10px;" ion-item block color="secondary"
+              (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button>
+            <ion-item *ngIf="field.value"
+              [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
+              {{field.value.TheScore}}
+            </ion-item>
+          </ion-item>
+          <!--richtext-->
+          <ion-item *ngIf="field.xtype==='richtext'">
+            <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+            <textarea rows="6" [(ngModel)]='field.value' style="background-color:#eee;height:120px;width:100%;border:0;"
+              placeholder="richtext"></textarea>
+          </ion-item>
+          <!-- signature-->
+          <ion-item *ngIf="field.xtype==='signature'">
+            <ion-label   stacked>{{field.label}}</ion-label>
+            <!-- <ion-input style="display:none;" [(ngModel)]='field.value'></ion-input> -->
+            <div *ngIf="!field.value" class="signature-area">
+              <button ion-button clear (click)="signaturePanel(field.name)">Sign Here</button>
+            </div>
+            <div *ngIf="field.value">
+              <ion-item (click)="signaturePanel(field.name)">
+                <img [src]="field.value" />
+              </ion-item>
+            </div>
+          </ion-item>
+          <!--questionnaire quesType='single'-->
+          <ion-item *ngIf="field.xtype==='questionnaire' && field.quesType==='false'" >
+            <ion-label stacked>{{field.label}}</ion-label>
+            <ion-select [(ngModel)]='field.value' (ionChange)=changeQuestion(field.value,field.name)>
+              <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
+            </ion-select>
           </ion-item>
         </div>
-      </div> -->
-      <!--attachment-->
-      <!-- <div *ngIf="field.xtype==='attachment'" [hidden]="field.hide">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <div *ngIf="!field.value" class="signature-area">
-          <ion-icon name="camera"></ion-icon>
-          <button ion-button clear (click)="takePicture(field.name)">Take a Picture</button>
-        </div>
-
-        <div *ngIf="field.value" class="image-attach" (click)="takePicture(field.name)">
-
-          <img [src]="field.value" />
-
-        </div>
-        <canvas #latlon style="display:none"></canvas>
-      </div> -->
-      <!--headline-->
-      <!-- <div *ngIf="field.xtype==='headline'" [hidden]="field.hide" class="column-count"
-        [ngStyle]="{'background-color': field.labelBgColor}">
-        <h4
-          [ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelFontStyle,'text-decoration':field.labelTextDecoration}">
-          {{field.label}}</h4>
-      </div> -->
-
-
-      <!--computed-->
-      <!-- <div *ngIf="field.xtype==='computed'" class="column-count">
-        <h4>{{field.label}}</h4>
-      </div> -->
-
-      <!--textfield-->
-      <!-- <div *ngIf="field.xtype==='text'" class="text-number" [hidden]="field.hide">
-
-        <ion-item>
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-          <ion-input type="text" style="background-color:#eee; font-size: 20px;" [(ngModel)]='field.value'
-            placeholder="Tap to enter"></ion-input>
-        </ion-item>
-      </div> -->
-
-      <!--numberfield-->
-      <!-- <div *ngIf="field.xtype==='number'" class="text-number" [hidden]="field.hide">
-        <ion-item>
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-          <ion-input type="number" style="background-color:#eee; font-size: 20px;" [(ngModel)]='field.value'
-            placeholder="Tap to enter"></ion-input>
-        </ion-item>
-      </div> -->
-
-      <!--checkboxfield-->
-      <!-- <div *ngIf="field.xtype==='checkbox'" [hidden]="field.hide">
-        <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-
-          <ion-select [(ngModel)]='field.value' multiple="true" (ionChange)=getSublistdetails(field.name,field.value)>
-            <ion-option value="{{option.value}}" *ngFor="let option of field.options">{{option.text}}</ion-option>
-          </ion-select>
-        </ion-item>
-      </div> -->
-
-      <!--radiofield-->
-      <!-- <div *ngIf="field.xtype==='radio'" [hidden]="field.hide">
-        <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-          <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-
-          <ion-select [(ngModel)]='field.value' (ionChange)=getSublistdetails(field.name,field.value)>
-            <ion-option value="{{option.value}}" *ngFor="let option of field.options">{{option.text}}</ion-option>
-          </ion-select>
-        </ion-item>
-      </div> -->
-
-      <!--singleempselectfield-->
-      <!-- <div *ngIf="field.xtype=='singleempselect'" [hidden]="field.hide">
-        <ion-label  style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-       <button ion-item block color="basic"  (click)="getemplistData('single',field.name,field.value)">Tap to choose</button>
-       <ion-item *ngIf="field.value">
-            {{field.value}}
-         </ion-item>
-      </div> -->
-
-
-      <!--multiempselct-->
-      <!-- <div *ngIf="field.xtype==='multiempselect'" [hidden]="field.hide">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        <button ion-item block color="basic" (click)="getemplistData('multi',field.name,field.value)">Tap to
-          choose</button>
-        <ion-item *ngIf="field.value">
-          {{field.value}}
-        </ion-item>
-      </div> -->
-
-      <!--datepickerfield-->
-      <!-- <div *ngIf="field.xtype=='date'" >
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-        
-        <ion-item style="background-color:#eee;">
-        <ion-datetime   displayFormat="DD/MM/YYYY"  min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value' placeholder="Tap To Pick A Date"></ion-datetime>
-        </ion-item>
-      </div> -->
-
-      <!--selectfield-->
-      <!-- <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
-        <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-        <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-       
-         <ion-select  [(ngModel)]='field.value' multiple="field.multiple" (ionChange)=getSublistdetails(field.name,field.value)>
-         
-         <ion-option  *ngFor="let option of field.options">{{option.text}}</ion-option>
-         <div *ngIf="field.name==sublistObjId">
-          <ion-option  *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-option>   
-         </div>
-      
-         </ion-select>
-       </ion-item>
-     </div> -->
+      </ion-list>
+    
     </div>
 
   </div>

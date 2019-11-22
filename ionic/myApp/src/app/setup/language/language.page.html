@@ -14,7 +14,7 @@
         <ion-item *ngFor="let item of langularArr" slot="start">
           <ion-label *ngIf="language!=item.SelectedLanguages">{{item.NativeNames}}</ion-label>
           <ion-label *ngIf="language==item.SelectedLanguages" color="favorite" class="active">{{item.NativeNames}}</ion-label>
-          <ion-radio [value]="item.SelectedLanguages" (click)="radioCheck(item)" color="favorite" slot="end"></ion-radio>
+          <ion-radio [value]="item.SelectedLanguages" (click)="radioCheck(item)" color="favorite" slot="end" mode="ios"></ion-radio>
         </ion-item>
       </ion-radio-group>
     </div>    
