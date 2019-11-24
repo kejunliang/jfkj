@@ -73,6 +73,11 @@ ion-item {
             color:rgba(85,85,85,1);
             span{
                 margin-right: 2rem;
+                float: left;
+            }
+            span:nth-child(2){
+                margin-right: 2rem;
+               width: 80px;
             }
         }
     }

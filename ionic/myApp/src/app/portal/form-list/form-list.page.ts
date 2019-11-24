@@ -19,6 +19,7 @@ export class FormListPage implements OnInit {
     "curpage":""
   }
   public vtitle:string ;
+  public draftime : any ;
   constructor(
     private storage: Storage,
     public geapp: GetAppPortalService,
@@ -62,19 +63,22 @@ export class FormListPage implements OnInit {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       if(res){
-        console.log("laile")
-        console.log(res.vid)
         this.vid=res.vid.split("/")[1].split("?")[0]
         this.vtitle=res.vtitle
         this.commonCtrl.show()
         this.storage.get("loginDetails").then(data => {
-          console.log(data)
           this.para.key=this.vid;
           this.para.count="20"
           this.para.curpage ="1"
           this.geapp.getViewData(data,this.para).pipe(first())
           .subscribe(data => {
             console.log(data)
+            let tempdate;
+            data.data.forEach(element => {
+              tempdate=new Date(element.calendarDate.replace("ZE8",""))
+              this.draftime =tempdate.getFullYear()+"/"+(tempdate.getMonth()+1)+"/"+tempdate.getDate()
+              element.calendarDate=this.draftime;
+            });
             this.data=data.data
             this.commonCtrl.hide()
           })

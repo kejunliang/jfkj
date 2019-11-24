@@ -27,7 +27,10 @@
         <ion-icon *ngIf="item.WFStatus=='Draft'"  name="close-circle"></ion-icon>
       </div>
       <div class="contentLeft">
-        <div class="title"> <span>{{item.title}}</span></div>
+        <div class="title"> 
+          <span *ngIf="item.title!=''">{{item.title}}</span>
+          <span *ngIf="item.title===''||!item.title">{{item.DocRefNumber}}</span>
+        </div>
         <div class="action">
           <span>{{item.WFStatus}}</span>
           <span>{{item.formMR}}</span>
