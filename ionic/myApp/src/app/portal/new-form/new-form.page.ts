@@ -52,6 +52,12 @@ export class NewFormPage implements OnInit {
   public guidanceData: any = [{ value: '1' }];
   public resvalue: any;
   public selecttemplat:any;
+  public showGuidance: any = false;
+  public sections:any = [];
+  public num:number;
+  public list:any=[
+    {"show":true}
+  ];
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -81,13 +87,18 @@ export class NewFormPage implements OnInit {
             if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
             }
           }
-          console.log(this.selecttemplat.template.secs[i].fields)
+          //console.log(this.selecttemplat.template.secs[i].fields)
+
           this.selecttemplat.template.secs[i].fields.forEach(data => {
             this.loadSecs.push(data);
           })
-        
+          console .log(this.selecttemplat.template.secs[i])
+          this.sections.push(this.selecttemplat.template.secs[i])
+
+          this.list.push({"show":false})
         }
         this.fields = this.loadSecs;
+       
         console.log(this.fields)
       })
     })
@@ -269,5 +280,14 @@ getTemplatByViewId(data,vid){
   //查找名称
   async getSecurity() {
 
+  }
+
+  isShowGuidance(sectionid,index) {
+    console.log(sectionid)
+    console.log(index)
+    console.log(this.list)
+    this.showGuidance = !this.showGuidance;
+    this.num=index;
+   this.list[index].show=!this.list[index].show;
   }
 }

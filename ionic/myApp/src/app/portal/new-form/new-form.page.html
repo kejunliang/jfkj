@@ -17,52 +17,65 @@
   <div class="form-container">
 
 
-    <div *ngFor="let field of fields;let index = index;" class="field-container" [id]="field.name">
+    <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
+      <ion-item lines="none" color="favorite">
+        <ion-label color="light">{{section.title}}</ion-label>
+        <ion-icon slot="end" color="light" name="arrow-forward" mode="ios" (click)="isShowGuidance(section.secId,index)"
+          *ngIf="!list[index].show"></ion-icon>
+        <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="isShowGuidance(section.secId,index)" *ngIf="list[index].show">
+        </ion-icon>
+      </ion-item>
+      <div *ngIf="list[index].show" class="guidance-box">
+        <div *ngFor="let field of section.fields;let index = index;">
+          <!--multiselectfield-->
+          <div *ngIf="field.xtype==='multiselect'">
+            <ion-item lines="none">
+              <ion-label color="basic" stacked>{{field.label}}</ion-label>
+              <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
+                (ionChange)=getSublistdetails(field.name,field.value)>
+                <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
+              </ion-select>
+            </ion-item>
+          </div>
+          <!--textareafield-->
+          <div *ngIf="field.xtype==='textarea'">
+            <ion-item>
+              <ion-label color="basic" stacked>{{field.label}}</ion-label>
+              <textarea rows="4" [(ngModel)]='field.value' placeholder="Enter a description"></textarea>
+            </ion-item>
+          </div>
+          <div *ngIf="field.xtype==='singleou'" [hidden]="field.hide">
+            <ion-item *ngIf="field.value">
+              <ion-label color="basic" stacked>{{field.label}}</ion-label>
+              <button ion-item block color="basic">Tap to choose</button>
+              {{field.value}}
+            </ion-item>
 
-      <!--multiselectfield-->
-      <div *ngIf="field.xtype==='multiselect'">
-        <ion-item lines="none">
-          <ion-label color="basic" stacked>{{field.label}}</ion-label>
-          <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
-            (ionChange)=getSublistdetails(field.name,field.value)>
-            <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
-          </ion-select>
-        </ion-item>
-      </div>
-      <!--textareafield-->
-      <div *ngIf="field.xtype==='textarea'">
-        <ion-item>
-            <ion-label color="basic" stacked>{{field.label}}</ion-label>
-            <textarea rows="4" [(ngModel)]='field.value' placeholder="Enter a description"></textarea>
-        </ion-item>
-      </div>
-      <div *ngIf="field.xtype==='singleou'" [hidden]="field.hide">
-        <ion-item *ngIf="field.value">
-          <ion-label color="basic" stacked>{{field.label}}</ion-label>
-          <button ion-item block color="basic">Tap to choose</button>
-          {{field.value}}
-        </ion-item>
+          </div>
+          <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
+            <ion-item lines="none">
+              <ion-label>{{field.label}}</ion-label>
+              <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+                placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
+              <span class="down">
+                <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
+              </span>
+            </ion-item>
+          </div>
+          <div *ngIf="field.xtype=='singleempselect'">
+            <ion-item>
+              <ion-label position="stacked">{{field.label}}</ion-label>
+              <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
+              <ion-text color="primary">
+                <h6>{{resvalue}}</h6>
+              </ion-text>
+            </ion-item>
+          </div>
+        </div>
 
       </div>
-      <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
-        <ion-item lines="none">
-          <ion-label>{{field.label}}</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
-            placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
-          <span class="down">
-            <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
-          </span>
-        </ion-item>
-      </div>
-      <div *ngIf="field.xtype=='singleempselect'">
-        <ion-item>
-          <ion-label position="stacked">{{field.label}}</ion-label>
-          <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
-          <ion-text color="primary">
-            <h6>{{resvalue}}</h6>
-          </ion-text>
-        </ion-item>
-      </div>
+      <ion-item-divider *ngIf="list[index].show"></ion-item-divider>
+
 
     </div>
 
