@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-
+import { PopoverController } from '@ionic/angular';
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -56,12 +56,17 @@ export class NewFormPage implements OnInit {
   public sections:any = [];
   public num:number;
   public list:any=[
-    {"show":true}
+    {"show":false}
+  ];
+  public isShowBtn: boolean = false;
+  public btnBox: any = [
+    'Save', 'Submit', 'Cancel'
   ];
   constructor(
     private storage: Storage,
     public modal: ModalController,
     public activeRoute: ActivatedRoute,
+    public popoverController: PopoverController,
   ) {
 
     this.activeRoute.queryParams.subscribe(res => {
@@ -289,5 +294,28 @@ getTemplatByViewId(data,vid){
     this.showGuidance = !this.showGuidance;
     this.num=index;
    this.list[index].show=!this.list[index].show;
+  }
+
+  getSwitchBtn(item) {
+    console.dir(item)
+    this.isShowBtn = false;
+  }
+  getBtnPopover() {
+    //打开btn
+    this.isShowBtn = true;
+    // this.el.nativeElement.querySelector('.shade');  获取元素操作dom
+
+  }
+  closeZoom() {
+    this.isShowBtn = false;
+  }
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: "",
+      event: ev,
+      componentProps: { type: "setup", portalTile:"ceshi" },
+      translucent: true
+    });
+    return await popover.present();
   }
 }

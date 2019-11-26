@@ -4,16 +4,19 @@
       <ion-back-button defaultHref="tabs/tab1" text="" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getBtnPopover()">
+        <ion-icon  name="ios-more"></ion-icon>
+      </ion-button>
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-
+<ul  class="btn-box" *ngIf="isShowBtn">
+  <img src="../../../assets/icon/down.svg" alt="">
+  <li *ngFor="let item of btnBox" :key="index" (click)="getSwitchBtn(item)">{{item}}</li>
+</ul>
+<div class="shade" (click)="closeZoom()" *ngIf="isShowBtn"></div>
 <ion-content>
-
-
-
-
-
   <div class="form-container">
 
 
