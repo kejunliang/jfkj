@@ -73,12 +73,12 @@ export class NewFormPage implements OnInit {
       console.log(res);
       console.log("进")
       this.storage.get("allforms").then(data => {
-        console.log(JSON.parse(data))
+       // console.log(JSON.parse(data))
         this.templates = JSON.parse(data).templates
-        console.log(this.templates)
+      //  console.log(this.templates)
         // alert(fileName);
         this.selecttemplat=this.getTemplatByViewId( this.templates,res.aid)
-        console.log(this.selecttemplat)
+      //  console.log(this.selecttemplat)
         if(!this.selecttemplat){
           return false;
         }
@@ -97,14 +97,14 @@ export class NewFormPage implements OnInit {
           this.selecttemplat.template.secs[i].fields.forEach(data => {
             this.loadSecs.push(data);
           })
-          console .log(this.selecttemplat.template.secs[i])
+         // console .log(this.selecttemplat.template.secs[i])
           this.sections.push(this.selecttemplat.template.secs[i])
 
           this.list.push({"show":false})
         }
         this.fields = this.loadSecs;
        
-        console.log(this.fields)
+        //console.log(this.fields)
       })
     })
 
