@@ -48,4 +48,22 @@ export class GetAppPortalService {
       )
   }
 
+  getActDocsAssoForms(logindetail:any,para:any ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let key=para.key
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+
 }

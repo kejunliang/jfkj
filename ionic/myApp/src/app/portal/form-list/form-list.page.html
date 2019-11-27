@@ -19,8 +19,8 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-  <ion-list>
-    <ion-item *ngFor="let item of data">
+  <ion-list *ngIf="stype==='formlist'">
+    <ion-item     *ngFor="let item of data">
       <div class="contentIcon">
         <ion-icon *ngIf="item.WFStatus=='Completed'" name="checkmark-circle"></ion-icon>
         <ion-icon *ngIf="item.WFStatus=='Open'"  name="checkmark-circle-outline"></ion-icon>
@@ -32,13 +32,35 @@
           <span *ngIf="item.title===''||!item.title">{{item.DocRefNumber}}</span>
         </div>
         <div class="action">
-          <span>{{item.WFStatus}}</span>
-          <span>{{item.formMR}}</span>
-          <span>{{item.calendarDate }}</span>
+          <ion-label>{{item.WFStatus}}</ion-label>
+          <ion-label>{{item.formMR}}</ion-label>
+          <ion-label>{{item.calendarDate }}</ion-label>
         </div>
       </div>
       <div class="contentright" *ngIf="item.hasResponse=='yes'">
-        <ion-icon mode="ios" slot="end" name="arrow-forward"></ion-icon>
+        <ion-icon   [routerLink]="['/form-list']" [queryParams]="{vid:item.unid,type:'formlistAss'}" mode="ios" slot="end" name="arrow-forward"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="stype==='formlistAss'">
+    <ion-item     *ngFor="let item of data">
+      <div class="contentIcon">
+        <ion-icon *ngIf="item.WFStatus=='Completed'" name="checkmark-circle"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Open'"  name="checkmark-circle-outline"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Draft'"  name="close-circle"></ion-icon>
+      </div>
+      <div class="contentLeft">
+        <div class="title"> 
+          <span>{{item.ActionTitle}}</span>
+        </div>
+        <div class="action">
+          <ion-label>{{item.WFStatus}}</ion-label>
+          <ion-label>{{item.actAssignee}}</ion-label>
+          <ion-label>{{item.ActDueforCompletion }}</ion-label>
+        </div>
+      </div>
+      <div class="contentright" *ngIf="item.hasResponse=='yes'">
+        <ion-icon   [routerLink]="['/form-list']" [queryParams]="{vid:item.unid,type:'formlistAss'}" mode="ios" slot="end" name="arrow-forward"></ion-icon>
       </div>
     </ion-item>
   </ion-list>
