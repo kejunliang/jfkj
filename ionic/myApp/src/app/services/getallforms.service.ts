@@ -26,4 +26,25 @@ export class GetallformsService {
         catchError(this.common.handleError)
       )
   }
+
+
+  getFormData(logindetail:any,para:any ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let unid=para.unid
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getFormData?key='+unid,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+
+
 }

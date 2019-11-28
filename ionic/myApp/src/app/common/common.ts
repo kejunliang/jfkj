@@ -16,7 +16,7 @@ export class commonCtrl implements OnInit {
   async  show() {
     this.loading = await this.loadingController.create({
       message: 'loading....',
-      duration: 2000
+      duration: 1000
     });
     await this.loading.present();
   }

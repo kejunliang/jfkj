@@ -4,6 +4,7 @@ import { GetAppPortalService } from '../../services/get-app-portal.service';
 import { first } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { commonCtrl } from "../../common/common";
+import { NavController } from '@ionic/angular'; 
 @Component({
   selector: 'app-form-list',
   templateUrl: './form-list.page.html',
@@ -21,11 +22,13 @@ export class FormListPage implements OnInit {
   public vtitle: string;
   public draftime: any;
   public stype: string;
+  public  formid:string ;
   constructor(
     private storage: Storage,
     public geapp: GetAppPortalService,
     public activeRoute: ActivatedRoute,
-    public commonCtrl: commonCtrl
+    public commonCtrl: commonCtrl,
+    public nav:NavController,
   ) {
 
     this.getData();
@@ -66,6 +69,7 @@ export class FormListPage implements OnInit {
       this.commonCtrl.show()
       if (res) {
         this.stype = res.type
+        this.formid=res.formid
         if (this.stype === "formlist") {
           this.vid = res.vid.split("/")[1].split("?")[0]
           this.vtitle = res.vtitle
@@ -112,5 +116,9 @@ export class FormListPage implements OnInit {
         this.commonCtrl.hide()
       }
     })
+  }
+  goBack(){
+    this.nav.back()
+    　this.nav.navigateBack('/tabs/tab1');
   }
 }

@@ -3,6 +3,9 @@ import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
+import { GetallformsService } from "../../services/getallforms.service";
+import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -51,35 +54,40 @@ export class NewFormPage implements OnInit {
   public attachedImages = [];
   public guidanceData: any = [{ value: '1' }];
   public resvalue: any;
-  public selecttemplat:any;
+  public selecttemplat: any;
   public showGuidance: any = false;
-  public sections:any = [];
-  public num:number;
-  public list:any=[
-    {"show":false}
+  public sections: any = [];
+  public num: number;
+  public list: any = [
+    { "show": false }
   ];
   public isShowBtn: boolean = false;
   public btnBox: any = [
     'Save', 'Submit', 'Cancel'
   ];
+  public para = {
+    "unid": "",
+
+  }
   constructor(
     private storage: Storage,
     public modal: ModalController,
     public activeRoute: ActivatedRoute,
     public popoverController: PopoverController,
+    public getforms: GetallformsService,
   ) {
 
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       console.log("进")
       this.storage.get("allforms").then(data => {
-       // console.log(JSON.parse(data))
+        // console.log(JSON.parse(data))
         this.templates = JSON.parse(data).templates
-      //  console.log(this.templates)
+        //  console.log(this.templates)
         // alert(fileName);
-        this.selecttemplat=this.getTemplatByViewId( this.templates,res.aid)
-      //  console.log(this.selecttemplat)
-        if(!this.selecttemplat){
+        this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+         console.log(this.selecttemplat)
+        if (!this.selecttemplat) {
           return false;
         }
         for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
@@ -97,15 +105,22 @@ export class NewFormPage implements OnInit {
           this.selecttemplat.template.secs[i].fields.forEach(data => {
             this.loadSecs.push(data);
           })
-         // console .log(this.selecttemplat.template.secs[i])
+          // console .log(this.selecttemplat.template.secs[i])
           this.sections.push(this.selecttemplat.template.secs[i])
 
-          this.list.push({"show":false})
+          this.list.push({ "show": false })
         }
+
         this.fields = this.loadSecs;
-       
+
         //console.log(this.fields)
       })
+      if (res.unid) {
+          this.getFormData(res.unid)
+      } else {
+        
+      }
+
     })
 
 
@@ -114,15 +129,15 @@ export class NewFormPage implements OnInit {
 
   }
 
-getTemplatByViewId(data,vid){
-   let res;
-   data.forEach(element => {
-        if(element.template.template_id==vid){
-          res= element
-        }
-   });
- return res;
-}
+  getTemplatByViewId(data, vid) {
+    let res;
+    data.forEach(element => {
+      if (element.template.template_id == vid) {
+        res = element
+      }
+    });
+    return res;
+  }
 
   ngOnInit() {
 
@@ -287,13 +302,13 @@ getTemplatByViewId(data,vid){
 
   }
 
-  isShowGuidance(sectionid,index) {
+  isShowGuidance(sectionid, index) {
     console.log(sectionid)
     console.log(index)
     console.log(this.list)
     this.showGuidance = !this.showGuidance;
-    this.num=index;
-   this.list[index].show=!this.list[index].show;
+    this.num = index;
+    this.list[index].show = !this.list[index].show;
   }
 
   getSwitchBtn(item) {
@@ -313,9 +328,18 @@ getTemplatByViewId(data,vid){
     const popover = await this.popoverController.create({
       component: "",
       event: ev,
-      componentProps: { type: "setup", portalTile:"ceshi" },
+      componentProps: { type: "setup", portalTile: "ceshi" },
       translucent: true
     });
     return await popover.present();
+  }
+  getFormData(unid: any) {
+    this.storage.get("loginDetails").then(data => {
+      this.para.unid = unid
+      this.getforms.getFormData(data, this.para).pipe(first()).subscribe(data =>{
+        console.log(data)
+      })
+    })
+
   }
 }

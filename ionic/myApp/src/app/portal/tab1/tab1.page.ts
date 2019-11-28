@@ -125,12 +125,15 @@ export class Tab1Page {
 
   getDataBykey(key: string, objkey: string): any {
     let res: any;
-    this.portalInfo.items.forEach(element => {
-      if (element[objkey].trim() == key.trim() && element[objkey] != "") {
-        res = this.getNoBlankData(element.allportal)
-      }
-    });
-    return res
+    if(this.portalInfo){
+      this.portalInfo.items.forEach(element => {
+        if (element[objkey].trim() == key.trim() && element[objkey] != "") {
+          res = this.getNoBlankData(element.allportal)
+        }
+      });
+      return res
+    }
+   
   }
   getNoBlankData(data: any): any {
     let arr = [];
