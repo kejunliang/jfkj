@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="create-from" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>New Action</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getBtnPopover()">
+        <ion-icon name="ios-more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <!-- <ion-item lines="none" color="favorite">
+          <ion-label color="light">Parent Document</ion-label>
+          <ion-note color="light"> 11 </ion-note>
+        </ion-item> -->
+    <ion-item lines="none">
+      <ion-label position="stacked">Assignee</ion-label>
+      <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getName()"></ion-icon>
+      <ion-text color="primary">
+        <h6>{{managerName}}</h6>
+      </ion-text>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item lines="none">
+      <ion-label position="stacked">Action title</ion-label>
+      <ion-input type="text"> </ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <div class="textarea-box">
+      <p class="head">Description</p>
+      <textarea name="" id="" rows="3" placeholder="Enter textarea" class="textareaS"></textarea>
+    </div>
+    <ion-item-divider></ion-item-divider>
+    <ion-item lines="none">
+      <ion-label>Priority</ion-label>
+      <ion-select placeholder="Select One">
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item lines="none">
+      <ion-label>Due Date</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" value="2012-12-15T13:47:20.789"></ion-datetime>
+      <span class="down">
+        <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
+      </span>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item color="favorite" lines="none">
+      <ion-label color="light">Aduit Trail</ion-label>
+      <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"></ion-icon>
+      <!-- <ion-icon slot="end" color="light" name="arrow-down" mode="ios"  *ngIf="showGuidance"></ion-icon> -->
+    </ion-item>
+    <div></div>
+  </div>
+</ion-content>

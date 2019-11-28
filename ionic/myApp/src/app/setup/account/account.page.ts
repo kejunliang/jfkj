@@ -5,10 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { AccountService } from "../../services/setup/account.service";
 import { LanguageService } from "../../services/setup/language.service";
 import { Storage } from '@ionic/storage';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
+  providers:[DatePipe]
 })
 export class AccountPage implements OnInit {
   public accountData:any={
@@ -21,6 +23,7 @@ export class AccountPage implements OnInit {
     public translate :TranslateService,
     public http:HttpClient,public account:AccountService,
     private storage:Storage,public LanguageService:LanguageService,
+    private datePipe: DatePipe
     ) { 
     
   }
@@ -39,6 +42,8 @@ export class AccountPage implements OnInit {
       data => {
         console.log(data)
         this.accountData=data;
+        let draftDate=this.accountData.lasttimelogout.substring(0,this.accountData.lasttimelogout.length-3)
+        this.accountData.lasttimelogout=this.datePipe.transform(draftDate,'dd/MM/yyyy')
         this.getLan()
       }
     )

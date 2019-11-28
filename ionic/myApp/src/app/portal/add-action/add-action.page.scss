@@ -1,0 +1,24 @@
+.textarea-box{
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 0;
+    .head{
+        padding: 0 1rem;
+        font-size: 1.5rem;
+    }
+    .textareaS{
+        border:1px solid #999999;
+        border-radius: 6px;
+        padding: 1rem;
+        margin: 1rem 2rem 0;
+        width: 88%;
+    }
+}
+ion-item-divider{
+    min-height: 1rem;
+}
+.action-box{
+    height: 100%;
+    width: 100%;
+    background: #f2f3f5;
+    
+}
