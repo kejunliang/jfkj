@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="create-from" text="" color="dark"></ion-back-button>
+        </ion-buttons>
+    <ion-title>Action</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getBtnPopover()">
+        <ion-icon name="ios-more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ul class="btnHead-box" *ngIf="isShowBtn">
+  <img src="../../../assets/icon/down.svg" alt="">
+  <li *ngFor="let item of btnBox" :key="index" (click)="getSwitchBtn(item)">{{item}}</li>
+</ul>
+<div class="shade" (click)="closeZoom()" *ngIf="isShowBtn"></div>
+<ion-content>
+  <div class="action-box">
+    <div *ngFor="let item of actionList;let index=index">
+      <ion-item color="favorite" lines="none">
+        <ion-label>{{item.ActionTitle}}</ion-label>
+        <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"></ion-icon>
+        <!-- <ion-icon slot="end" color="light" name="arrow-down" mode="ios" *ngIf="list[index].show"></ion-icon> -->
+      </ion-item>
+      <div>
+        <ion-item>
+          <ion-label>{{item.DocRefNumber}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Parent Document</ion-label>
+          <ion-note slot="end">{{item.ParentDocument}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Assignee</ion-label>
+          <ion-note slot="end">{{item.EmployeeAssigned}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Due Date</ion-label>
+          <ion-note slot="end">{{item.DueDate}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Priotity</ion-label>
+          <ion-note slot="end">{{item.Priority}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Status</ion-label>
+          <ion-note slot="end">{{item.WFStatus}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Action Title</ion-label>
+          <ion-note slot="end">{{item.ActionTitle}}</ion-note>
+        </ion-item>
+        <!-- <ion-item>
+          <ion-label position="stacked" color="primary">Description</ion-label>
+          <ion-textarea disabled redonly>{{item.Description}}</ion-textarea>
+        </ion-item> -->
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-note>{{item.Description}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Action Taken</ion-label>
+          <ion-note>{{item.token}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Attachment</ion-label>
+        </ion-item>
+      </div>
+
+    </div>
+    <div class="btn-box">
+      <div>
+        <ion-button (click)="onClick()" color="favorite">
+          Add Draft
+        </ion-button>
+      </div>
+      <div>
+        <ion-button (click)="onClick()" color="favorite">
+          Submit All
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

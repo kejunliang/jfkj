@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateFromPage } from './create-from.page';
+import { AddActionPage } from './add-action.page';
 
-describe('CreateFromPage', () => {
-  let component: CreateFromPage;
-  let fixture: ComponentFixture<CreateFromPage>;
+describe('AddActionPage', () => {
+  let component: AddActionPage;
+  let fixture: ComponentFixture<AddActionPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateFromPage ],
+      declarations: [ AddActionPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateFromPage);
+    fixture = TestBed.createComponent(AddActionPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

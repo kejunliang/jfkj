@@ -13,11 +13,10 @@ const routes: Routes = [
   { path: 'language', loadChildren: './setup/language/language.module#LanguagePageModule' },
   { path: 'loginpass', loadChildren: './login/loginpass/loginpass.module#LoginpassPageModule' },
   { path: 'authemail', loadChildren: './login/authemail/authemail.module#AuthemailPageModule' },
-  { path: 'create-from', loadChildren: './portal/create-from/create-from.module#CreateFromPageModule' },
   { path: 'form-list', loadChildren: './portal/form-list/form-list.module#FormListPageModule' },
-  { path: 'fencing', loadChildren: './portal/create-from/fencing/fencing.module#FencingPageModule' },
-  { path: 'andit-detail', loadChildren: './portal/create-from/andit-detail/andit-detail.module#AnditDetailPageModule' },  { path: 'production', loadChildren: './portal/create-from/production/production.module#ProductionPageModule' },
   { path: 'new-form', loadChildren: './portal/new-form/new-form.module#NewFormPageModule' },
+  { path: 'action', loadChildren: './portal/action/action.module#ActionPageModule' },
+  { path: 'add-action', loadChildren: './portal/add-action/add-action.module#AddActionPageModule' },
 
 
 ];
