@@ -149,9 +149,9 @@
           <!--headline-->
           <div *ngIf="field.xtype==='headline'" [hidden]="field.hide" class="column-count"
             [ngStyle]="{'background-color': field.labelBgColor}">
-            <h4
-              [ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelFontStyle,'text-decoration':field.labelTextDecoration}">
-              {{field.label}}</h4>
+            <h4    [ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelFontStyle,'text-decoration':field.labelTextDecoration}">
+              {{field.label}}
+            </h4>
             <!--[ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelStyle }" -->
           </div>
           <!--computed-->
@@ -178,7 +178,6 @@
           <div *ngIf="field.xtype==='checkbox'" [hidden]="field.hide">
             <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-
               <ion-select [(ngModel)]='field.value' multiple="true"
                 (ionChange)=getSublistdetails(field.name,field.value)>
                 <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
@@ -198,15 +197,12 @@
           <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
             <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-
               <ion-select [(ngModel)]='field.value' multiple="field.multiple"
                 (ionChange)=getSublistdetails(field.name,field.value)>
-
                 <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
                 <div *ngIf="field.name==sublistObjId">
                   <ion-item-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-item-option>
                 </div>
-
               </ion-select>
             </ion-item>
           </div>
