@@ -48,7 +48,7 @@
           </div>
           <!--singleou-->
           <div *ngIf="field.xtype==='singleou'" [hidden]="field.hide">
-            <ion-item *ngIf="field.value">
+            <ion-item>
               <ion-label color="basic" stacked>{{field.label}}</ion-label>
               <button ion-item block color="basic">Tap to choose</button>
               {{field.value}}
@@ -202,9 +202,9 @@
               <ion-select [(ngModel)]='field.value' multiple="field.multiple"
                 (ionChange)=getSublistdetails(field.name,field.value)>
 
-                <ion-item-option  *ngFor="let option of field.options">{{option.text}}</ion-item-option >
+                <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
                 <div *ngIf="field.name==sublistObjId">
-                  <ion-item-option  *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-item-option >
+                  <ion-item-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-item-option>
                 </div>
 
               </ion-select>
