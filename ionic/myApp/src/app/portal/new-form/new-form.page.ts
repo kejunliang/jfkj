@@ -69,6 +69,7 @@ export class NewFormPage implements OnInit {
     "unid": "",
 
   }
+  public formdata: any;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -80,46 +81,74 @@ export class NewFormPage implements OnInit {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       console.log("进")
-      this.storage.get("allforms").then(data => {
-        // console.log(JSON.parse(data))
-        this.templates = JSON.parse(data).templates
-        //  console.log(this.templates)
-        // alert(fileName);
-        this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-         console.log(this.selecttemplat)
-        if (!this.selecttemplat) {
-          return false;
-        }
-        for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-          for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
-            //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
-            if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
-              let now = new Date();
-              this.selecttemplat.template.secs[i].fields[b].value = now;
-            }
-            if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
-            }
-          }
-          //console.log(this.selecttemplat.template.secs[i].fields)
-
-          this.selecttemplat.template.secs[i].fields.forEach(data => {
-            this.loadSecs.push(data);
-          })
-          // console .log(this.selecttemplat.template.secs[i])
-          this.sections.push(this.selecttemplat.template.secs[i])
-
-          this.list.push({ "show": false })
-        }
-
-        this.fields = this.loadSecs;
-
-        //console.log(this.fields)
-      })
       if (res.unid) {
-          this.getFormData(res.unid)
+        this.getFormData(res.unid).then(formdata => {
+          this.storage.get("allforms").then(data => {
+            // console.log(JSON.parse(data))
+            this.templates = JSON.parse(data).templates
+            //  console.log(this.templates)
+            // alert(fileName);
+            this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+            if (!this.selecttemplat) {
+              return false;
+            }
+            for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+              for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
+                //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
+                if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
+                  let now = new Date();
+                  this.selecttemplat.template.secs[i].fields[b].value = now;
+                }
+                if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
+                }
+              }
+              this.selecttemplat.template.secs[i].fields.forEach(data => {
+                data.value=formdata[data.name]
+              })
+              // console .log(this.selecttemplat.template.secs[i])
+              this.sections.push(this.selecttemplat.template.secs[i])
+              this.list.push({ "show": false })
+            }
+          })
+        })
       } else {
-        
+        this.storage.get("allforms").then(data => {
+          // console.log(JSON.parse(data))
+          this.templates = JSON.parse(data).templates
+          //  console.log(this.templates)
+          // alert(fileName);
+          this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+          console.log(this.selecttemplat)
+          if (!this.selecttemplat) {
+            return false;
+          }
+          for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+            for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
+              //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
+              if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
+                let now = new Date();
+                this.selecttemplat.template.secs[i].fields[b].value = now;
+              }
+              if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
+              }
+            }
+            //console.log(this.selecttemplat.template.secs[i].fields)
+            console.log("formdata==" + this.formdata)
+            this.selecttemplat.template.secs[i].fields.forEach(data => {
+              this.loadSecs.push(data);
+            })
+            // console .log(this.selecttemplat.template.secs[i])
+            this.sections.push(this.selecttemplat.template.secs[i])
+            this.list.push({ "show": false })
+          }
+
+          // this.fields = this.loadSecs;
+
+          //console.log(this.fields)
+        })
       }
+
+
 
     })
 
@@ -334,12 +363,15 @@ export class NewFormPage implements OnInit {
     return await popover.present();
   }
   getFormData(unid: any) {
-    this.storage.get("loginDetails").then(data => {
-      this.para.unid = unid
-      this.getforms.getFormData(data, this.para).pipe(first()).subscribe(data =>{
-        console.log(data)
+    return new Promise((resolve, reject) => {
+      this.storage.get("loginDetails").then(data => {
+        this.para.unid = unid
+        this.getforms.getFormData(data, this.para).pipe(first()).subscribe(data => {
+          resolve(data)
+        })
       })
     })
+
 
   }
 }

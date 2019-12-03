@@ -31,7 +31,9 @@
           <span *ngIf="item.title!=''">
             <a [routerLink]="['/new-form']" [queryParams]="{unid:item.unid,aid:formid}"> {{item.title}}</a>
           </span>
-          <span *ngIf="item.title===''||!item.title">{{item.DocRefNumber}}</span>
+          <span *ngIf="item.title===''||!item.title">
+              <a [routerLink]="['/new-form']" [queryParams]="{unid:item.unid,aid:formid}">  {{item.DocRefNumber}}</a>
+          </span>
         </div>
         <div class="action">
           <ion-label>{{item.WFStatus}}</ion-label>
