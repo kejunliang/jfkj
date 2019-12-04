@@ -29,10 +29,10 @@
       <div class="contentLeft">
         <div class="title">
           <span *ngIf="item.title!=''">
-            <a [routerLink]="['/new-form']" [queryParams]="{unid:item.unid,aid:formid}"> {{item.title}}</a>
+            <a [routerLink]="['/new-form']" [queryParams]="{unid:item.unid,aid:formid,title:item.title}"> {{item.title}}</a>
           </span>
           <span *ngIf="item.title===''||!item.title">
-              <a [routerLink]="['/new-form']" [queryParams]="{unid:item.unid,aid:formid}">  {{item.DocRefNumber}}</a>
+              <a [routerLink]="['/new-form']" [queryParams]="{unid:item.unid,aid:formid,title:item.DocRefNumber}">  {{item.DocRefNumber}}</a>
           </span>
         </div>
         <div class="action">

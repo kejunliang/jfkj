@@ -6,10 +6,12 @@ import { PopoverController } from '@ionic/angular';
 import { GetallformsService } from "../../services/getallforms.service";
 import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 import { first } from 'rxjs/operators';
+import { commonCtrl } from "../../common/common";
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
   styleUrls: ['./new-form.page.scss'],
+  providers: [commonCtrl]
 })
 export class NewFormPage implements OnInit {
   public formType;
@@ -67,21 +69,25 @@ export class NewFormPage implements OnInit {
   ];
   public para = {
     "unid": "",
-
   }
   public formdata: any;
+  public type:string;
   constructor(
     private storage: Storage,
     public modal: ModalController,
     public activeRoute: ActivatedRoute,
     public popoverController: PopoverController,
     public getforms: GetallformsService,
+    public commonCtrl: commonCtrl,
   ) {
 
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       console.log("进")
       if (res.unid) {
+        this.type="old"
+        this.title=res.title
+        this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
           this.storage.get("allforms").then(data => {
             // console.log(JSON.parse(data))
@@ -89,6 +95,7 @@ export class NewFormPage implements OnInit {
             //  console.log(this.templates)
             // alert(fileName);
             this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+            console.log(this.selecttemplat)
             if (!this.selecttemplat) {
               return false;
             }
@@ -108,10 +115,12 @@ export class NewFormPage implements OnInit {
               // console .log(this.selecttemplat.template.secs[i])
               this.sections.push(this.selecttemplat.template.secs[i])
               this.list.push({ "show": false })
+              this.commonCtrl.hide()
             }
           })
         })
       } else {
+        this.type="new"
         this.storage.get("allforms").then(data => {
           // console.log(JSON.parse(data))
           this.templates = JSON.parse(data).templates
