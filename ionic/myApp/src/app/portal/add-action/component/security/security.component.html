@@ -14,15 +14,16 @@
 <ion-content>
   <div class="searchTop">
    <div class="search-box">
-      <img src="../../../../../assets/icon/search.png" alt="">
-      <ion-input type="text" placeholder="Awesome Input"></ion-input>
-      <!-- <input type="text" placeholder="Search" [(ngModel)]="searchName" (keyup)="getSearch()" placeholder=""> -->
-      <img src="../../../../../assets/icon/delect.png" class="delect" (click)="delectSelect()" *ngIf="isDelect">
+      <ion-searchbar (ionInput)="getSearch($event)" [(ngModel)]="searchName"></ion-searchbar>
+      <!-- <img src="../../../../../assets/icon/search.png" alt=""> -->
+      <!-- <ion-input type="search" [(ngModel)]="searchName" (keypress)="getSearch(event)" ></ion-input> -->
+      <!-- <input type="text" placeholder="Search" [(ngModel)]="searchName" (keyup)="getSearch()" placeholder="">
+      <img src="../../../../../assets/icon/delect.png" class="delect" (click)="delectSelect()" *ngIf="isDelect"> -->
    </div>
    | 
-    <div class="searchRight">
+    <div class="searchRight" (click)="getSelectlist()">
         <p class="selectName">{{selectText}}</p>
-        <ion-icon name="arrow-down" (click)="getSelectlist()"></ion-icon>
+        <ion-icon name="arrow-down" ></ion-icon>
         <!-- <img src="../../../../../assets/icon/down.png" alt="" class="down" (click)="getSelectlist()"> -->
     </div>
     <ul class="selectList" *ngIf="isSelectList">
@@ -31,7 +32,7 @@
   </div>
   <ion-list>
     <ion-item *ngFor="let item of listData" (click)="setManager(item)">
-      <ion-label>{{item.title}}</ion-label>
+      <ion-label>{{item.EMPFullName}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

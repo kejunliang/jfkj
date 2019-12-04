@@ -4,13 +4,14 @@
     .head{
         padding: 0 1rem;
         font-size: 1.5rem;
+        color: rgba(37, 75, 107, 1);
     }
     .textareaS{
         border:1px solid #999999;
         border-radius: 6px;
         padding: 1rem;
-        margin: 1rem 2rem 0;
-        width: 88%;
+        margin: 1rem 1rem 0;
+        width: 94%;
     }
 }
 ion-item-divider{
@@ -22,3 +23,95 @@ ion-item-divider{
     background: #f2f3f5;
     
 }
+.attachment-box{
+    padding: 1rem 0;
+    .title{
+        padding: 0 1rem;
+        font-size: 1.5rem;
+        color: rgba(37, 75, 107, 1);
+    }
+    .content{
+        padding: 1rem 0;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        width: 100%;
+        li{
+            width: 50%;
+            text-align: center;
+            color: rgba(13, 106, 128, 1);
+            cursor: pointer;
+            img{
+                width: 2.2rem;
+                height: 1.7rem;
+            }
+            p{
+                padding: 5px 0;
+            }
+        }
+        li:first-child{
+            border-right: 1px solid #ccc;
+        }
+        
+    }
+}
+.attachmentImg-box{
+    background: rgba(242, 243, 245, 1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:1rem ;
+    margin-bottom: 1rem;
+    width: 100%;
+    img{
+        width: 5.5rem;
+        height:5.5rem ;
+    }
+    p{
+        flex: 1;
+    }
+}
+
+.btnHead-box{
+    width: 12.8rem;
+    position: absolute;
+    top:4rem;
+    right: 5px;
+    z-index: 999;
+    box-shadow: 0 0 6px #333333 ;
+    border-radius:8px;
+    img{
+       width: 40px;height: 25px;
+       position: absolute;
+       top: -1rem;
+       right: 0rem;
+    }
+    li{
+       height: 4.4rem;
+       line-height: 4.4rem;
+       background-image: linear-gradient(to top,#E5F3FF ,#fff);
+       font-size: 1.6rem;
+       text-align: left;
+       color: #111111;
+       box-shadow: 0 15px 35px rgba(0,0,0,0.1 );
+       padding-left: 1.5rem;
+       transition: background-image 200ms linear;
+       cursor: pointer;
+    }
+    li:nth-of-type(1){
+       border-radius: 8px 8px 0 0;
+    }
+    li:last-child{
+       border-radius:  0 0 8px 8px;
+    }
+    li:hover{
+       background-image: linear-gradient(to top,#A6D5FF ,#fff);
+    }
+   
+ }
+ .trail-box{
+     padding: 1rem 2rem;
+ }
+ .titleLabel{
+     font-size: 1.5rem;
+ }

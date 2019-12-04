@@ -15,13 +15,12 @@ import { IonicStorageModule } from '@ionic/storage';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 //
-// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+//  import { ImagePicker} from '@ionic-native/image-picker/ngx';
 //相机插件
-// import { Camera } from '@ionic-native/camera/ngx'
-// // 文件插件,不需要导入
-// import { File } from '@ionic-native/file/ngx';
-// // 文件上传插件
-// import {FileTransfer} from '@ionic-native/file-transfer/ngx';
+ import { Camera } from '@ionic-native/camera/ngx'
+
+// 文件上传插件
+ import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 //导出加载函数
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -41,9 +40,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     StatusBar,
     SplashScreen,
-    // Camera, // 相机
-    // File, // 文件，不需要提供
-    // FileTransfer, // 文件上传
+    // ImagePicker,
+     Camera, // 相机
+     FileTransfer, // 文件上传
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

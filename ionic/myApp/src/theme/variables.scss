@@ -84,6 +84,15 @@
   --ion-color-base-shade: #3a7ab2;
   --ion-color-base-tint: #3a7ab2;
 }
+//新增Action颜色
+.ion-color-action {
+  --ion-color-base: rgba(37, 75, 107, 1);
+  --ion-color-base-rgb: 105,187,123;
+  --ion-color-base-contrast: #ffffff;
+  --ion-color-base-contrast-rgb: 255,255,255;
+  --ion-color-base-shade: rgba(37, 75, 107, 1);
+  --ion-color-base-tint: rgba(37, 75, 107, 1);
+}
 ion-toolbar{
   -moz-box-shadow:0px 0px 10px rgba(184,207,227,0.5); -webkit-box-shadow:0px 0px 10px rgba(184,207,227,0.5); box-shadow:0px 00px 10px rgba(184,207,227,0.5);
 }

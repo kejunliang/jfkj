@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="create-from" text="" color="dark"></ion-back-button>
+      <ion-back-button defaultHref="tabs/tab1" text="" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-title>New Action</ion-title>
     <ion-buttons slot="end">
@@ -11,7 +11,10 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+<ul  class="btnHead-box" *ngIf="isShowBtn">
+    <img src="../../../assets/icon/down.svg" alt="">
+    <li  (click)="getSwitchBtn(item)" *ngFor="let item of headBtb">{{item.text}}</li>
+</ul>
 <ion-content>
   <div>
     <!-- <ion-item lines="none" color="favorite">
@@ -19,44 +22,72 @@
           <ion-note color="light"> 11 </ion-note>
         </ion-item> -->
     <ion-item lines="none">
-      <ion-label position="stacked">Assignee</ion-label>
+      <ion-label position="stacked" color="action" class="titleLabel">Assignee <ion-text color="danger">*</ion-text></ion-label>
       <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getName()"></ion-icon>
-      <ion-text color="primary">
-        <h6>{{managerName}}</h6>
+      <ion-text>
+        <h6>{{action.managerName}}</h6>
       </ion-text>
     </ion-item>
     <ion-item-divider></ion-item-divider>
     <ion-item lines="none">
-      <ion-label position="stacked">Action title</ion-label>
-      <ion-input type="text"> </ion-input>
+      <ion-label position="stacked" color="action" class="titleLabel">Action title  <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="text" [(ngModel)]="action.title"> </ion-input>
     </ion-item>
     <ion-item-divider></ion-item-divider>
     <div class="textarea-box">
-      <p class="head">Description</p>
-      <textarea name="" id="" rows="3" placeholder="Enter textarea" class="textareaS"></textarea>
+      <p class="head">Description  <ion-text color="danger">*</ion-text></p>
+      <textarea name="" id="" rows="3" placeholder="Enter textarea" class="textareaS" [(ngModel)]="action.description"></textarea>
     </div>
     <ion-item-divider></ion-item-divider>
-    <ion-item lines="none">
-      <ion-label>Priority</ion-label>
-      <ion-select placeholder="Select One">
-        <ion-select-option value="f">Female</ion-select-option>
-        <ion-select-option value="m">Male</ion-select-option>
+    <ion-item  [(ngModel)]="action.priority" ngDefaultControl>
+        <ion-label color="action">Priority
+          <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-select interface="action-sheet" okText="ok" cancelText="clear">
+          <div *ngFor="let k of optionData">
+            <ion-select-option value="{{k.value}}" *ngIf="k.value!=''">{{k.text}}</ion-select-option>
+          </div>
+        </ion-select>
+      </ion-item>
+    <!-- <ion-item lines="none" [(ngModel)]="action.priority">
+      <ion-label color="action">Priority</ion-label>
+      <ion-select placeholder="Select One"  interface="action-sheet">
+        <ion-select-option value="item.value" *ngFor="let item of optionData">{{item.text}}</ion-select-option>
       </ion-select>
-    </ion-item>
+    </ion-item> -->
     <ion-item-divider></ion-item-divider>
     <ion-item lines="none">
-      <ion-label>Due Date</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" value="2012-12-15T13:47:20.789"></ion-datetime>
+      <ion-label color="action">Due Date <ion-text color="danger">*</ion-text></ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" value="dueDate" [(ngModel)]="action.dueDate"></ion-datetime>
       <span class="down">
         <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
       </span>
     </ion-item>
     <ion-item-divider></ion-item-divider>
-    <ion-item color="favorite" lines="none">
+    <div class="attachment-box">
+      <p  class="title">Attachments</p>
+      <ul class="content">
+        <li (click)="doCamea()">
+          <img src="../../../../assets/icon/attachment/camera.png" alt="">
+          <p>Take a Photo</p>
+        </li>
+        <li (click)="chooseImg()">
+            <img src="../../../../assets/icon/attachment/photo.png" alt="">
+            <p>Select a Photo</p>
+        </li>
+      </ul>
+      <div class="attachmentImg-box" *ngIf="imgSrc">
+          <img [src]="imgSrc" />
+        <!-- <p>565655656565556</p> -->
+      </div>
+    </div>
+    
+    <ion-item-divider></ion-item-divider>
+    <ion-item color="favorite" lines="none" *ngIf="trailBox">
       <ion-label color="light">Aduit Trail</ion-label>
-      <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"></ion-icon>
-      <!-- <ion-icon slot="end" color="light" name="arrow-down" mode="ios"  *ngIf="showGuidance"></ion-icon> -->
+      <ion-icon slot="end" color="light" name="arrow-forward" mode="ios" (click)="showTrail=true" *ngIf="!showTrail"></ion-icon>
+      <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="showTrail=false" *ngIf="showTrail" ></ion-icon>
     </ion-item>
-    <div></div>
+    <div *ngIf="showTrail" class="trail-box">{{action.AuditTrail}}</div>
   </div>
 </ion-content>

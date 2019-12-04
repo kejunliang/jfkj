@@ -3,7 +3,7 @@
       <ion-buttons slot="start">
           <ion-back-button defaultHref="create-from" text="" color="dark"></ion-back-button>
         </ion-buttons>
-    <ion-title>Action</ion-title>
+    <ion-title>Action Document</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="getBtnPopover()">
         <ion-icon name="ios-more"></ion-icon>
@@ -15,64 +15,63 @@
   <img src="../../../assets/icon/down.svg" alt="">
   <li *ngFor="let item of btnBox" :key="index" (click)="getSwitchBtn(item)">{{item}}</li>
 </ul>
-<div class="shade" (click)="closeZoom()" *ngIf="isShowBtn"></div>
+<!-- <div class="shade" (click)="closeZoom()" *ngIf="isShowBtn"></div> -->
 <ion-content>
   <div class="action-box">
-    <div *ngFor="let item of actionList;let index=index">
-      <ion-item color="favorite" lines="none">
-        <ion-label>{{item.ActionTitle}}</ion-label>
-        <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"></ion-icon>
-        <!-- <ion-icon slot="end" color="light" name="arrow-down" mode="ios" *ngIf="list[index].show"></ion-icon> -->
+    <div *ngFor="let item of actionList;let index=index" >
+      <ion-item color="favorite" lines="none" >
+        <ion-label color="light">{{item.ActionTitle}}({{item.WFStatus}})</ion-label>
+        <ion-icon slot="end" color="light" name="arrow-forward" mode="ios" *ngIf="!list[index].show" (click)="list[index].show=!list[index].show"></ion-icon>
+        <ion-icon slot="end" color="light" name="arrow-down" mode="ios" *ngIf="list[index].show" (click)="list[index].show=!list[index].show"></ion-icon>
       </ion-item>
-      <div>
+      <div *ngIf="list[index].show">
         <ion-item>
-          <ion-label>{{item.DocRefNumber}}</ion-label>
+          <ion-label color="action">{{item.DocRefNumber}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label position="stacked">Parent Document</ion-label>
-          <ion-note slot="end">{{item.ParentDocument}}</ion-note>
+          <ion-label position="stacked" color="action">Parent Document:</ion-label>
+          <ion-note  >{{item.ParentDocument}}</ion-note>
         </ion-item>
         <ion-item>
-          <ion-label>Assignee</ion-label>
+          <ion-label color="action">Action Title:</ion-label>
+          <ion-note slot="end" >{{item.ActionTitle}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label color="action">Employee Assigned:</ion-label>
           <ion-note slot="end">{{item.EmployeeAssigned}}</ion-note>
         </ion-item>
         <ion-item>
-          <ion-label>Due Date</ion-label>
+          <ion-label position="stacked" color="action">Description:</ion-label>
+          <ion-note >{{item.Description}}</ion-note>
+        </ion-item>
+        <ion-item>
+            <ion-label color="action">Priotity</ion-label>
+            <ion-select placeholder="Select One">
+                <ion-select-option value="f">Female</ion-select-option>
+                <ion-select-option value="m">Male</ion-select-option>
+              </ion-select>
+          </ion-item>
+        <ion-item>
+          <ion-label color="action">Due Date</ion-label>
           <ion-note slot="end">{{item.DueDate}}</ion-note>
         </ion-item>
+        <div class="textarea-box">
+            <p class="head">Action Taken:</p>
+            <textarea name="" id="" rows="3" placeholder="Enter textarea" class="textareaS"></textarea>
+          </div>
         <ion-item>
-          <ion-label>Priotity</ion-label>
-          <ion-note slot="end">{{item.Priority}}</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Status</ion-label>
-          <ion-note slot="end">{{item.WFStatus}}</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Action Title</ion-label>
-          <ion-note slot="end">{{item.ActionTitle}}</ion-note>
-        </ion-item>
-        <!-- <ion-item>
-          <ion-label position="stacked" color="primary">Description</ion-label>
-          <ion-textarea disabled redonly>{{item.Description}}</ion-textarea>
-        </ion-item> -->
-        <ion-item>
-          <ion-label position="stacked">Description</ion-label>
-          <ion-note>{{item.Description}}</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Action Taken</ion-label>
-          <ion-note>{{item.token}}</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Attachment</ion-label>
+          <ion-label position="stacked" color="action">Attachment</ion-label>
+          <div class="attachment-box">
+            <img src="../../../assets/icon/add@3x.png" alt="">
+            <p>565655656565556</p>
+          </div>
         </ion-item>
       </div>
 
     </div>
     <div class="btn-box">
       <div>
-        <ion-button (click)="onClick()" color="favorite">
+        <ion-button [routerLink]="['/add-action']" color="favorite">
           Add Draft
         </ion-button>
       </div>
@@ -82,6 +81,7 @@
         </ion-button>
       </div>
     </div>
+    
   </div>
 
 </ion-content>

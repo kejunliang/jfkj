@@ -12,9 +12,9 @@
        padding-left: .5rem;
        line-height: 48px;
        display: flex;
-       ion-input{
-           margin-left: .5rem;
-       }
+    //    ion-input{
+    //        margin-left: .5rem;
+    //    }
        input{
            border:none;
            background: none;
@@ -85,4 +85,8 @@ ion-toolbar{
             font-size: 3rem;
         }
     }
+}
+ion-searchbar{
+    --background:#ededed;
+    height: 45px;
 }
