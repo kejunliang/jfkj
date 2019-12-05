@@ -179,3 +179,9 @@ select::-ms-expand {display: none;}
   overflow: scroll;
   max-height: 520px;
 }
+
+.custom-popover {
+   .popover-content{
+     width: 30%;
+   }
+}

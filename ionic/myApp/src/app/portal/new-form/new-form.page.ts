@@ -7,6 +7,7 @@ import { GetallformsService } from "../../services/getallforms.service";
 import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 import { first } from 'rxjs/operators';
 import { commonCtrl } from "../../common/common";
+import {PopoverComponent } from "../../common/popover/popover.component"
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -364,10 +365,12 @@ export class NewFormPage implements OnInit {
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
-      component: "",
+      component: PopoverComponent,
       event: ev,
       componentProps: { type: "setup", portalTile: "ceshi" },
-      translucent: true
+      translucent: true,
+      cssClass:"custom-popover",
+      mode:"md"
     });
     return await popover.present();
   }
@@ -380,8 +383,7 @@ export class NewFormPage implements OnInit {
         })
       })
     })
-
-
   }
+ 
 }
 

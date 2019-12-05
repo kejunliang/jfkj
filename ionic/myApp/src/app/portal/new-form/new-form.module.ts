@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { NewFormPage } from './new-form.page';
-
+import { PopoverComponent } from "../../common/popover/popover.component";
 
 const routes: Routes = [
   {
@@ -22,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [NewFormPage]
+  declarations: [NewFormPage,PopoverComponent],
+  entryComponents:[PopoverComponent]
 })
 export class NewFormPageModule {}
