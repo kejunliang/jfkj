@@ -87,7 +87,7 @@ export class NewFormPage implements OnInit {
       console.log("进")
       if (res.unid) {
         this.type="old"
-        this.title=res.title
+        this.title=res.title+"("+res.stat+")"
         this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
           this.storage.get("allforms").then(data => {
@@ -128,10 +128,12 @@ export class NewFormPage implements OnInit {
           //  console.log(this.templates)
           // alert(fileName);
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+         
           console.log(this.selecttemplat)
           if (!this.selecttemplat) {
             return false;
           }
+          this.title=this.selecttemplat.template.templateTitle
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
               //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
