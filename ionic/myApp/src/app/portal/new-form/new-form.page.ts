@@ -119,6 +119,7 @@ export class NewFormPage implements OnInit {
                 data.value=formdata[data.name]
               })
               // console .log(this.selecttemplat.template.secs[i])
+              console.log(this.selecttemplat.template.secs[i].secId) 
               this.sections.push(this.selecttemplat.template.secs[i])
               this.list.push({ "show": false })
               this.commonCtrl.hide()
@@ -155,6 +156,9 @@ export class NewFormPage implements OnInit {
               this.loadSecs.push(data);
             })
             // console .log(this.selecttemplat.template.secs[i])
+            console.log(this.selecttemplat.template.secs[i].secId) 
+           //this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId)
+           //this.selecttemplat.template.secs[i].fields.concat(this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId))
             this.sections.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
@@ -184,6 +188,30 @@ export class NewFormPage implements OnInit {
     });
     return res;
   }
+
+  initLoggedinUserOuData(name)
+{
+  let ouLevel:number;
+   let secIdous:any=[];
+  for(var i=1;i<=10;i++){
+			if(this.selecttemplat.template['ou'+i+'Fields']){
+				for(var j=0;j<this.selecttemplat.template['ou'+i+'Fields'].length;j++){
+					//if(secId != this.formType.template['ou'+i+'Fields'][j].parentSecId) continue;
+					var parentSecId=this.selecttemplat.template['ou'+i+'Fields'][j].parentSecId;//check if ou[i].field contail fieldId
+					if(parentSecId==name){
+            this.selecttemplat.template['ou'+i+'Fields'][j].xtype="multiselect"
+            this.selecttemplat.template['ou'+i+'Fields'][j].label= this.selecttemplat.template['ou'+i+'Fields'][j].fieldLabel
+            
+            secIdous.push(this.selecttemplat.template['ou'+i+'Fields'][j]);
+					  break;
+					}
+				}
+
+			}
+		}
+  console.log(secIdous)
+  return secIdous;
+};
 
   ngOnInit() {
 

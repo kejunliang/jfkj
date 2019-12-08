@@ -42,6 +42,14 @@
               <textarea rows="4" [(ngModel)]='field.value' placeholder="Enter a description"></textarea>
             </ion-item>
           </div>
+          <!--multiou-->
+          <div *ngIf="field.xtype==='multiou'" [hidden]="field.hide">
+            <ion-item>
+              <ion-label color="basic" stacked>{{field.label}}</ion-label>
+              <button *ngIf="type=='new'" ion-item block color="basic">Tap to choose</button>
+              {{field.value}}
+            </ion-item>
+          </div>
           <!--singleou-->
           <div *ngIf="field.xtype==='singleou'" [hidden]="field.hide">
             <ion-item>
