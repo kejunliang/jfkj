@@ -87,7 +87,12 @@ export class NewFormPage implements OnInit {
       console.log("进")
       if (res.unid) {
         this.type="old"
-        this.title=res.title+"("+res.stat+")"
+        if(res.stat){
+          this.title=res.title+"("+res.stat+")"
+        }else{
+          this.title=res.title
+        }
+       
         this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
           this.storage.get("allforms").then(data => {
