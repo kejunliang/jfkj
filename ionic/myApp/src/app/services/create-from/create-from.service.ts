@@ -44,7 +44,11 @@ export class CreateFromService {
         catchError(this.common.handleError)
       )
   }
-  getActionSava(logindetail:any,key:any): Observable<any> {
+  getActionSava(logindetail:any,params:any): Observable<any> {
+    let  data=new HttpParams().set("pid",params.pid).set("actTitle",params.actTitle)
+    .set("actAssignee",params.actAssignee).set("actDesc",params.actDesc).set('actDueDate',params.actDueDate)
+    .set('actAtt',params.actAtt).set('actPriority',params.actPriority).set('actPriorityTitle',params.actPriorityTitle)
+    .set('actionRevToInitiator',params.actionRevToInitiator); 
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
     const options = {
       headers: {
@@ -56,7 +60,26 @@ export class CreateFromService {
     //pid=555DEF88C9657A7E482584B90020ECC0&actTitle=Action+title01&actAssignee=zhen+ding
     //&actDesc=Description%3A&actDueDate=2019-12-03&actAtt=&actPriority=Minor
     //&actPriorityTitle=Minor&actionRevToInitiator=true
-    return this.http.get<{token: string}>('sfv3/smformdata.nsf/xp_smartFormWs.xsp/createActionDoc?pid='+key,options)
+    return this.http.post<{token: string}>('sfv3/integrumws.nsf/xp_smartFormWs.xsp/createActionDoc',data,options)
+      .pipe(
+        map(result => { 
+                 console.log(result);
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+    
+  }
+  getPriority(logindetail:any): Observable<any> {
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    //http://oa.jf81.com/sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username=yuan%20tian
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getActPriority',options)
       .pipe(
         map(result => { 
              return result;

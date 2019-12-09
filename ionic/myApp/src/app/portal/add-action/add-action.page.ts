@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
-// import { ImagePicker} from '@ionic-native/image-picker/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { Storage } from '@ionic/storage';
+import { TranslateService } from '@ngx-translate/core';
 import { SecurityComponent } from './component/security/security.component';
+import { CreateFromService } from '../../services/create-from/create-from.service';
+import { first } from 'rxjs/operators';
 import { from } from 'rxjs';
 @Component({
   selector: 'app-add-action',
@@ -13,54 +16,83 @@ import { from } from 'rxjs';
 })
 export class AddActionPage implements OnInit {
   public action: any;
+  public headBtn: any = [];
   public headBtb: any = [
-    { id: '1', text: 'sava' },
-    { id: '0', text: 'cancel' }
+    {
+      status: 'draft', btn: [
+        { id: '2', text: 'Submit' },
+        { id: '1', text: 'Sava' },
+        { id: '0', text: 'Close' }]
+    },
+    {
+      status: 'open', btn: [
+        { id: '4', text: 'Delete' },
+        { id: '3', text: 'Re-assign' },
+        { id: '2', text: 'Send for Review' },
+        { id: '1', text: 'Sava' },
+        { id: '0', text: 'Close' }]
+    },
+    {
+      status: 'MR', btn: [
+        { id: 'Return to Assignee', text: 'Return to Assignee' },
+        { id: 'Approve', text: 'Approve' },
+        { id: 'Re-assign', text: 'Re-assign' },
+        { id: 'Delete', text: 'Delete' },
+        { id: '1', text: 'Sava' },
+        { id: '0', text: 'Close' }]
+    },
+    {
+      status: 'IR', btn: [
+        { id: 'Send for Review', text: 'Send for Review' },
+        { id: 'Re-assign', text: 'Re-assign' },
+        { id: 'Delete', text: 'Delete' },
+        { id: '1', text: 'Sava' },
+        { id: '0', text: 'Close' }]
+    },
   ]
   public showTrail: boolean = false;
   public trailBox: boolean = false;
   public isShowBtn: boolean = false;
   public managerName: string;
-  public optionData:any=[
-    {value:'High/Critical Risk',text:'High/Critical Risk'},
-    {value:'Major',text:'Major'},
-    {value:'Minor',text:'Minor'},
-    {value:'Observation',text:'Observation'},
-    {value:'Improvement Opportunity',text:'Improvement Opportunity'},
-    {value:'TEST ENTRY',text:'TEST ENTRY'}
-
-  ]
+  public optionData: any = []
   public description: string;
   public title: string;
   public priority: string;
   public dueDate: string;
-  public imgSrc:any;//后台返回缩略图
+  public imgSrc: any=[];//后台返回缩略图
   constructor(
-    public modal: ModalController, 
+    public modal: ModalController,
+    public translate :TranslateService,
     private storage: Storage,
-     private transfer: FileTransfer,
-      private camera: Camera,
-      // private imagePicker:ImagePicker
-      ) { }
+    private transfer: FileTransfer,
+    private camera: Camera,
+    private imagePicker: ImagePicker,
+    public createFrom: CreateFromService
+  ) { }
 
   ngOnInit() {
-    this.action={
-      dueDate: '',
-      description: '',
-      priority: '',
-      assignee: '',
-      title: '',
-      AuditTrail:''
+    this.action = {
+      pid: '',
+      actTitle: '',
+      actAssignee: '',
+      actDesc: '',
+      actDueDate: '',
+      actAtt: '',
+      actPriority: '',
+      actPriorityTitle: '',
+      actionRevToInitiator: '',
+      AuditTrail: '',
+
     }
-
-    // this.storage.get("allforms").then(data => {
-    //   let dataFrom = JSON.parse(data)
-    //   console.log(dataFrom)
-    //   console.log(dataFrom.templates)
-    //   dataFrom.templates.forEach((item, index) => {
-
-    //   });
-    // });
+    this.headBtn = this.headBtb[1].btn;
+    this.storage.get("loginDetails").then(data => {
+      this.createFrom.getPriority(data).pipe(first()).subscribe(
+        data => {
+          //console.log(data)
+          this.optionData = data.data;
+        }
+      )
+    })
 
   }
   //查找名称
@@ -84,6 +116,7 @@ export class AddActionPage implements OnInit {
   //按钮的事件
   getSwitchBtn(item) {
     console.log(item)
+    this.isShowBtn = false;
     if (item.id == '1') {
       this.isShowBtn = false;
       console.log(this.action)
@@ -91,7 +124,7 @@ export class AddActionPage implements OnInit {
   }
   //拍照上传
   doCamea() {
-    const options:CameraOptions={
+    const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,//
       encodingType: this.camera.EncodingType.JPEG, // 图片格式 JPEG=0 PNG=1
@@ -105,8 +138,8 @@ export class AddActionPage implements OnInit {
     }
     this.camera.getPicture(options).then((imageData) => {
       console.log(imageData);
-      let base64Image='data:image/jpeg;base64,'+imageData;
-       this.imgSrc=base64Image; 
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.imgSrc.push(base64Image);
       // 返回拍照的地址
       this.doUpload(imageData);
     }, (err) => {
@@ -135,44 +168,35 @@ export class AddActionPage implements OnInit {
       }, (err) => {
         alert(JSON.stringify(err));
       });
-   }
-   //图片上传
-   chooseImg(){
-     const option={
-      maximumImagesCount: 1,//可选择的图片数量
-      width:400,
-      height:500,
-      quality:80,//质量越高图片越大
-      outputType:0
-     }
-    //  this.imagePicker.getPictures(option).then((results) => {
-    //   for (const res of results) {
-    //     this.upload(res);
-    //   }
-    // }, (err) => {
-    //   console.log(err)
-    // });
-   }
-   // 上传文件
-  upload(file) {
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    const options: FileUploadOptions = {
-      fileKey: 'file',
-      fileName: 1 + '.jpg',
-      params: {
-        type: 'file',
-        action: 'upload',
-        timestamp:2,
-        auth_token: '79e1bd1504962034c068461d58b9cd89a1d8a4a1'
-      },
-      headers: {}
-    };
-    fileTransfer.upload(file, 'https://imgbb.com', options)
-      .then((data) => {
-        alert('success');
-      })
-      .catch((e) => {
-      });
+  }
+  //图片上传
+  chooseImg() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,//
+      encodingType: this.camera.EncodingType.JPEG, // 图片格式 JPEG=0 PNG=1
+      mediaType: this.camera.MediaType.PICTURE, // 媒体类型
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY, // 图片来源  CAMERA相机 PHOTOLIBRARY 图库
+      allowEdit: true, // 允许编辑
+      targetWidth: 300, // 缩放图片的宽度
+      targetHeight: 300, // 缩放图片的高度
+      saveToPhotoAlbum: false, // 是否保存到相册
+      correctOrientation: true, // 设置摄像机拍摄的图像是否为正确的方向
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      console.log(imageData);
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.imgSrc.push(base64Image) ;
+      // 返回拍照的地址
+      this.doUpload(imageData);
+    }, (err) => {
+      alert(err);
+    });
+  }
+  imgDelect(key){
+    let Astr=this.imgSrc.splice(key,1);
+    console.log(this.imgSrc)
+    console.log(Astr)
   }
 
 }

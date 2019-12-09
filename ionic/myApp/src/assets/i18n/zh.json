@@ -58,6 +58,23 @@
     "alert":{
         "title":"提示",
         "btn":"确定"
+    },
+    "readAction":{
+        "ParentDocument":"父文档",
+        "ActionTitle":"标题",
+        "EmployeeAssigned":"分配的员工",
+        "Description":"说明",
+        "Priotity":"优先权",
+        "DueDate":"到期日期",
+        "ActionTaken":"采取行动",
+        "Attachment":"附件",
+        "AduitTrail":"审核踪迹",
+        "take_a_photo":"拍照上传",
+        "select_a_photo":"选择一张照片"
+    },
+    "tips":{
+        "Cancel":"取消",
+        "Done":"完成"
     }
    
 }

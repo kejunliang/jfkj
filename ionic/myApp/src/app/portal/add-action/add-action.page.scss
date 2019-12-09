@@ -56,20 +56,42 @@ ion-item-divider{
     }
 }
 .attachmentImg-box{
-    background: rgba(242, 243, 245, 1);
+    padding:1rem ;
+    width: 100%;
+   .imgList{
+    width: 98%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding:1rem ;
+    background: rgba(196, 222, 245, 1);
+    border-radius: 5px;
+    padding:0rem 2rem 1rem 1rem;
     margin-bottom: 1rem;
-    width: 100%;
-    img{
-        width: 5.5rem;
-        height:5.5rem ;
+    position: relative;
+    .img-box{
+        width: 30%;
+        img{
+            width: 5.5rem;
+            height:5.5rem ;
+            margin: 0 auto;
+        }
     }
-    p{
+   .positionImg{
+       height: 2.8rem;
+       width: 2.8rem;
+       position: absolute;
+       right: -1rem;
+       top: -1rem;
+   }
+   .att-content{
         flex: 1;
     }
+    .head{
+        text-align: left;
+        height: 2.5rem;
+        line-height: 2.5rem;
+    }
+   }
 }
 
 .btnHead-box{

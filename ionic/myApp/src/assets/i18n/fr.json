@@ -29,5 +29,20 @@
         "language":"La langue",
         "offline":"Passer en mode hors ligne",
         "logout":"Se déconnecter"
+    },
+    "readAction":{
+        "ParentDocument":"Document père",
+        "ActionTitle":"Titre de l'action",
+        "EmployeeAssigned":"Personnel affecté",
+        "Description":"Note",
+        "Priotity":"Priorité",
+        "DueDate":"Date d 'expiration",
+        "ActionTaken":"Mesures prises",
+        "Attachment":"Annexe",
+        "AduitTrail":"Le sentier aduit."
+    },
+    "tips":{
+        "Cancel":"Annuler",
+        "Done":"Dorne."
     }
 }
