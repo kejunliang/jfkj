@@ -14,6 +14,30 @@
 
 <ion-content>
   <div class="form-container">
+    <div *ngFor="let field of sysfields;let index = index;">
+      <div *ngIf="field.xtype=='singleempselect'">
+        <ion-item>
+          <ion-label position="stacked">{{field.label}}</ion-label>
+          <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
+          <ion-text color="primary">
+            <h6> {{field.value}}</h6>
+          </ion-text>
+        </ion-item>
+      </div>
+       <!--date-->
+       <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
+          <ion-item lines="none">
+            <ion-label>{{field.label}}</ion-label>
+            <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+              placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
+            <span class="down">
+              <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
+            </span>
+          </ion-item>
+        </div>
+    </div>
+
+
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
       <ion-item lines="none" color="favorite">
         <ion-label color="light">{{section.title}}</ion-label>
@@ -62,7 +86,7 @@
           <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
             <ion-item lines="none">
               <ion-label>{{field.label}}</ion-label>
-              <ion-datetime  displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+              <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
                 placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
               <span class="down">
                 <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
@@ -117,11 +141,11 @@
             </ion-item>
           </div>
           <!--questionnaire quesType='single'-->
-          <div *ngIf="field.xtype==='questionnaire' && field.quesType==='false'" [hidden]="field.hide">
-            <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
+          <div *ngIf="field.xtype==='questionnaire' " [hidden]="field.hide">
+            <ion-item>
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-              <ion-select [(ngModel)]='field.value'>
-                <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
+              <ion-select [(ngModel)]='field.value' interface="popover" placeholder="Select One">
+                <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
               </ion-select>
             </ion-item>
           </div>
@@ -153,7 +177,8 @@
           <!--headline-->
           <div *ngIf="field.xtype==='headline'" [hidden]="field.hide" class="column-count"
             [ngStyle]="{'background-color': field.labelBgColor}">
-            <h4    [ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelFontStyle,'text-decoration':field.labelTextDecoration}">
+            <h4
+              [ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelFontStyle,'text-decoration':field.labelTextDecoration}">
               {{field.label}}
             </h4>
             <!--[ngStyle]="{'font-family': field.labelFont,'font-size': field.labelSize, 'color': field.labelColor, 'font-style': field.labelStyle }" -->

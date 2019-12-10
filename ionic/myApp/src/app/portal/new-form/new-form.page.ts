@@ -73,6 +73,7 @@ export class NewFormPage implements OnInit {
   }
   public formdata: any;
   public type:string;
+  public sysfields:any=[]
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -140,7 +141,10 @@ export class NewFormPage implements OnInit {
             return false;
           }
           this.title=this.selecttemplat.template.templateTitle
+          this.sysfields=this.selecttemplat.template.secs[0].fields
+          console.log(this.sysfields)
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+           
             for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
               //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
               if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
@@ -151,12 +155,12 @@ export class NewFormPage implements OnInit {
               }
             }
             //console.log(this.selecttemplat.template.secs[i].fields)
-            console.log("formdata==" + this.formdata)
+           
             this.selecttemplat.template.secs[i].fields.forEach(data => {
               this.loadSecs.push(data);
             })
             // console .log(this.selecttemplat.template.secs[i])
-            console.log(this.selecttemplat.template.secs[i].secId) 
+           
            //this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId)
            //this.selecttemplat.template.secs[i].fields.concat(this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId))
             this.sections.push(this.selecttemplat.template.secs[i])
