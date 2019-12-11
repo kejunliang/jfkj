@@ -144,7 +144,7 @@
           <div *ngIf="field.xtype==='questionnaire' " [hidden]="field.hide">
             <ion-item>
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-              <ion-select [(ngModel)]='field.value' interface="popover" placeholder="Select One">
+              <ion-select [(ngModel)]='field.value' interface="popover" placeholder="Select One" (ionChange)="change(field)">
                 <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
               </ion-select>
             </ion-item>

@@ -60,6 +60,7 @@ export class NewFormPage implements OnInit {
   public selecttemplat: any;
   public showGuidance: any = false;
   public sections: any = [];
+  public sectionsold: any = [];
   public num: number;
   public list: any = [
     { "show": false }
@@ -164,16 +165,20 @@ export class NewFormPage implements OnInit {
            //this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId)
            //this.selecttemplat.template.secs[i].fields.concat(this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId))
             this.sections.push(this.selecttemplat.template.secs[i])
+            this.sectionsold.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
-
-          // this.fields = this.loadSecs;
-
-          //console.log(this.fields)
+          let flag=this.sections.some( function(obj,index){
+              console.log(obj.title)
+              return obj.title=="Severity"
+          })
+          if(flag){
+            this.change({"label":"defulat"})
+          }
+        
         })
       }
-
-
+     
 
     })
 
@@ -219,7 +224,7 @@ export class NewFormPage implements OnInit {
 
   ngOnInit() {
 
-
+    console.log(this.sections[0])
 
   }
 
@@ -422,6 +427,20 @@ export class NewFormPage implements OnInit {
         })
       })
     })
+  }
+  change(field:any){
+     let oldsections= this.sectionsold
+     let filtersections=[]
+     filtersections=oldsections.filter( obj => {
+       return obj.title.indexOf(field.value)!=-1
+     })
+     var curindex
+     oldsections.forEach( (element,index) => {
+         if(element.title.trim()==="Severity"){
+          curindex= index
+         }
+     });
+     this.sections=oldsections.slice(0,curindex+1).concat(filtersections)
   }
  
 }
