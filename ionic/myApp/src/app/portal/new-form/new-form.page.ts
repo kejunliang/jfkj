@@ -75,6 +75,7 @@ export class NewFormPage implements OnInit {
   public formdata: any;
   public type:string;
   public sysfields:any=[]
+  public mandafields:any;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -143,6 +144,7 @@ export class NewFormPage implements OnInit {
           }
           this.title=this.selecttemplat.template.templateTitle
           this.sysfields=this.selecttemplat.template.secs[0].fields
+          this.mandafields=this.selecttemplat.template.mandaFields
           console.log(this.sysfields)
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
            
@@ -158,6 +160,11 @@ export class NewFormPage implements OnInit {
             //console.log(this.selecttemplat.template.secs[i].fields)
            
             this.selecttemplat.template.secs[i].fields.forEach(data => {
+              this.mandafields.forEach(element => {
+                 if(element.label==data.label){
+                    data.hasmust=true
+                 }
+              });
               this.loadSecs.push(data);
             })
             // console .log(this.selecttemplat.template.secs[i])
