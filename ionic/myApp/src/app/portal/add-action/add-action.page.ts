@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { SecurityComponent } from './component/security/security.component';
 import { CreateFromService } from '../../services/create-from/create-from.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { first } from 'rxjs/operators';
 import { from } from 'rxjs';
 @Component({
@@ -60,6 +61,7 @@ export class AddActionPage implements OnInit {
   public priority: string;
   public dueDate: string;
   public imgSrc: any=[];//后台返回缩略图
+  public address:any={}
   constructor(
     public modal: ModalController,
     public translate :TranslateService,
@@ -67,8 +69,18 @@ export class AddActionPage implements OnInit {
     private transfer: FileTransfer,
     private camera: Camera,
     private imagePicker: ImagePicker,
-    public createFrom: CreateFromService
-  ) { }
+    public createFrom: CreateFromService,
+    private geolocation:Geolocation
+  ) {
+    this.geolocation.getCurrentPosition().then((resp) => {
+     this.address=resp.coords;
+    //  resp.coords.latitude
+      // resp.coords.longitude
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+     
+   }
 
   ngOnInit() {
     this.action = {
@@ -197,6 +209,15 @@ export class AddActionPage implements OnInit {
     let Astr=this.imgSrc.splice(key,1);
     console.log(this.imgSrc)
     console.log(Astr)
+  }
+  setLocation(){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.address=resp.coords;
+     //  resp.coords.latitude
+       // resp.coords.longitude
+      }).catch((error) => {
+        console.log('Error getting location', error);
+      });
   }
 
 }

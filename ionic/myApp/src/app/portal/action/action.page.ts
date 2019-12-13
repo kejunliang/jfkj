@@ -97,4 +97,7 @@ export class ActionPage implements OnInit {
     console.log(11)
     this.isShowBtn = !this.isShowBtn;
   }
+  getSwitchBtn(item){
+    console.log(item)
+  }
 }

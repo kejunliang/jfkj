@@ -9,28 +9,10 @@
     position: relative;
    .search-box{
        width: 65%;
-       padding-left: .5rem;
-       line-height: 48px;
-       display: flex;
-    //    ion-input{
-    //        margin-left: .5rem;
-    //    }
-       input{
-           border:none;
-           background: none;
-           padding-left: 1rem;
-           width: 90%;
-       }
-      img{
-          width: 1.2rem;
-          height: 1.2rem;
-          margin-top: 1.5rem;
-        
-      }
-      .delect{
-          float:right;
-          cursor: pointer;
-      }
+       ion-searchbar{
+        --background:#ededed;
+        height: 100%;
+    }
    }
    .searchRight{
         width: 36%;
@@ -85,8 +67,4 @@ ion-toolbar{
             font-size: 3rem;
         }
     }
-}
-ion-searchbar{
-    --background:#ededed;
-    height: 45px;
 }

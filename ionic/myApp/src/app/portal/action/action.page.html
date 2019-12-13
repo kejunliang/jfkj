@@ -26,18 +26,18 @@
       </ion-item> -->
       <!-- <div *ngIf="list[index].show"> -->
         <ion-item lines="none">
-          <ion-label color="action">{{item.DocRefNumber}}</ion-label>
+          <ion-label color="action" class="titleLabel">{{item.DocRefNumber}}</ion-label>
         </ion-item>
         <ion-item color="action" lines="none">
           <ion-label position="stacked" color="light" class="titleLabel">{{'readAction.ParentDocument'| translate}}:</ion-label>
           <ion-note  color="light">{{item.ParentDocument}}</ion-note>
         </ion-item>
         <ion-item>
-          <ion-label color="action">{{'readAction.ActionTitle'| translate}}:</ion-label>
+          <ion-label color="action" class="titleLabel">{{'readAction.ActionTitle'| translate}}:</ion-label>
           <ion-note slot="end" >{{item.ActionTitle}}</ion-note>
         </ion-item>
         <ion-item>
-          <ion-label color="action">{{'readAction.EmployeeAssigned'| translate}}:</ion-label>
+          <ion-label color="action" class="titleLabel">{{'readAction.EmployeeAssigned'| translate}}:</ion-label>
           <ion-note slot="end">{{item.EmployeeAssigned}}</ion-note>
         </ion-item>
         <ion-item>
@@ -45,7 +45,7 @@
           <ion-note >{{item.Description}}</ion-note>
         </ion-item>
         <ion-item ngDefaultControl>
-            <ion-label color="action">{{'readAction.Priotity'| translate}}:</ion-label>
+            <ion-label color="action" class="titleLabel">{{'readAction.Priotity'| translate}}:</ion-label>
             <ion-note >{{item.Priority}}</ion-note>
             <!-- <ion-select interface="action-sheet" okText="ok" cancelText="clear">
               <div *ngFor="let k of optionData">
@@ -54,7 +54,7 @@
             </ion-select> -->
         </ion-item>
         <ion-item>
-          <ion-label color="action">{{'readAction.DueDate'| translate}}:</ion-label>
+          <ion-label color="action" class="titleLabel">{{'readAction.DueDate'| translate}}:</ion-label>
           <ion-note slot="end">{{item.DueDate}}</ion-note>
         </ion-item>
         <div class="textarea-box">
@@ -82,7 +82,7 @@
           </div>
         </ion-item>
         <ion-item color="action" lines="none" *ngIf="item.AuditTrail">
-          <ion-label color="light">{{'readAction.AduitTrail'| translate}}</ion-label>
+          <ion-label color="light" >{{'readAction.AduitTrail'| translate}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios" (click)="showTrail=true" *ngIf="!showTrail"></ion-icon>
           <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="showTrail=false" *ngIf="showTrail" ></ion-icon>
         </ion-item>

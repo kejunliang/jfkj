@@ -3,7 +3,7 @@
     padding: 1rem 0;
     .head{
         padding: 0 1rem;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         color: rgba(37, 75, 107, 1);
     }
     .textareaS{
@@ -27,7 +27,7 @@ ion-item-divider{
     padding: 1rem 0;
     .title{
         padding: 0 1rem;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         color: rgba(37, 75, 107, 1);
     }
     .content{
@@ -41,6 +41,7 @@ ion-item-divider{
             text-align: center;
             color: rgba(13, 106, 128, 1);
             cursor: pointer;
+            // border-right: 1px solid #ccc;
             img{
                 width: 2.2rem;
                 height: 1.7rem;
@@ -49,8 +50,8 @@ ion-item-divider{
                 padding: 5px 0;
             }
         }
-        li:first-child{
-            border-right: 1px solid #ccc;
+        li:last-of-type{
+            // border-right: none;
         }
         
     }
@@ -135,5 +136,5 @@ ion-item-divider{
      padding: 1rem 2rem;
  }
  .titleLabel{
-     font-size: 1.5rem;
+     font-size: 1.2rem;
  }

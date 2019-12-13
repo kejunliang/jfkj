@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/authemail', pathMatch: 'full' },
+  { path: '', redirectTo: 'authemail', pathMatch: 'full' },
   {
     path: 'tabs',
     loadChildren: () => import('./portal/tabs/tabs.module').then(m => m.TabsPageModule)
@@ -17,6 +17,9 @@ const routes: Routes = [
   { path: 'new-form', loadChildren: './portal/new-form/new-form.module#NewFormPageModule' },
   { path: 'action', loadChildren: './portal/action/action.module#ActionPageModule' },
   { path: 'add-action', loadChildren: './portal/add-action/add-action.module#AddActionPageModule' },
+  { path: 'sanner', loadChildren: './portal/sanner/sanner.module#SannerPageModule' },
+
+
 
 
 ];

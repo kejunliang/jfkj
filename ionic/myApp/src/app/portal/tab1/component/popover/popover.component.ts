@@ -44,6 +44,8 @@ export class PopoverComponent implements OnInit {
       this.nav.navigateBack('language');
     } else if (code == 3) {
       this.Popover.dismiss()
+      // this.nav.navigateBack('add-action');
+
       this.nav.navigateBack('offline');
     }else{
       let paramsSet=this.params.get("portalTile")

@@ -40,12 +40,12 @@
     </div>
     <ion-item-divider></ion-item-divider>
     <ion-item  [(ngModel)]="action.actPriority" ngDefaultControl lines="none">
-        <ion-label color="action">{{'readAction.Priotity'| translate}}:
+        <ion-label color="action" class="titleLabel">{{'readAction.Priotity'| translate}}:
           <ion-text color="danger">*</ion-text>
         </ion-label>
         <ion-select interface="action-sheet" cancelText="{{'tips.Cancel' | translate}}">
           <div *ngFor="let k of optionData">
-            <ion-select-option value="{{k}}" *ngIf="k.value!=''">{{k}}</ion-select-option>
+            <ion-select-option value="{{k}}" *ngIf="k.value!=''" mode="ios">{{k}}</ion-select-option>
           </div>
         </ion-select>
       </ion-item>
@@ -57,8 +57,8 @@
     </ion-item> -->
     <ion-item-divider></ion-item-divider>
     <ion-item lines="none">
-      <ion-label color="action">{{'readAction.DueDate'| translate}}: <ion-text color="danger">*</ion-text></ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" value="dueDate" [(ngModel)]="action.actDueDate" cancelText="{{'tips.Cancel' | translate}}" doneText="{{'tips.Done' | translate}}"></ion-datetime>
+      <ion-label color="action" class="titleLabel">{{'readAction.DueDate'| translate}}: <ion-text color="danger">*</ion-text></ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" value="dueDate" [(ngModel)]="action.actDueDate" cancelText="{{'tips.Cancel' | translate}}" doneText="{{'tips.Done' | translate}}" mode="ios"></ion-datetime>
       <span class="down">
         <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
       </span>
@@ -75,6 +75,14 @@
             <img src="../../../../assets/icon/attachment/photo.png" alt="">
             <p>{{'readAction.select_a_photo' | translate}}</p>
         </li>
+        <li (click)="setLocation()">
+          <img src="../../../../assets/icon/attachment/photo.png" alt="">
+          <p>Geolocation{{address.latitude}}{{address.longitude}}</p>
+      </li>
+      <li [routerLink]="['/sanner']" routerLinkActive="router-link-active" >
+        <img src="../../../../assets/icon/attachment/photo.png" alt="">
+        <p>scan it</p>
+    </li>
       </ul>
       
       <div class="attachmentImg-box" *ngIf="imgSrc.length>0">
