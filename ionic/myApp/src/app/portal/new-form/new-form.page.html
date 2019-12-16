@@ -66,12 +66,15 @@
             <!--textareafield-->
             <div *ngIf="field.xtype==='textarea'">
               <ion-item>
-                <ion-label color="basic" stacked>
-                  {{field.label}}
-                  <span *ngIf="field.hasmust==true" class="needfill">*</span>
-                </ion-label>
-
-                <textarea rows="4" [(ngModel)]='field.value' placeholder="Enter a description"></textarea>
+                <div>
+                  <div>
+                    <ion-label color="basic" stacked>
+                      {{field.label}}
+                      <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                    </ion-label>
+                  </div>
+                  <div> <textarea rows="4" [(ngModel)]='field.value' placeholder="Enter a description"></textarea></div>
+                </div>
               </ion-item>
             </div>
             <!--multiou-->
@@ -274,15 +277,26 @@
             <!--radiofield-->
             <div *ngIf="field.xtype==='radio'" [hidden]="field.hide">
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
-                  {{field.label}}
-                  <span *ngIf="field.hasmust==true" class="needfill">*</span>
-                </ion-label>
+                <div>
+                  <div class="row row-wrap item-calm">
+                    <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                      {{field.label}}
+                      <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                    </ion-label>
+                  </div>
+                  <div>
+                    <ion-radio-group>
+                      <ion-item *ngFor="let option of field.options">
+                        <ion-label *ngIf="option.text!=''">{{option.text}}</ion-label>
+                        <ion-radio *ngIf="option.text!=''" slot="start" value="{{option.text}}"></ion-radio>
+                      </ion-item>
+                    </ion-radio-group>
+                  </div>
 
-                <ion-select [(ngModel)]='field.value' (ionChange)=getSublistdetails(field.name,field.value)>
-                  <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
-                </ion-select>
+                </div>
+
               </ion-item>
+
             </div>
             <!--selectfield-->
             <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
@@ -292,18 +306,17 @@
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
 
-                <ion-select [(ngModel)]='field.value' multiple="field.multiple"
-                  (ionChange)=getSublistdetails(field.name,field.value)>
-                  <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
+                <ion-select [(ngModel)]='field.value' multiple="field.multiple">
+                  <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                   <div *ngIf="field.name==sublistObjId">
-                    <ion-item-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-item-option>
+                    <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
                   </div>
                 </ion-select>
               </ion-item>
             </div>
           </div>
         </div>
-      
+
       </div>
     </div>
   </div>

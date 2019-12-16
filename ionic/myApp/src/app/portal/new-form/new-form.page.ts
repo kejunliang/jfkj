@@ -393,9 +393,9 @@ export class NewFormPage implements OnInit {
   }
 
   isShowGuidance(sectionid, index) {
-    console.log(sectionid)
-    console.log(index)
-    console.log(this.list)
+   // console.log(sectionid)
+    //console.log(index)
+   // console.log(this.list)
     this.showGuidance = !this.showGuidance;
     this.num = index;
     this.list[index].show = !this.list[index].show;
