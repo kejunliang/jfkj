@@ -67,7 +67,6 @@ export class NewFormPage implements OnInit {
   ];
   public isShowBtn: boolean = false;
   public btnBox: any = [
-    'Save', 'Submit', 'Cancel'
   ];
   public para = {
     "unid": "",
@@ -104,10 +103,12 @@ export class NewFormPage implements OnInit {
             //  console.log(this.templates)
             // alert(fileName);
             this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+            
             console.log(this.selecttemplat)
             if (!this.selecttemplat) {
               return false;
             }
+            this.btnBox= this.selecttemplat.menubaritem
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
                 //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
@@ -142,6 +143,7 @@ export class NewFormPage implements OnInit {
           if (!this.selecttemplat) {
             return false;
           }
+          this.btnBox= this.selecttemplat.menubaritem
           this.title=this.selecttemplat.template.templateTitle
           this.sysfields=this.selecttemplat.template.secs[0].fields
           this.mandafields=this.selecttemplat.template.mandaFields
@@ -165,6 +167,9 @@ export class NewFormPage implements OnInit {
                     data.hasmust=true
                  }
               });
+              if(data.xtype=="radio"){
+                data.options= data.options.filter(function(obj){ return  obj.value!=""})
+              }
               this.loadSecs.push(data);
             })
             // console .log(this.selecttemplat.template.secs[i])
@@ -180,7 +185,7 @@ export class NewFormPage implements OnInit {
               return obj.title=="Severity"
           })
           if(flag){
-            this.change({"label":"defulat"})
+            this.change({"label":"Severity"})
           }
         
         })
@@ -418,7 +423,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "setup", portalTile: "ceshi" },
+      componentProps: { type: "action", data: this.btnBox },
       translucent: true,
       cssClass:"custom-popover",
       mode:"md"
@@ -436,6 +441,10 @@ export class NewFormPage implements OnInit {
     })
   }
   change(field:any){
+    console.log(field)
+     if(field.label.trim()!="Severity"){
+       return false;
+     }
      let oldsections= this.sectionsold
      let filtersections=[]
      filtersections=oldsections.filter( obj => {

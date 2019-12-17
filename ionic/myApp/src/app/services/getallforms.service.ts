@@ -18,7 +18,7 @@ export class GetallformsService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAllForms?ver=v2&languageid',options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAllForms?ver=v2&languageid&cnname='+encodeURIComponent(logindetail.username),options)
       .pipe(
         map(result => { 
                  return result;

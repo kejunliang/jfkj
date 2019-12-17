@@ -49,7 +49,7 @@
           </ion-icon>
         </ion-item>
         <div *ngIf="list[index].show" class="guidance-box">
-          <div *ngFor="let field of section.fields;let index = index;">
+          <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
             <!--multiselectfield-->
             <div *ngIf="field.xtype==='multiselect'">
               <ion-item lines="none">
@@ -215,7 +215,7 @@
                 <span *ngIf="field.hasmust==true" class="needfill">*</span>
               </ion-label>
               <div *ngIf="!field.value" class="signature-area">
-                <ion-icon name="camera"></ion-icon>
+                <img src="../../../../assets/icon/attachment/camera.png" alt="">
                 <button ion-button clear>Take a Picture</button>
               </div>
               <div *ngIf="field.value" class="image-attach">
@@ -287,8 +287,8 @@
                   <div>
                     <ion-radio-group>
                       <ion-item *ngFor="let option of field.options">
-                        <ion-label *ngIf="option.text!=''">{{option.text}}</ion-label>
-                        <ion-radio *ngIf="option.text!=''" slot="start" value="{{option.text}}"></ion-radio>
+                        <ion-label >{{option.text}}</ion-label>
+                        <ion-radio  slot="start" value="{{option.text}}"></ion-radio>
                       </ion-item>
                     </ion-radio-group>
                   </div>

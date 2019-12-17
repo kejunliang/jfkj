@@ -1,8 +1,5 @@
 <ion-list >
-  <ion-item lines="full">
-    <ion-label>保存</ion-label>
-  </ion-item>
-  <ion-item lines="full">
-    <ion-label>提交</ion-label>
+  <ion-item lines="full" *ngFor="let item of actions">
+    <ion-label>{{item.btnLabel}}</ion-label>
   </ion-item>
 </ion-list>
