@@ -8,6 +8,7 @@ import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 import { first } from 'rxjs/operators';
 import { commonCtrl } from "../../common/common";
 import {PopoverComponent } from "../../common/popover/popover.component"
+import { SecurityComponent} from "../../common/security/security.component" 
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -75,6 +76,8 @@ export class NewFormPage implements OnInit {
   public type:string;
   public sysfields:any=[]
   public mandafields:any;
+  public managerName:string;
+  public psninfo:object;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -190,7 +193,13 @@ export class NewFormPage implements OnInit {
         
         })
       }
-     
+     //get Person
+     this.storage.get('psninfo').then(data => {
+       console.log(JSON.parse(data))
+       this.psninfo=JSON.parse(data).person
+       this.guidanceData= this.psninfo
+
+     })
 
     })
 
@@ -392,10 +401,7 @@ export class NewFormPage implements OnInit {
 
 
 
-  //查找名称
-  async getSecurity() {
 
-  }
 
   isShowGuidance(sectionid, index) {
    // console.log(sectionid)
@@ -458,6 +464,32 @@ export class NewFormPage implements OnInit {
      });
      this.sections=oldsections.slice(0,curindex+1).concat(filtersections)
   }
+
+    //查找名称
+    async getSecurity(fieldname,fieldvalue){
+      const modal = await this.modal.create({
+        showBackdrop: true,
+        component: SecurityComponent,
+        componentProps: { value: this.guidanceData }
+      });
+      modal.present();
+       //监听销毁的事件
+       const { data } = await modal.onDidDismiss();
+       for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+        this.selecttemplat.template.secs[i].fields.forEach(item => {
+          console.log(fieldname)
+          console.log(item.name)
+          if(item.name==fieldname){
+            console.log(data)
+            item.value=data.result;
+          }
+        })
+    
+      }
+
+      console.log(this.selecttemplat.template.secs)
+       
+    }
  
 }
 

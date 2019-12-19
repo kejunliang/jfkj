@@ -18,7 +18,7 @@ getpersoninfo(userid: string,pass:string): Observable<any> {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo',options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username='+encodeURIComponent(userid),options)
       .pipe(
         map(result => { 
                  return result;

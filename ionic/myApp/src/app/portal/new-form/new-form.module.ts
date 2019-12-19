@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { NewFormPage } from './new-form.page';
 import { PopoverComponent } from "../../common/popover/popover.component";
-
+import { SecurityComponent} from "../../common/security/security.component"
 const routes: Routes = [
   {
     path: '',
@@ -22,7 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [NewFormPage,PopoverComponent],
-  entryComponents:[PopoverComponent]
+  declarations: [NewFormPage,PopoverComponent,SecurityComponent],
+  entryComponents:[PopoverComponent,SecurityComponent]
 })
 export class NewFormPageModule {}

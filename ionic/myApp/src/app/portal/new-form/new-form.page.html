@@ -14,11 +14,22 @@
 
 <ion-content>
   <div class="form-container">
+
     <div *ngFor="let field of sysfields;let index = index;">
+      <!--date-->
+      <div *ngIf="!field.xtype" [hidden]="field.hide">
+        <ion-item lines="none">
+          <ion-label>{{field.label}}</ion-label>
+          <ion-text color="primary">
+            {{field.value}}
+          </ion-text>
+        </ion-item>
+      </div>
       <div *ngIf="field.xtype=='singleempselect'">
         <ion-item>
           <ion-label position="stacked">{{field.label}}</ion-label>
-          <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
+          <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getSecurity(field.name,field.value)">
+          </ion-icon>
           <ion-text color="primary">
             <h6> {{field.value}}</h6>
           </ion-text>
@@ -287,8 +298,8 @@
                   <div>
                     <ion-radio-group>
                       <ion-item *ngFor="let option of field.options">
-                        <ion-label >{{option.text}}</ion-label>
-                        <ion-radio  slot="start" value="{{option.text}}"></ion-radio>
+                        <ion-label>{{option.text}}</ion-label>
+                        <ion-radio slot="start" value="{{option.text}}"></ion-radio>
                       </ion-item>
                     </ion-radio-group>
                   </div>
