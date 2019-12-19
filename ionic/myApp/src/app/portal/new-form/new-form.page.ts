@@ -167,7 +167,7 @@ export class NewFormPage implements OnInit {
                     data.hasmust=true
                  }
               });
-              if(data.xtype=="radio"){
+              if(data.xtype=="radio"||data.xtype=="select"){
                 data.options= data.options.filter(function(obj){ return  obj.value!=""})
               }
               this.loadSecs.push(data);
