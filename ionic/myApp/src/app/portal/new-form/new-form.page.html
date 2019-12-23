@@ -54,7 +54,7 @@
         <ion-item lines="none" color="favorite">
           <ion-label color="light">{{section.title}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
-            (click)="isShowGuidance(section.secId,index)" *ngIf="!list[index].show"></ion-icon>
+            (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>
           <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="isShowGuidance(section.secId,index)"
             *ngIf="list[index].show">
           </ion-icon>

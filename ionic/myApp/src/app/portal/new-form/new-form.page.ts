@@ -7,8 +7,9 @@ import { GetallformsService } from "../../services/getallforms.service";
 import { parseLazyRoute } from '@angular/compiler/src/aot/lazy_routes';
 import { first } from 'rxjs/operators';
 import { commonCtrl } from "../../common/common";
-import {PopoverComponent } from "../../common/popover/popover.component"
-import { SecurityComponent} from "../../common/security/security.component" 
+import { PopoverComponent } from "../../common/popover/popover.component"
+import { SecurityComponent } from "../../common/security/security.component"
+
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -73,11 +74,12 @@ export class NewFormPage implements OnInit {
     "unid": "",
   }
   public formdata: any;
-  public type:string;
-  public sysfields:any=[]
-  public mandafields:any;
-  public managerName:string;
-  public psninfo:object;
+  public type: string;
+  public sysfields: any = []
+  public mandafields: any;
+  public managerName: string;
+  public psninfo: object;
+  public  severityvalue:string ;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -91,115 +93,111 @@ export class NewFormPage implements OnInit {
       console.log(res);
       console.log("进")
       if (res.unid) {
-        this.type="old"
-        if(res.stat){
-          this.title=res.title+"("+res.stat+")"
-        }else{
-          this.title=res.title
+        console.log("旧文档")
+        this.type = "old"
+        if (res.stat) {
+          this.title = res.title + "(" + res.stat + ")"
+        } else {
+          this.title = res.title
         }
-       
+
         this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
+          console.log(formdata)
           this.storage.get("allforms").then(data => {
             // console.log(JSON.parse(data))
             this.templates = JSON.parse(data).templates
             //  console.log(this.templates)
             // alert(fileName);
             this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-            
+
             console.log(this.selecttemplat)
             if (!this.selecttemplat) {
               return false;
             }
-            this.btnBox= this.selecttemplat.menubaritem
-            for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-              for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
-                //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
-                if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
-                  let now = new Date();
-                  this.selecttemplat.template.secs[i].fields[b].value = now;
-                }
-                if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
-                }
+            this.btnBox = this.selecttemplat.menubaritem
+            this.selecttemplat.template.secs[0].fields.forEach(data => {
+              
+              if(data.xtype=="date"){
+                data.value = new Date() 
+              }else{
+                data.value = formdata[data.name]
               }
+            })
+            this.sysfields = this.selecttemplat.template.secs[0].fields
+            this.mandafields = this.selecttemplat.template.mandaFields
+            for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               this.selecttemplat.template.secs[i].fields.forEach(data => {
-                data.value=formdata[data.name]
+                data.value = formdata[data.name]
+                if(data.name=="GMP_SEV_GMP_SH"){
+                  this.severityvalue=data.value
+                }
               })
               // console .log(this.selecttemplat.template.secs[i])
-              console.log(this.selecttemplat.template.secs[i].secId) 
+              console.log(this.selecttemplat.template.secs[i].secId)
               this.sections.push(this.selecttemplat.template.secs[i])
+              this.sectionsold.push(this.selecttemplat.template.secs[i])
               this.list.push({ "show": false })
               this.commonCtrl.hide()
+            }
+            console.log(this.list)
+            let flag = this.sections.some(function (obj, index) {
+              console.log(obj.title)
+              return obj.title == "Severity"
+            })
+            if (flag&&this.severityvalue!="") {
+              this.change({ "label": "Severity","value":this.severityvalue })
             }
           })
         })
       } else {
-        this.type="new"
+        this.type = "new"
         this.storage.get("allforms").then(data => {
-          // console.log(JSON.parse(data))
           this.templates = JSON.parse(data).templates
-          //  console.log(this.templates)
-          // alert(fileName);
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-         
           console.log(this.selecttemplat)
           if (!this.selecttemplat) {
             return false;
           }
-          this.btnBox= this.selecttemplat.menubaritem
-          this.title=this.selecttemplat.template.templateTitle
-          this.sysfields=this.selecttemplat.template.secs[0].fields
-          this.mandafields=this.selecttemplat.template.mandaFields
+          this.btnBox = this.selecttemplat.menubaritem
+          this.title = this.selecttemplat.template.templateTitle
+          this.sysfields = this.selecttemplat.template.secs[0].fields
+          this.mandafields = this.selecttemplat.template.mandaFields
           console.log(this.sysfields)
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-           
-            for (let b = 0; b < this.selecttemplat.template.secs[i].fields.length; b++) {
-              //alert(JSON.stringify(this.formType.template.secs[i].fields[b]));
-              if ((this.selecttemplat.template.secs[i].fields[b].xtype == 'date') || (this.selecttemplat.template.secs[i].fields[b].xtype == 'time')) {
-                let now = new Date();
-                this.selecttemplat.template.secs[i].fields[b].value = now;
-              }
-              if (this.selecttemplat.template.secs[i].fields[b].xtype == 'singleou') {
-              }
-            }
-            //console.log(this.selecttemplat.template.secs[i].fields)
-           
             this.selecttemplat.template.secs[i].fields.forEach(data => {
               this.mandafields.forEach(element => {
-                 if(element.label==data.label){
-                    data.hasmust=true
-                 }
+                if (element.label == data.label) {
+                  data.hasmust = true
+                }
               });
-              if(data.xtype=="radio"||data.xtype=="select"){
-                data.options= data.options.filter(function(obj){ return  obj.value!=""})
+              if (data.xtype == "radio" || data.xtype == "select") {
+                data.options = data.options.filter(function (obj) { return obj.value != "" })
               }
               this.loadSecs.push(data);
             })
             // console .log(this.selecttemplat.template.secs[i])
-           
-           //this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId)
-           //this.selecttemplat.template.secs[i].fields.concat(this.initLoggedinUserOuData(this.selecttemplat.template.secs[i].secId))
             this.sections.push(this.selecttemplat.template.secs[i])
             this.sectionsold.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
-          let flag=this.sections.some( function(obj,index){
-              console.log(obj.title)
-              return obj.title=="Severity"
+          let flag = this.sections.some(function (obj, index) {
+            console.log(obj.title)
+            return obj.title == "Severity"
           })
-          if(flag){
-            this.change({"label":"Severity"})
+          if (flag) {
+            this.change({ "label": "Severity" })
           }
-        
+
         })
       }
-     //get Person
-     this.storage.get('psninfo').then(data => {
-       console.log(JSON.parse(data))
-       this.psninfo=JSON.parse(data).person
-       this.guidanceData= this.psninfo
+      //get Person
+      this.storage.get('psninfo').then(data => {
+        console.log(JSON.parse(data))
+        this.psninfo = JSON.parse(data).person
+        this.guidanceData = this.psninfo
 
-     })
+      })
 
     })
 
@@ -219,29 +217,28 @@ export class NewFormPage implements OnInit {
     return res;
   }
 
-  initLoggedinUserOuData(name)
-{
-  let ouLevel:number;
-   let secIdous:any=[];
-  for(var i=1;i<=10;i++){
-			if(this.selecttemplat.template['ou'+i+'Fields']){
-				for(var j=0;j<this.selecttemplat.template['ou'+i+'Fields'].length;j++){
-					//if(secId != this.formType.template['ou'+i+'Fields'][j].parentSecId) continue;
-					var parentSecId=this.selecttemplat.template['ou'+i+'Fields'][j].parentSecId;//check if ou[i].field contail fieldId
-					if(parentSecId==name){
-            this.selecttemplat.template['ou'+i+'Fields'][j].xtype="multiselect"
-            this.selecttemplat.template['ou'+i+'Fields'][j].label= this.selecttemplat.template['ou'+i+'Fields'][j].fieldLabel
-            
-            secIdous.push(this.selecttemplat.template['ou'+i+'Fields'][j]);
-					  break;
-					}
-				}
+  initLoggedinUserOuData(name) {
+    let ouLevel: number;
+    let secIdous: any = [];
+    for (var i = 1; i <= 10; i++) {
+      if (this.selecttemplat.template['ou' + i + 'Fields']) {
+        for (var j = 0; j < this.selecttemplat.template['ou' + i + 'Fields'].length; j++) {
+          //if(secId != this.formType.template['ou'+i+'Fields'][j].parentSecId) continue;
+          var parentSecId = this.selecttemplat.template['ou' + i + 'Fields'][j].parentSecId;//check if ou[i].field contail fieldId
+          if (parentSecId == name) {
+            this.selecttemplat.template['ou' + i + 'Fields'][j].xtype = "multiselect"
+            this.selecttemplat.template['ou' + i + 'Fields'][j].label = this.selecttemplat.template['ou' + i + 'Fields'][j].fieldLabel
 
-			}
-		}
-  console.log(secIdous)
-  return secIdous;
-};
+            secIdous.push(this.selecttemplat.template['ou' + i + 'Fields'][j]);
+            break;
+          }
+        }
+
+      }
+    }
+    console.log(secIdous)
+    return secIdous;
+  };
 
   ngOnInit() {
 
@@ -404,9 +401,9 @@ export class NewFormPage implements OnInit {
 
 
   isShowGuidance(sectionid, index) {
-   // console.log(sectionid)
+    // console.log(sectionid)
     //console.log(index)
-   // console.log(this.list)
+    // console.log(this.list)
     this.showGuidance = !this.showGuidance;
     this.num = index;
     this.list[index].show = !this.list[index].show;
@@ -431,8 +428,8 @@ export class NewFormPage implements OnInit {
       event: ev,
       componentProps: { type: "action", data: this.btnBox },
       translucent: true,
-      cssClass:"custom-popover",
-      mode:"md"
+      cssClass: "custom-popover",
+      mode: "md"
     });
     return await popover.present();
   }
@@ -446,50 +443,50 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  change(field:any){
+  change(field: any) {
     console.log(field)
-     if(field.label.trim()!="Severity"){
-       return false;
-     }
-     let oldsections= this.sectionsold
-     let filtersections=[]
-     filtersections=oldsections.filter( obj => {
-       return obj.title.indexOf(field.value)!=-1
-     })
-     var curindex
-     oldsections.forEach( (element,index) => {
-         if(element.title.trim()==="Severity"){
-          curindex= index
-         }
-     });
-     this.sections=oldsections.slice(0,curindex+1).concat(filtersections)
+    if (field.label.trim() != "Severity") {
+      return false;
+    }
+    let oldsections = this.sectionsold
+    let filtersections = []
+    filtersections = oldsections.filter(obj => {
+      return obj.title.indexOf(field.value) != -1
+    })
+    var curindex
+    oldsections.forEach((element, index) => {
+      if (element.title.trim() === "Severity") {
+        curindex = index
+      }
+    });
+    this.sections = oldsections.slice(0, curindex + 1).concat(filtersections)
   }
 
-    //查找名称
-    async getSecurity(fieldname,fieldvalue){
-      const modal = await this.modal.create({
-        showBackdrop: true,
-        component: SecurityComponent,
-        componentProps: { value: this.guidanceData }
-      });
-      modal.present();
-       //监听销毁的事件
-       const { data } = await modal.onDidDismiss();
-       for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-        this.selecttemplat.template.secs[i].fields.forEach(item => {
-          console.log(fieldname)
-          console.log(item.name)
-          if(item.name==fieldname){
-            console.log(data)
-            item.value=data.result;
-          }
-        })
-    
-      }
+  //查找名称
+  async getSecurity(fieldname, fieldvalue) {
+    const modal = await this.modal.create({
+      showBackdrop: true,
+      component: SecurityComponent,
+      componentProps: { value: this.guidanceData }
+    });
+    modal.present();
+    //监听销毁的事件
+    const { data } = await modal.onDidDismiss();
+    for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+      this.selecttemplat.template.secs[i].fields.forEach(item => {
+        console.log(fieldname)
+        console.log(item.name)
+        if (item.name == fieldname) {
+          console.log(data)
+          item.value = data.result;
+        }
+      })
 
-      console.log(this.selecttemplat.template.secs)
-       
     }
- 
+
+    console.log(this.selecttemplat.template.secs)
+
+  }
+
 }
 
