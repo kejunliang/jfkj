@@ -19,12 +19,19 @@ export class PopoverComponent implements OnInit {
 
   ngOnInit() { }
   getBtnLink(btn) {
+    let type=""
+    if(btn=="edit"){
+      type="edit"
+    }else{
+      type="open"
+    }
     let url = this.router.url
     let unid = this.getQueryVariable(url, "unid")
-    let aid = this.getQueryVariable(url, "aid")
-    let title = this.getQueryVariable(url, "title")
-    let stat = this.getQueryVariable(url, "stat")
-   // this.router.navigate(["/new-form"], { queryParams: { unid: unid, aid: aid, title: title, stat: stat,type:"" } });
+    let aid = encodeURIComponent(encodeURIComponent(this.getQueryVariable(url, "aid")))
+    let title = encodeURIComponent(this.getQueryVariable(url, "title"))
+    console.log(title)
+    let stat = encodeURIComponent(this.getQueryVariable(url, "stat"))
+    this.router.navigate(["/new-form"], { queryParams: { unid: unid, aid: aid, title: title, stat: stat,type:type,refresh: new Date().getTime() } });
     this.Popover.dismiss()
     
   }

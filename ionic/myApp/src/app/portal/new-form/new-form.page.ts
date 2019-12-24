@@ -92,9 +92,11 @@ export class NewFormPage implements OnInit {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       console.log("进")
+      this.sections=[]
+      this.sectionsold=[]
       if (res.unid) {
         console.log("旧文档")
-        this.type = "old"
+        this.type = res.type
         if (res.stat) {
           this.title = res.title + "(" + res.stat + ")"
         } else {
@@ -103,7 +105,7 @@ export class NewFormPage implements OnInit {
 
         this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
-          console.log(formdata)
+          //console.log(formdata)
           this.storage.get("allforms").then(data => {
             // console.log(JSON.parse(data))
             this.templates = JSON.parse(data).templates

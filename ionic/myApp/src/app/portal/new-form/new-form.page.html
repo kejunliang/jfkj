@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="form-container">
+  <div class="form-container" id="edit" *ngIf="type=='edit'">
 
     <div *ngFor="let field of sysfields;let index = index;">
       <!--date-->
@@ -325,6 +325,54 @@
                 </ion-select>
               </ion-item>
             </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="form-container"  id="open" *ngIf="type=='open'">
+
+    <div *ngFor="let field of sysfields;let index = index;">
+      <!--date-->
+      <div >
+        <ion-item lines="none">
+          <ion-label>{{field.label}}</ion-label>
+          <ion-text color="primary">
+            {{field.value}}
+          </ion-text>
+        </ion-item>
+      </div>
+   
+    </div>
+
+
+    <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
+      <div *ngIf="index>0">
+        <ion-item lines="none" color="favorite">
+          <ion-label color="light">{{section.title}}</ion-label>
+          <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
+            (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>
+          <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="isShowGuidance(section.secId,index)"
+            *ngIf="list[index].show">
+          </ion-icon>
+        </ion-item>
+        <div *ngIf="list[index].show" class="guidance-box">
+          <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
+            <!--multiselectfield-->
+            <div >
+              <ion-item lines="none">
+                <ion-label color="basic" stacked>
+                  {{field.label}}
+                  <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                </ion-label>
+                <ion-text color="primary">
+                  {{field.value}}
+                </ion-text>
+              </ion-item>
+            </div>
+          
           </div>
         </div>
 
