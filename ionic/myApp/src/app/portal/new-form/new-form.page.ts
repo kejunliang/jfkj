@@ -22,7 +22,7 @@ export class NewFormPage implements OnInit {
   public title: string;
   public formID: string;
   public loadSecs: any = [];
-  public fields;
+  public fields: Array<object>=[];
 
   public activeActionsheetIdex;
   public sigleEmpChoice;
@@ -68,8 +68,11 @@ export class NewFormPage implements OnInit {
     { "show": false }
   ];
   public isShowBtn: boolean = false;
-  public btnBox: any = [
-  ];
+  public btnBox: any ={
+    "result":[
+      {"btnType": "Edit", "btnLabel": "Edit"}
+    ]
+  } ;
   public para = {
     "unid": "",
   }
@@ -95,6 +98,7 @@ export class NewFormPage implements OnInit {
       this.sections=[]
       this.sectionsold=[]
       if (res.unid) {
+        this.formID=res.unid
         console.log("旧文档")
         this.type = res.type
         if (res.stat) {
@@ -105,7 +109,7 @@ export class NewFormPage implements OnInit {
 
         this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
-          //console.log(formdata)
+         // console.log(formdata)
           this.storage.get("allforms").then(data => {
             // console.log(JSON.parse(data))
             this.templates = JSON.parse(data).templates
@@ -117,7 +121,10 @@ export class NewFormPage implements OnInit {
             if (!this.selecttemplat) {
               return false;
             }
-            this.btnBox = this.selecttemplat.menubaritem
+            if( this.type =="edit" ){
+              this.btnBox = this.selecttemplat.menubaritem
+            }
+           
             this.selecttemplat.template.secs[0].fields.forEach(data => {
               
               if(data.xtype=="date"){
@@ -134,15 +141,16 @@ export class NewFormPage implements OnInit {
                 if(data.name=="GMP_SEV_GMP_SH"){
                   this.severityvalue=data.value
                 }
+                this.fields.push(data) //
               })
               // console .log(this.selecttemplat.template.secs[i])
-              console.log(this.selecttemplat.template.secs[i].secId)
+             // console.log(this.selecttemplat.template.secs[i].secId)
               this.sections.push(this.selecttemplat.template.secs[i])
               this.sectionsold.push(this.selecttemplat.template.secs[i])
               this.list.push({ "show": false })
               this.commonCtrl.hide()
             }
-            console.log(this.list)
+           // console.log(this.list)
             let flag = this.sections.some(function (obj, index) {
               console.log(obj.title)
               return obj.title == "Severity"
@@ -428,7 +436,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "action", data: this.btnBox },
+      componentProps: { type: "action", data: this.btnBox ,formdata:this.fields,unid:this.formID},
       translucent: true,
       cssClass: "custom-popover",
       mode: "md"

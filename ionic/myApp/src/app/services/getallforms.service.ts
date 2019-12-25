@@ -45,6 +45,25 @@ export class GetallformsService {
         catchError(this.common.handleError)
       )
   }
+  submit(logindetail:any,para:any ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let unid=para.unid
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    let  data=para
+    return this.http.post('/sfv3/integrumws.nsf/xp_App.xsp/submitFormV2',data,options).pipe(
+       map(
+        result => { 
+          return result;
+        } 
+       )
+      
+    )
+  }
 
 
 }
