@@ -22,7 +22,7 @@ export class NewFormPage implements OnInit {
   public title: string;
   public formID: string;
   public loadSecs: any = [];
-  public fields: Array<object>=[];
+  public fields: Array<object> = [];
 
   public activeActionsheetIdex;
   public sigleEmpChoice;
@@ -68,11 +68,11 @@ export class NewFormPage implements OnInit {
     { "show": false }
   ];
   public isShowBtn: boolean = false;
-  public btnBox: any ={
-    "result":[
-      {"btnType": "Edit", "btnLabel": "Edit"}
+  public btnBox: any = {
+    "result": [
+      { "btnType": "Edit", "btnLabel": "Edit" }
     ]
-  } ;
+  };
   public para = {
     "unid": "",
   }
@@ -82,7 +82,7 @@ export class NewFormPage implements OnInit {
   public mandafields: any;
   public managerName: string;
   public psninfo: object;
-  public  severityvalue:string ;
+  public severityvalue: string;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -95,10 +95,10 @@ export class NewFormPage implements OnInit {
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       console.log("进")
-      this.sections=[]
-      this.sectionsold=[]
+      this.sections = []
+      this.sectionsold = []
       if (res.unid) {
-        this.formID=res.unid
+        this.formID = res.unid
         console.log("旧文档")
         this.type = res.type
         if (res.stat) {
@@ -109,7 +109,7 @@ export class NewFormPage implements OnInit {
 
         this.commonCtrl.show()
         this.getFormData(res.unid).then(formdata => {
-         // console.log(formdata)
+          // console.log(formdata)
           this.storage.get("allforms").then(data => {
             // console.log(JSON.parse(data))
             this.templates = JSON.parse(data).templates
@@ -121,15 +121,15 @@ export class NewFormPage implements OnInit {
             if (!this.selecttemplat) {
               return false;
             }
-            if( this.type =="edit" ){
+            if (this.type == "edit") {
               this.btnBox = this.selecttemplat.menubaritem
             }
-           
+
             this.selecttemplat.template.secs[0].fields.forEach(data => {
-              
-              if(data.xtype=="date"){
-                data.value = new Date() 
-              }else{
+
+              if (data.xtype == "date") {
+                data.value = new Date()
+              } else {
                 data.value = formdata[data.name]
               }
             })
@@ -138,30 +138,30 @@ export class NewFormPage implements OnInit {
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               this.selecttemplat.template.secs[i].fields.forEach(data => {
                 data.value = formdata[data.name]
-                if(data.name=="GMP_SEV_GMP_SH"){
-                  this.severityvalue=data.value
+                if (data.name == "GMP_SEV_GMP_SH") {
+                  this.severityvalue = data.value
                 }
                 this.fields.push(data) //
               })
               // console .log(this.selecttemplat.template.secs[i])
-             // console.log(this.selecttemplat.template.secs[i].secId)
+              // console.log(this.selecttemplat.template.secs[i].secId)
               this.sections.push(this.selecttemplat.template.secs[i])
               this.sectionsold.push(this.selecttemplat.template.secs[i])
               this.list.push({ "show": false })
               this.commonCtrl.hide()
             }
-           // console.log(this.list)
+            // console.log(this.list)
             let flag = this.sections.some(function (obj, index) {
               console.log(obj.title)
               return obj.title == "Severity"
             })
-            if (flag&&this.severityvalue!="") {
-              this.change({ "label": "Severity","value":this.severityvalue })
+            if (flag) {
+              this.change({ "label": "Severity", "value": this.severityvalue })
             }
           })
         })
       } else {
-        this.type = "new"
+        this.type = "edit"
         this.storage.get("allforms").then(data => {
           this.templates = JSON.parse(data).templates
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
@@ -227,187 +227,15 @@ export class NewFormPage implements OnInit {
     return res;
   }
 
-  initLoggedinUserOuData(name) {
-    let ouLevel: number;
-    let secIdous: any = [];
-    for (var i = 1; i <= 10; i++) {
-      if (this.selecttemplat.template['ou' + i + 'Fields']) {
-        for (var j = 0; j < this.selecttemplat.template['ou' + i + 'Fields'].length; j++) {
-          //if(secId != this.formType.template['ou'+i+'Fields'][j].parentSecId) continue;
-          var parentSecId = this.selecttemplat.template['ou' + i + 'Fields'][j].parentSecId;//check if ou[i].field contail fieldId
-          if (parentSecId == name) {
-            this.selecttemplat.template['ou' + i + 'Fields'][j].xtype = "multiselect"
-            this.selecttemplat.template['ou' + i + 'Fields'][j].label = this.selecttemplat.template['ou' + i + 'Fields'][j].fieldLabel
-
-            secIdous.push(this.selecttemplat.template['ou' + i + 'Fields'][j]);
-            break;
-          }
-        }
-
-      }
-    }
-    console.log(secIdous)
-    return secIdous;
-  };
-
   ngOnInit() {
 
     console.log(this.sections[0])
 
   }
 
-
-  getemplistData(type, name, value) {
-
-
-  };
-
-  getSublistdetails(name, value) {
-    // this.hasSubFiledValue=value;
-    for (var i = 0; i < this.formType.template.hasSubFields.length; i++) {
-      var field = this.formType.template.hasSubFields[i];
-      //if(secId!=field.parentSecId) continue;
-      var hasSubFieldEl = field.fieldId;
-      if (hasSubFieldEl == name) {
-        this.hasSubfieldChange(field, value);
-      }
-    }
-
-    var subListFields = this.formType.template.subListFields ? this.formType.template.subListFields : [];
-    //console.log(subListFields);
-    for (var i = 0; i < subListFields.length; i++) {
-      //if(secId!=subListFields[i].parentSecId) continue;
-      var subListFieldsEl = subListFields[i].parentSecId + "_" + subListFields[i].options.subfieldlist.pfieldid;
-      var subListFieldsElAl = subListFields[i].options.subfieldlist.pfieldid;
-
-
-      if ((subListFieldsEl) || (subListFieldsElAl)) {
-
-        if ((subListFieldsEl == name) || (subListFieldsElAl == name)) {
-
-          this.subListFieldChange(subListFields[i], value);
-
-        }
-
-      }
-
-    }
-  }
-
-  subListFieldChange(field, v) {
-    this.sublistObjId = "";
-    var v = (!v) ? "" : v;
-    var array = [];
-    if (typeof (v) == 'string') {
-
-      array.push(v);
-    } else {
-      array = array.concat(v);
-    }
-
-    var list = field.options.subfieldlist.list;
-    var obj = field.fieldId;
-    //alert(obj);
-    if (!obj) return;
-    this.sublistObjId = obj;
-    this.sublistFiledOptions = [{ text: '', value: '' }];
-    for (var i = 0; i < list.length; i++) {
-
-
-      if (array.indexOf(list[i].value) >= 0) {
-        console.log(list[i].list);
-        for (var j = 0; j < list[i].list.length; j++) {
-          this.sublistFiledOptions.push({ text: list[i].list[j], value: list[i].list[j] });
-        }
-      }
-
-    }
-  };
-  hasSubfieldChange(field, v) {
-    if (!field.subField) return;
-    var hideSubfield = [];
-    //var showSubfield=[];
-    for (let g = 0; g < field.subField.length; g++) {
-      let ids = field.subField[g].id;
-      for (var j = 0; j < ids.length; j++) {
-        if (ids[j] == '') continue;
-        var obj = field.parentSecId + '_' + ids[j];
-        hideSubfield.push(obj);
-        hideSubfield.push(ids[j]);
-
-      }
-    }
-    this.hideSubfieldFunc(hideSubfield)
-    //
-    var v = (!v) ? "" : v;
-    var array = [];
-    if (typeof (v) == 'string') {
-
-      array.push(v);
-    } else {
-      array = array.concat(v);
-    }
-    let showSubfield = [];
-    for (var i = 0; i < field.subField.length; i++) {
-
-
-      if (array.indexOf(typeof (field.subField[i].displayWhen) == "string" ? field.subField[i].displayWhen : field.subField[i].displayWhen[0]) >= 0) {
-        var ids = field.subField[i].id;
-        for (let h = 0; h < array.length; h++) {
-          if (array[h] == field.subField[i].displayWhen) {
-            for (var j = 0; j < ids.length; j++) {
-
-              if (ids[j] == '') continue;
-              var obj = field.parentSecId + '_' + ids[j];
-              // this.hasSubObjId=obj;
-              showSubfield.push(obj);
-              showSubfield.push(ids[j]);
-            }//end for j loop
-          }
-        }
-
-
-      }
-
-    }
-    this.showSubfieldFunc(showSubfield);
-  };
-  showSubfieldFunc(showSubfield) {
-
-
-    for (let e = 0; e < showSubfield.length; e++) {
-      for (let c = 0; c < this.loadSecs.length; c++) {
-        for (let d = 0; d < this.loadSecs[c].fields.length; d++) {
-
-
-          if (this.loadSecs[c].fields[d].name == showSubfield[e]) {
-
-            this.loadSecs[c].fields[d].hide = false;
-          }
-        }
-      }
-
-    }//End for loop
-  }
-  hideSubfieldFunc(hideSubfield) {
-    for (let c = 0; c < this.loadSecs.length; c++) {
-      for (let d = 0; d < this.loadSecs[c].fields.length; d++) {
-
-        for (let e = 0; e < hideSubfield.length; e++) {
-          if (this.loadSecs[c].fields[d].name == hideSubfield[e]) {
-            this.loadSecs[c].fields[d].hide = true;
-          }
-        }
-      }
-
-    }//End for loop
-  };
   ionViewDidLoad() {
 
   };
-
-
-
 
 
   isShowGuidance(sectionid, index) {
@@ -420,7 +248,7 @@ export class NewFormPage implements OnInit {
   }
 
   getSwitchBtn(item) {
-    console.dir(item)
+
     this.isShowBtn = false;
   }
   getBtnPopover() {
@@ -436,7 +264,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "action", data: this.btnBox ,formdata:this.fields,unid:this.formID},
+      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID },
       translucent: true,
       cssClass: "custom-popover",
       mode: "md"
@@ -461,7 +289,7 @@ export class NewFormPage implements OnInit {
     let oldsections = this.sectionsold
     let filtersections = []
     filtersections = oldsections.filter(obj => {
-      return obj.title.indexOf(field.value) != -1
+      return obj.title.indexOf(field.value) != -1 && field.value != ""
     })
     var curindex
     oldsections.forEach((element, index) => {

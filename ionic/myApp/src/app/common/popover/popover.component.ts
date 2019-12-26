@@ -54,10 +54,9 @@ export class PopoverComponent implements OnInit {
 
     let url = this.router.url
     let unid = this.getQueryVariable(url, "unid")
-    let aid = encodeURIComponent(encodeURIComponent(this.getQueryVariable(url, "aid")))
-    let title = encodeURIComponent(this.getQueryVariable(url, "title"))
-    console.log(title)
-    let stat = encodeURIComponent(this.getQueryVariable(url, "stat"))
+    let aid = decodeURIComponent(this.getQueryVariable(url, "aid"))
+    let title =decodeURIComponent(this.getQueryVariable(url, "title")) 
+    let stat = decodeURIComponent(this.getQueryVariable(url, "stat"))
     this.router.navigate(["/new-form"], { queryParams: { unid: unid, aid: aid, title: title, stat: stat,type:type,refresh: new Date().getTime() } });
     this.Popover.dismiss()
     
