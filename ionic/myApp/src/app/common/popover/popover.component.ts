@@ -45,7 +45,7 @@ export class PopoverComponent implements OnInit {
           this.para={
             "tempid": this.tempid,
             "formAction":"save",
-            "docId":"EBE27D0FEC6AEFF9482584D90020DCE6",
+            "docId":this.formid,
             "fields":this.fields
           }
         }else{
