@@ -23,39 +23,7 @@ export class NewFormPage implements OnInit {
   public formID: string;
   public loadSecs: any = [];
   public fields: Array<object> = [];
-
-  public activeActionsheetIdex;
-  public sigleEmpChoice;
-  public multiEmpChoice: any = [];
-  public empLists: any = [];
-  public oulist: any = [];
-  public selectOudata;
-  public ouHierarchy: any = [];
-  // public hideSecs:any=[];
-
-  public quesFiledValue;
-  public quesFiledName;
-  public quesValueArray: any = [];
-
-  public sublistFiledOptions: any = [];
-  public sublistObjId;
-
-  // public currentDate=new Date().toISOString();
-
-  public today = new Date().toISOString();
-  public viewColumns = [];
-
-  public riskName: string = '';
-  //public isShowRiskMatrix:boolean;
-  public labelSize;
-
-  public customiseColor;
-  public draftStatus;
-  public riskMatrixArray = [];
   //For lat, lon field
-  public lat;
-  public lon;
-
   public attachedImages = [];
   public guidanceData: any = [{ value: '1' }];
   public resvalue: any;
@@ -83,6 +51,7 @@ export class NewFormPage implements OnInit {
   public managerName: string;
   public psninfo: object;
   public severityvalue: string;
+  public templatid:string;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -135,6 +104,7 @@ export class NewFormPage implements OnInit {
             })
             this.sysfields = this.selecttemplat.template.secs[0].fields
             this.mandafields = this.selecttemplat.template.mandaFields
+            this.templatid = this.selecttemplat.template.templateId
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               this.selecttemplat.template.secs[i].fields.forEach(data => {
                 data.value = formdata[data.name]
@@ -173,6 +143,7 @@ export class NewFormPage implements OnInit {
           this.title = this.selecttemplat.template.templateTitle
           this.sysfields = this.selecttemplat.template.secs[0].fields
           this.mandafields = this.selecttemplat.template.mandaFields
+          this.templatid = this.selecttemplat.template.templateId
           console.log(this.sysfields)
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
@@ -185,6 +156,7 @@ export class NewFormPage implements OnInit {
                 data.options = data.options.filter(function (obj) { return obj.value != "" })
               }
               this.loadSecs.push(data);
+              this.fields.push(data) //
             })
             // console .log(this.selecttemplat.template.secs[i])
             this.sections.push(this.selecttemplat.template.secs[i])
@@ -264,7 +236,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID },
+      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID,tempid: this.templatid },
       translucent: true,
       cssClass: "custom-popover",
       mode: "md"

@@ -14,6 +14,8 @@ export class PopoverComponent implements OnInit {
   public actions: any = []
   public formid:string;
   public fields:Array<object> =[]
+  public para:any;
+  public tempid:string;
   constructor(public params: NavParams,
     public Popover: PopoverController,
     public router: Router,
@@ -26,6 +28,7 @@ export class PopoverComponent implements OnInit {
     this.actions = this.params.get("data").result
     this.fields =this.params.get("formdata")
     this.formid =this.params.get("unid")
+    this.tempid =this.params.get("tempid")
   }
 
   ngOnInit() { }
@@ -36,17 +39,26 @@ export class PopoverComponent implements OnInit {
         type="edit"
         break;
       case "Save":
-        console.log(this.formid)
+        console.log("unid=="+this.formid)
         console.log(this.fields)
-        let para={
-          "tempid":"",
-          "formAction":"save",
-          "docId":"EBE27D0FEC6AEFF9482584D90020DCE6",
-          "fields":[{
-            "name":"FormDueComDate","value":"2019-12-25"
-          }]
+        if(this.formid){
+          this.para={
+            "tempid": this.tempid,
+            "formAction":"save",
+            "docId":"EBE27D0FEC6AEFF9482584D90020DCE6",
+            "fields":this.fields
+          }
+        }else{
+          console.log("tempid=="+this.tempid)
+          this.para={
+            "tempid": this.tempid,
+            "formAction":"save",
+            "docId":"",
+            "fields":this.fields
+          }
         }
-        this.submit(para)
+       
+        this.submit(this.para)
       default:
         type="open"
         break;

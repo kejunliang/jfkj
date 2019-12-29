@@ -34,7 +34,7 @@ export class FormListPage implements OnInit {
     public commonCtrl: commonCtrl,
     public nav:NavController,
   ) {
-
+    console.log(  this.searchkey.start)
     this.getData();
 
 
