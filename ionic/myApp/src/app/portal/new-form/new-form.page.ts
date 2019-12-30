@@ -22,7 +22,7 @@ export class NewFormPage implements OnInit {
   public title: string;
   public formID: string;
   public loadSecs: any = [];
-  public fields: any =[];
+  public fields: any = [];
   //For lat, lon field
   public attachedImages = [];
   public guidanceData: any = [{ value: '1' }];
@@ -272,6 +272,7 @@ export class NewFormPage implements OnInit {
         type = "edit"
         break;
       case "Save":
+        type = "edit"
         console.log("unid==" + this.formID)
         console.log(this.fields)
         if (this.formID) {
@@ -292,6 +293,7 @@ export class NewFormPage implements OnInit {
         }
         console.log("保存了")
         this.submit(this.paraforsubmit)
+        break;
       case "Submit":
         console.log("unid==" + this.formID)
         console.log(this.fields)
@@ -352,12 +354,13 @@ export class NewFormPage implements OnInit {
         if (fieldError) {
           console.log("必填了")
           console.log(msg)
-          this.presentAlert(msg,"","OK")
+          this.presentAlert(msg, "", "OK")
         }
         else {
 
         }
-       // this.submit(this.paraforsubmit)
+        // this.submit(this.paraforsubmit)
+        break;
       default:
         type = "open"
         break;
@@ -372,7 +375,7 @@ export class NewFormPage implements OnInit {
     //this.Popover.dismiss(btn)
 
   }
-  async presentAlert(msg:string,header:string,btn:string) {
+  async presentAlert(msg: string, header: string, btn: string) {
 
     const alert = await this.alertController.create({
       header: header,
@@ -380,7 +383,7 @@ export class NewFormPage implements OnInit {
       message: msg,
       buttons: [btn]
     });
-  
+
     await alert.present();
   }
   getQueryVariable(url, variable) {
