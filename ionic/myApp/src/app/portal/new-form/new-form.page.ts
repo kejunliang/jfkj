@@ -52,6 +52,14 @@ export class NewFormPage implements OnInit {
   public psninfo: object;
   public severityvalue: string;
   public templatid:string;
+
+  public ous:any=[];
+  public ou1select:any = [];
+  public ou2select:any = [];
+  public ou3select:any = [];
+  public ou4select:any = [];
+  public ou5select:any = [];
+
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -60,7 +68,9 @@ export class NewFormPage implements OnInit {
     public getforms: GetallformsService,
     public commonCtrl: commonCtrl,
   ) {
-
+    this.storage.get('ous').then(data=>{
+      this.ous = data
+    })
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
       console.log("进")
@@ -297,6 +307,110 @@ export class NewFormPage implements OnInit {
     console.log(this.selecttemplat.template.secs)
 
   }
+  getOuList(fieldName:any,pSecId:any){
+    let obj:any = this.getOuLevelAndGroupId(fieldName,pSecId);
+    let level:number=obj.level;
+    let ouGroupId:string =obj.ouGroupId;
+    //console.log('obj:',obj,'--level:',level,'--ouGroupId:',ouGroupId)
+    var arr:any = [];
+    var tmparr:any = [];
+    if(level==1){
+      //return JSON.parse(this.ous).ou1;
+      tmparr = JSON.parse(this.ous).ou1;
+      for(let i=0;i<tmparr.length;i++){
+        arr.push({text:tmparr[i],value:tmparr[i]});
+      }
+    }else{
+      let ouselect:any = this['ou'+(level-1)+'select'];
+      if(ouselect){
+        let v:any = ouselect.find(e=>e.ouGroupId==ouGroupId);
+        if(v) return v['ou'+level+'list']?v['ou'+level+'list']:[];
+      }
+    }
+    return arr;
+  }
+  getOUSublistdetails(name:any,val:any,pSecId:any){
+    
+    let obj:any = this.getOuLevelAndGroupId(name,pSecId);
+    let level:number=obj.level;
+    let ouGroupId:string =obj.ouGroupId;
+    let ou:any={};
+    ou.ouGroupId = ouGroupId;
+    let arr:any = [];
+    let ouLevelList = JSON.parse(this.ous)["ou"+(level+1)];
+    let tmparr:any = [];
+    let tmparr1:any = [];
+    let tmparr2:any = [];
+    let text:any;
+    let value:any;
+    for(let i=0;i<val.length;i++){
+      if(val[i].indexOf('->')>-1){
+        tmparr2 = val[i].split('->');
+      }else{
+        tmparr2 = [val[i]];
+      }
+      
+      let v = ouLevelList.find(e=>{
+        if(level==1) return e['ou'+level]==tmparr2[0];
+        if(level==2) return e['ou'+level]==tmparr2[0] && e['ou'+(level-1)]==tmparr2[1];
+        if(level==3) return e['ou'+level]==tmparr2[0] && e['ou'+(level-1)]==tmparr2[1] && e['ou'+(level-2)]==tmparr2[2];
+        if(level==4) return e['ou'+level]==tmparr2[0] && e['ou'+(level-1)]==tmparr2[1] && e['ou'+(level-2)]==tmparr2[2] && e['ou'+(level-3)]==tmparr2[3];
+        if(level==5) return e['ou'+level]==tmparr2[0] && e['ou'+(level-1)]==tmparr2[1] && e['ou'+(level-2)]==tmparr2[2] && e['ou'+(level-3)]==tmparr2[3] && e['ou'+(level-4)]==tmparr2[4];
+        return e;
+      })
+      
+      tmparr1 = [];
+      if(v){
+        tmparr = v['ou'+(level+1)];
+        for(let j=0;j<tmparr.length;j++){
+          text  = tmparr[j]+'('+tmparr2[0]+')';
+          if(level==1){
+            value = tmparr[j]+'->'+tmparr2[0];
+          }else if(level==2){
+            value = tmparr[j]+'->'+tmparr2[0]+'->'+tmparr2[1];
+          }else if(level==3){
+            value = tmparr[j]+'->'+tmparr2[0]+'->'+tmparr2[1]+'->'+tmparr2[2];
+          }else if(level==4){
+            value = tmparr[j]+'->'+tmparr2[0]+'->'+tmparr2[1]+'->'+tmparr2[2]+'->'+tmparr2[3];
+          }else if(level==5){
+            value = tmparr[j]+'->'+tmparr2[0]+'->'+tmparr2[1]+'->'+tmparr2[2]+'->'+tmparr2[3]+'->'+tmparr2[4];
+          }else{
+            text  = '';
+            value = '';
+          }
+          
+          tmparr1.push({text,value})
+        }
+      }
+      
+      arr = arr.concat(tmparr1);
+    }
+    ou['ou'+(level+1)+'list'] = arr;
+    let index:number = this['ou'+level+'select'].findIndex(e=>e.ouGroupId==ouGroupId);
+    if(index==-1){
+      this['ou'+level+'select'].push(ou);
+    }else{
+      this['ou'+level+'select'].splice(index,1,ou);
+    }
+    
+  }
+  getOuLevelAndGroupId(fieldName:any,pSecId:any):object{
+    let level:number=1
+    let ouGroupId:string =''
+    for(var i=1;i<=10;i++){
+			if(this.selecttemplat.template['ou'+i+'Fields']){
+				
+				let v = this.selecttemplat.template['ou'+i+'Fields'].find(item => item.parentSecId==pSecId && item.fieldId == fieldName)
+        if(v){
+          level = i;
+          ouGroupId = v.ouGroupId;
+          break;
+        }
 
+      }
+    }
+    
+    return {level,ouGroupId};
+  }
 }
 
