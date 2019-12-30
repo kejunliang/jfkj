@@ -21,6 +21,7 @@ export class PopoverComponent implements OnInit {
     public router: Router,
     public getforms: GetallformsService,
     private storage: Storage,
+
   ) {
     console.log("打开操作")
     console.log(this.params.get("type"))
@@ -32,68 +33,11 @@ export class PopoverComponent implements OnInit {
   }
 
   ngOnInit() { }
-  getBtnLink(btn) {
-    let type=""
-    switch (btn) {
-      case "Edit":
-        type="edit"
-        break;
-      case "Save":
-        console.log("unid=="+this.formid)
-        console.log(this.fields)
-        if(this.formid){
-          this.para={
-            "tempid": this.tempid,
-            "formAction":"save",
-            "docId":this.formid,
-            "fields":this.fields
-          }
-        }else{
-          console.log("tempid=="+this.tempid)
-          this.para={
-            "tempid": this.tempid,
-            "formAction":"save",
-            "docId":"",
-            "fields":this.fields
-          }
-        }
-       
-        this.submit(this.para)
-      default:
-        type="open"
-        break;
-    }
-
-    let url = this.router.url
-    let unid = this.getQueryVariable(url, "unid")
-    let aid = decodeURIComponent(this.getQueryVariable(url, "aid"))
-    let title =decodeURIComponent(this.getQueryVariable(url, "title")) 
-    let stat = decodeURIComponent(this.getQueryVariable(url, "stat"))
-    this.router.navigate(["/new-form"], { queryParams: { unid: unid, aid: aid, title: title, stat: stat,type:type,refresh: new Date().getTime() } });
-    this.Popover.dismiss()
-    
-  }
-  getQueryVariable(url, variable) {
-    let query = url.split("?")[1]
-    let vars = query.split("&");
-    for (let i = 0; i < vars.length; i++) {
-      let pair = vars[i].split("=");
-      if (pair[0] == variable) { return pair[1]; }
-    }
-    return (false);
+  
+  dismiss(btn){
+    this.Popover.dismiss(btn)
   }
 
 
-  submit(para) {
-    return new Promise((resolve, reject) => {
-      this.storage.get("loginDetails").then(logindata => {
-        this.getforms.getFormData(logindata, {"unid":"EBE27D0FEC6AEFF9482584D90020DCE6"}).pipe(first()).subscribe(data => {
-          this.getforms.submit(logindata,para).pipe(first()).subscribe(data =>{
-            console.log(data)
-          })
-          //resolve(data)
-        })
-      })
-    })
-  }
+
 }
