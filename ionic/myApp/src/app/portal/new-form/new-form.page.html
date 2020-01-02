@@ -39,7 +39,7 @@
       <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
         <ion-item lines="none">
           <ion-label>{{field.label}}</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+          <ion-datetime displayFormat="YYYY/MM/DD" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
             placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
           <span class="down">
             <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
@@ -97,8 +97,9 @@
                 </ion-label>
 
                 <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
-                (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)> 
-                  <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">{{option.text}}</ion-select-option>
+                  (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
+                  <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
+                    {{option.text}}</ion-select-option>
                 </ion-select>
               </ion-item>
             </div>
@@ -120,7 +121,7 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-                <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+                <ion-datetime displayFormat="YYYY/MM/DD" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
                   placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
                 <span class="down">
                   <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
@@ -334,11 +335,11 @@
     </div>
   </div>
 
-  <div class="form-container"  id="open" *ngIf="type=='open'">
+  <div class="form-container" id="open" *ngIf="type=='open'">
 
     <div *ngFor="let field of sysfields;let index = index;">
       <!--date-->
-      <div >
+      <div>
         <ion-item lines="none">
           <ion-label>{{field.label}}</ion-label>
           <ion-text color="primary">
@@ -346,7 +347,7 @@
           </ion-text>
         </ion-item>
       </div>
-   
+
     </div>
 
 
@@ -363,8 +364,9 @@
         <div *ngIf="list[index].show" class="guidance-box">
           <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
             <!--multiselectfield-->
-            <div >
-              <ion-item lines="none">
+
+            <ion-item lines="none">
+              <div>
                 <ion-label color="basic" stacked>
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
@@ -372,9 +374,11 @@
                 <ion-text color="primary">
                   {{field.value}}
                 </ion-text>
-              </ion-item>
-            </div>
-          
+              </div>
+
+            </ion-item>
+
+
           </div>
         </div>
 

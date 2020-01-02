@@ -63,6 +63,13 @@ export class NewFormPage implements OnInit {
   public today = new Date().toISOString();
   public initiator:any='';
   public initiatorOU:any = '';
+  public ulrs = {
+    "url":"",
+    "stat":"",
+    "title":"",
+    "aid":"",
+    "unid":""
+  }
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -73,6 +80,14 @@ export class NewFormPage implements OnInit {
     public router: Router,
     public alertController: AlertController,
   ) {
+
+    this.ulrs.url = this.router.url
+    this.ulrs.unid = this.getQueryVariable( this.ulrs.url, "unid")
+    this.ulrs.aid = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "aid"))
+    this.ulrs.title = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "title"))
+    this.ulrs.stat = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "stat"))
+
+
     this.storage.get('ous').then(data => {
       this.ous = data
     })
@@ -86,6 +101,7 @@ export class NewFormPage implements OnInit {
       this.sections = []
       this.sectionsold = []
       if (res.unid) {
+        this.fields=[];
         this.formID = res.unid
         console.log("旧文档")
         this.type = res.type
@@ -155,6 +171,7 @@ export class NewFormPage implements OnInit {
           })
         })
       } else {
+        this.fields=[];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
           this.templates = JSON.parse(data).templates
@@ -272,15 +289,22 @@ export class NewFormPage implements OnInit {
   }
 
   getBtnLink(btn) {
-    let type = ""
+
+    this.fields.forEach(data => {
+      if(data.xtype == "date"){
+       data.value =data.value.substring(0,data.value.indexOf("T"))
+      }
+    })
+    let actiontype = ""
     switch (btn) {
       case "Edit":
-        type = "edit"
+        actiontype = "edit"
         break;
       case "Save":
-        type = "edit"
+        actiontype = "edit"
         console.log("unid==" + this.formID)
         console.log(this.fields)
+
         if (this.formID) {
           this.paraforsubmit = {
             "tempid": this.templatid,
@@ -298,12 +322,12 @@ export class NewFormPage implements OnInit {
           }
         }
         console.log("保存了")
-        this.submit(this.paraforsubmit)
+        this.submit(this.paraforsubmit,actiontype)
         break;
       case "Submit":
         console.log("unid==" + this.formID)
         console.log(this.fields)
-        type = "edit"
+        actiontype = "edit"
         if (this.formID) {
           this.paraforsubmit = {
             "tempid": this.templatid,
@@ -361,23 +385,20 @@ export class NewFormPage implements OnInit {
           console.log("必填了")
           console.log(msg)
           this.presentAlert(msg, "", "OK")
+          return false;
         }
         else {
-
+           this.submit(this.paraforsubmit,actiontype)
         }
-        // this.submit(this.paraforsubmit)
+       
         break;
       default:
-        type = "open"
+        actiontype = "open"
         break;
     }
     console.log("操作了吗")
-    let url = this.router.url
-    let unid = this.getQueryVariable(url, "unid")
-    let aid = decodeURIComponent(this.getQueryVariable(url, "aid"))
-    let title = decodeURIComponent(this.getQueryVariable(url, "title"))
-    let stat = decodeURIComponent(this.getQueryVariable(url, "stat"))
-    this.router.navigate(["/new-form"], { queryParams: { unid: unid, aid: aid, title: title, stat: stat, type: type, refresh: new Date().getTime() } });
+   
+    this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
     //this.Popover.dismiss(btn)
 
   }
@@ -401,12 +422,13 @@ export class NewFormPage implements OnInit {
     }
     return (false);
   }
-  submit(para) {
+  submit(para,actiontype) {
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(logindata => {
         this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
           this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
             console.log(data)
+            this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
           })
           //resolve(data)
         })
