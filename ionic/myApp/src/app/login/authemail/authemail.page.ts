@@ -23,7 +23,8 @@ export class AuthemailPage implements OnInit {
   public resmsg:string;
   public loginDetails ={
       email:"",
-      code:""
+      code:"",
+      OUCategory:""
   }
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
@@ -57,6 +58,7 @@ export class AuthemailPage implements OnInit {
             localStorage.setItem('user',result.username);
             this.loginDetails.email=this.authform.value.email
             this.loginDetails.code=this.authform.value.code
+            this.loginDetails.OUCategory=result.OUCategory;
             this.storage.set("loginDetails",this.loginDetails)
             this.router.navigate(['loginpass'])
           }else{

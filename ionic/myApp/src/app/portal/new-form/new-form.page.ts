@@ -61,6 +61,8 @@ export class NewFormPage implements OnInit {
   public ou5select: any = [];
   public paraforsubmit: any;
   public today = new Date().toISOString();
+  public initiator:any='';
+  public initiatorOU:any = '';
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -73,6 +75,10 @@ export class NewFormPage implements OnInit {
   ) {
     this.storage.get('ous').then(data => {
       this.ous = data
+    })
+    this.storage.get('loginDetails').then(data=>{
+      this.initiator = data.username;
+      this.initiatorOU = data.OUCategory;
     })
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);

@@ -21,7 +21,7 @@
         <ion-item lines="none">
           <ion-label>{{field.label}}</ion-label>
           <ion-text color="primary">
-            {{field.value}}
+            {{field.value?field.value:initiator}}
           </ion-text>
         </ion-item>
       </div>
