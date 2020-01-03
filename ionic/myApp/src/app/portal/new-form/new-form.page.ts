@@ -198,6 +198,22 @@ export class NewFormPage implements OnInit {
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
+              if(data.xtype == 'multiou'){
+                let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
+                let level: number = obj.level;
+                let ouGroupId: string = obj.ouGroupId;
+                let iou:any = this.initiatorOU.split('\\');
+                let tmp:any = '';
+                for(let m=0;m<level;m++){
+                  if(tmp==''){
+                    if(iou[m]) tmp=iou[m];
+                  }else{
+                    if(iou[m]) tmp+="/"+iou[m];
+                  }
+                }
+                this.getOUSublistdetails(data.name,tmp,this.selecttemplat.template.secs[i].secId);
+                data.value = tmp;
+              }
             })
             // console .log(this.selecttemplat.template.secs[i])
             this.sections.push(this.selecttemplat.template.secs[i])
@@ -246,8 +262,9 @@ export class NewFormPage implements OnInit {
 
   }
 
-  ionViewDidLoad() {
 
+  ionViewDidLoad() {
+    
   };
 
 
@@ -505,6 +522,7 @@ export class NewFormPage implements OnInit {
       }
     } else {
       let ouselect: any = this['ou' + (level - 1) + 'select'];
+      
       if (ouselect) {
         let v: any = ouselect.find(e => e.ouGroupId == ouGroupId);
         if (v) return v['ou' + level + 'list'] ? v['ou' + level + 'list'] : [];
@@ -513,7 +531,7 @@ export class NewFormPage implements OnInit {
     return arr;
   }
   getOUSublistdetails(name: any, val: any, pSecId: any) {
-
+    val = typeof(val)=='string'?[val]:val;
     let obj: any = this.getOuLevelAndGroupId(name, pSecId);
     let level: number = obj.level;
     let ouGroupId: string = obj.ouGroupId;
@@ -526,37 +544,37 @@ export class NewFormPage implements OnInit {
     let tmparr2: any = [];
     let text: any;
     let value: any;
+    
     for (let i = 0; i < val.length; i++) {
-      if (val[i].indexOf('->') > -1) {
-        tmparr2 = val[i].split('->');
+      if (val[i].indexOf('/') > -1) {
+        tmparr2 = val[i].split('/');
       } else {
         tmparr2 = [val[i]];
       }
-
       let v = ouLevelList.find(e => {
         if (level == 1) return e['ou' + level] == tmparr2[0];
-        if (level == 2) return e['ou' + level] == tmparr2[0] && e['ou' + (level - 1)] == tmparr2[1];
-        if (level == 3) return e['ou' + level] == tmparr2[0] && e['ou' + (level - 1)] == tmparr2[1] && e['ou' + (level - 2)] == tmparr2[2];
-        if (level == 4) return e['ou' + level] == tmparr2[0] && e['ou' + (level - 1)] == tmparr2[1] && e['ou' + (level - 2)] == tmparr2[2] && e['ou' + (level - 3)] == tmparr2[3];
-        if (level == 5) return e['ou' + level] == tmparr2[0] && e['ou' + (level - 1)] == tmparr2[1] && e['ou' + (level - 2)] == tmparr2[2] && e['ou' + (level - 3)] == tmparr2[3] && e['ou' + (level - 4)] == tmparr2[4];
+        if (level == 2) return e['ou' + level] == tmparr2[1] && e['ou' + (level - 1)] == tmparr2[0];
+        if (level == 3) return e['ou' + level] == tmparr2[2] && e['ou' + (level - 1)] == tmparr2[1] && e['ou' + (level - 2)] == tmparr2[0];
+        if (level == 4) return e['ou' + level] == tmparr2[3] && e['ou' + (level - 1)] == tmparr2[2] && e['ou' + (level - 2)] == tmparr2[1] && e['ou' + (level - 3)] == tmparr2[0];
+        if (level == 5) return e['ou' + level] == tmparr2[4] && e['ou' + (level - 1)] == tmparr2[3] && e['ou' + (level - 2)] == tmparr2[2] && e['ou' + (level - 3)] == tmparr2[1] && e['ou' + (level - 4)] == tmparr2[0];
         return e;
       })
 
       tmparr1 = [];
       if (v) {
         tmparr = v['ou' + (level + 1)];
-        for (let j = 0; j < tmparr.length; j++) {
-          text = tmparr[j] + '(' + tmparr2[0] + ')';
+        for (let j = 0; j <tmparr.length; j++) {
+          text = tmparr[j] + '(' + tmparr2[level-1] + ')';
           if (level == 1) {
-            value = tmparr[j] + '->' + tmparr2[0];
+            value = tmparr2[0] + '/' + tmparr[j];
           } else if (level == 2) {
-            value = tmparr[j] + '->' + tmparr2[0] + '->' + tmparr2[1];
+            value = tmparr2[0] + '/' + tmparr2[1] + '/' + tmparr[j];
           } else if (level == 3) {
-            value = tmparr[j] + '->' + tmparr2[0] + '->' + tmparr2[1] + '->' + tmparr2[2];
+            value = tmparr2[0] + '/' + tmparr2[1] + '/' + tmparr2[2] + '/' + tmparr[j];
           } else if (level == 4) {
-            value = tmparr[j] + '->' + tmparr2[0] + '->' + tmparr2[1] + '->' + tmparr2[2] + '->' + tmparr2[3];
+            value = tmparr2[0] + '/' + tmparr2[1] + '/' + tmparr2[2] + '/' + tmparr2[3] + '/' + tmparr[j];
           } else if (level == 5) {
-            value = tmparr[j] + '->' + tmparr2[0] + '->' + tmparr2[1] + '->' + tmparr2[2] + '->' + tmparr2[3] + '->' + tmparr2[4];
+            value = tmparr2[0] + '/' + tmparr2[1] + '/' + tmparr2[2] + '/' + tmparr2[3] + '/' + tmparr2[4] + '/' + tmparr[j];
           } else {
             text = '';
             value = '';
@@ -568,6 +586,7 @@ export class NewFormPage implements OnInit {
 
       arr = arr.concat(tmparr1);
     }
+    
     ou['ou' + (level + 1) + 'list'] = arr;
     let index: number = this['ou' + level + 'select'].findIndex(e => e.ouGroupId == ouGroupId);
     if (index == -1) {
