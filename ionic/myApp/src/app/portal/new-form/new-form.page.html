@@ -110,8 +110,11 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-                <button *ngIf="type=='new'" ion-item block color="basic">Tap to choose</button>
-                {{field.value}}
+                <ion-select [(ngModel)]='field.value' multiple="false" name="field.name"
+                  (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
+                  <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
+                    {{option.text}}</ion-select-option>
+                </ion-select>
               </ion-item>
             </div>
             <!--date-->
