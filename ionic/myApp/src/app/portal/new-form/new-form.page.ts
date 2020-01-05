@@ -202,17 +202,20 @@ export class NewFormPage implements OnInit {
                 let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
                 let level: number = obj.level;
                 let ouGroupId: string = obj.ouGroupId;
-                let iou:any = this.initiatorOU.split('\\');
-                let tmp:any = '';
-                for(let m=0;m<level;m++){
-                  if(tmp==''){
-                    if(iou[m]) tmp=iou[m];
-                  }else{
-                    if(iou[m]) tmp+="/"+iou[m];
+                if (this.initiatorOU){
+                  let iou:any = this.initiatorOU.split('\\');
+                  let tmp:any = '';
+                  for(let m=0;m<level;m++){
+                    if(tmp==''){
+                      if(iou[m]) tmp=iou[m];
+                    }else{
+                      if(iou[m]) tmp+="/"+iou[m];
+                    }
                   }
+                  this.getOUSublistdetails(data.name,tmp,this.selecttemplat.template.secs[i].secId);
+                  data.value = tmp;
                 }
-                this.getOUSublistdetails(data.name,tmp,this.selecttemplat.template.secs[i].secId);
-                data.value = tmp;
+               
               }
             })
             // console .log(this.selecttemplat.template.secs[i])
@@ -308,7 +311,7 @@ export class NewFormPage implements OnInit {
   getBtnLink(btn) {
 
     this.fields.forEach(data => {
-      if(data.xtype == "date"){
+      if(data.xtype == "date"&&data.value!=undefined){
        data.value =data.value.substring(0,data.value.indexOf("T"))
       }
     })

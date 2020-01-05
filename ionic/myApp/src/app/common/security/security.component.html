@@ -14,8 +14,9 @@
 <ion-content>
   <div class="searchTop">
    <div class="search-box">
+    
       <img src="../../../../../assets/icon/search.png" alt="">
-      <ion-input type="text" placeholder="Awesome Input"></ion-input>
+      <ion-input type="text" placeholder="Awesome Input"  (ionChange)=getItems($event) ></ion-input>
       <!-- <input type="text" placeholder="Search" [(ngModel)]="searchName" (keyup)="getSearch()" placeholder=""> -->
       <img src="../../../../../assets/icon/delect.png" class="delect" (click)="delectSelect()" *ngIf="isDelect">
    </div>

@@ -68,7 +68,7 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
+                <ion-select [(ngModel)]='field.value' multiple="false" name="field.name"
                   (ionChange)=getSublistdetails(field.name,field.value)>
                   <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
                 </ion-select>
@@ -96,7 +96,7 @@
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
 
-                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
+                <ion-select [(ngModel)]='field.value' multiple="false" name="field.name"
                   (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
                   <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
                     {{option.text}}</ion-select-option>
@@ -320,7 +320,7 @@
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
 
-                <ion-select [(ngModel)]='field.value' multiple="field.multiple">
+                <ion-select [(ngModel)]='field.value' multiple="false">
                   <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                   <div *ngIf="field.name==sublistObjId">
                     <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>

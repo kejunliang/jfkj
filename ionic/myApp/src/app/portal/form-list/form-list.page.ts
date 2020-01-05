@@ -13,6 +13,7 @@ import { NavController } from '@ionic/angular';
 })
 export class FormListPage implements OnInit {
   public data = [] //{"DocRefNumber":"测试我得标题啦","WFStatus":"","formMR":""}
+  public databak =[];
   public vid: string;
   public para = {
     "key": "",
@@ -84,6 +85,7 @@ export class FormListPage implements OnInit {
                     element.calendarDate = this.draftime;
                   });
                   this.data = this.data.concat( data.data)
+                  this.databak =this.data
                   event.target.complete();
                 })
             })
@@ -105,6 +107,7 @@ export class FormListPage implements OnInit {
                   
                   });
                   this.data = data.actDocs
+                  this.databak =this.data
                 
                 })
             })
@@ -143,7 +146,7 @@ export class FormListPage implements OnInit {
                   element.calendarDate = this.draftime;
                 });
                 this.data = data.data
-               
+                this.databak =this.data
               })
           })
         }else{
@@ -164,7 +167,7 @@ export class FormListPage implements OnInit {
                 
                 });
                 this.data = data.actDocs
-              
+                this.databak =this.data
               })
           })
         }
@@ -176,4 +179,22 @@ export class FormListPage implements OnInit {
    // this.nav.back()
     　this.nav.navigateBack('/tabs/tab1');
   }
+
+  getItems(ev: any) {
+
+    console.log()
+    this.data =this.databak
+    let val = ev.target.value;
+   console.log(val)
+    if (val && val.trim() != '') {
+      this.data = this.databak.filter((item) => {
+        if(item.title){
+          return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        }else{
+          return (item.DocRefNumber.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        }
+       
+      })
+    }
+  };
 }

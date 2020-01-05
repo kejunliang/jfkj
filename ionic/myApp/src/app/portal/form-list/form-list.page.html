@@ -9,7 +9,7 @@
 <div class="searchTop">
   <div class="search-box">
     <img src="../../../assets/icon/search.png" alt="">
-    <ion-input type="text" placeholder="Search"></ion-input>
+    <ion-input type="text" placeholder="Search" (ionChange)=getItems($event) ></ion-input>
   </div>
   <div class="searchRight">
     <ion-icon ios="ios-funnel" md="md-funnel"></ion-icon>
