@@ -323,8 +323,8 @@
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
 
-                <ion-select [(ngModel)]='field.value' multiple="false">
-                  <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
+                <ion-select [(ngModel)]='field.value' multiple="false" (ionChange)="getSublistOption(field,section.secId)">
+                  <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
                   <div *ngIf="field.name==sublistObjId">
                     <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
                   </div>

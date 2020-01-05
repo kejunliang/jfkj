@@ -70,6 +70,18 @@ export class NewFormPage implements OnInit {
     "aid":"",
     "unid":""
   }
+  //lookup select --start 20200105
+  // lko1: lookup original 1 ; lks1: lookup unique option 1; lkso2: lookup selected option 2
+  public lko1:any=[];
+  public lks1:any=[];
+  public lko2:any=[];
+  public lks2:any=[];
+  public lko3:any=[];
+  public lks3:any=[];
+  public lkso2:any=[];
+  public lkso3:any=[];
+
+  //lookup select --end
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -195,6 +207,44 @@ export class NewFormPage implements OnInit {
               });
               if (data.xtype == "radio" || data.xtype == "select") {
                 data.options = data.options.filter(function (obj) { return obj.value != "" })
+
+                if(data.xtype=="select"){
+                  let arr = [];
+                  let tmp = []; 
+                  let secId = this.selecttemplat.template.secs[i].secId;
+                  let view  = data.lookup.view;
+                  if(data.lookup.view){
+                    data.options.forEach(e=>{
+                      if(arr.indexOf(e.value)==-1){
+                        arr.push(e.value);
+                        tmp.push(e);
+                      }
+                    })
+                    if(data.lookup.column){
+                      let obj1 = {
+                        secId:secId,
+                        view  : view,
+                        options:data.options
+                      }
+                      let obj2 = {
+                        secId:secId,
+                        view  : view,
+                        options:tmp
+                      }
+                    
+                      if(data.lookup.column=="1"){
+                        this.lko1.push(obj1);
+                        this.lks1.push(obj2);
+                      }else if(data.lookup.column=="2"){
+                        this.lko2.push(obj1);
+                        this.lks2.push(obj2);
+                      }else if(data.lookup.column=="3"){
+                        this.lko3.push(obj1);
+                        this.lks3.push(obj2);
+                      }
+                    }
+                  }
+                }
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
@@ -616,6 +666,79 @@ export class NewFormPage implements OnInit {
     }
 
     return { level, ouGroupId };
+  }
+  getSelectOption(field:any,secId:any){
+    if(field.lookup.view){
+      let column:any = field.lookup.column;
+      if(column=="1"){
+        let v = this.lks1.find(e=>{
+          return e.secId == secId && e.view == field.lookup.view;
+        });
+        return v?v.options:[];
+      }else{
+        let v = this['lkso'+column].find(e=>{
+          return e.secId == secId && e.view == field.lookup.view;
+        });
+        return v?v.options:[];
+      }
+      return [];
+    }
+    return field.options;
+  }
+  getSublistOption(field:any,secId:any){
+    if(field.lookup.view){
+      let val:any = field.value;
+      let firstIndex:number = 0;
+      let lastIndex:number = 0;
+      let column:any = field.lookup.column;
+      //if(field.lookup.column=="1"){
+        let v = this['lko'+column].find(e=>e.secId == secId && e.view == field.lookup.view);
+        if(v){
+          firstIndex = v.options.findIndex(e=>e.value==val);
+          let t = this['lks'+column].find(e=>e.secId == secId && e.view == field.lookup.view);
+          let nextOptionValue:any;
+          if(t){
+            let index = t.options.findIndex(e=>e.value==val);
+            if(t.options[index+1]) nextOptionValue = t.options[index+1].value;
+          }
+          if(nextOptionValue){
+            lastIndex = v.options.findIndex(e=>e.value==nextOptionValue);
+          }else{
+            lastIndex = v.options.length;
+          }
+          if(this['lko'+(parseInt(column)+1)]){
+            let v2 = this['lko'+(parseInt(column)+1)].find(e=>e.secId == secId && e.view == field.lookup.view);
+            if(v2){
+              let newOptions:any = [];
+              let tarr:any = [];
+              let tval:any;
+              for(let j=firstIndex;j<lastIndex;j++){
+                tval = v2.options[j].value;
+                if(tarr.indexOf(tval)==-1){
+                  tarr.push(tval);
+                  newOptions.push(v2.options[j]);
+                }
+              }
+              let opts:any = {
+                secId:secId,
+                view:field.lookup.view,
+                options:newOptions
+              }
+              // this.lkso2
+              let index: number = this['lkso'+(parseInt(column)+1)].findIndex(e => e.secId == secId && e.view == field.lookup.view);
+              if (index == -1) {
+                this['lkso'+(parseInt(column)+1)].push(opts);
+              } else {
+                this['lkso'+(parseInt(column)+1)].splice(index, 1, opts);
+              }
+            }
+          }
+          
+          
+        }
+        
+      //}
+    }
   }
 }
 
