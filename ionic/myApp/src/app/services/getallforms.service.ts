@@ -64,6 +64,26 @@ export class GetallformsService {
       
     )
   }
-
+  getLoopupOptions(logindetail:any,para:any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let key=para.key;
+    let db = para.db;
+    let view = para.view;
+    let column = para.column;
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    let sparas = '&db='+db+'&view='+view+'&column='+column;
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getLookupOption?key='+key+sparas,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
 
 }
