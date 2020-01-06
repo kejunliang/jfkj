@@ -75,6 +75,10 @@ export class NewFormPage implements OnInit {
   public lookupOptins3:any=[];
 
   //lookup select --end
+
+  //subfield select --start 20200106
+  public subfields:any = [];
+  //subfield select --end
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -200,6 +204,20 @@ export class NewFormPage implements OnInit {
               });
               if (data.xtype == "radio" || data.xtype == "select") {
                 data.options = data.options.filter(function (obj) { return obj.value != "" })
+                if(data.xtype == "select"){
+                  if(this.selecttemplat.template.subListFields.length>0){
+                    let secId = this.selecttemplat.template.secs[i].secId;
+                    let fieldname = data.name;
+                    let fieldId = fieldname.split(secId+'_')[1];
+                    let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
+                      e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid && e.options.subfieldlist.pfieldid==fieldId)
+                    if(v){
+                      data.hasSubfield = true;
+                      data.fieldId = fieldId;
+                    }
+                    
+                  }
+                }
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
@@ -635,6 +653,13 @@ export class NewFormPage implements OnInit {
       }
       return [];
     }
+    if(field.pFieldId!=''){
+      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && e.fieldId == field.name);
+      if(v){
+        let t = this.subfields.find(e=>e.secId==secId && e.fieldId == field.name);
+        if(t) return t.options;
+      }
+    }
     return field.options;
   }
   getSublistOption(field:any,secId:any){
@@ -685,6 +710,36 @@ export class NewFormPage implements OnInit {
            
         }
       });
+    }
+    if(field.hasSubfield){
+      let val = field.value;
+      let fieldId = field.fieldId;
+      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
+        e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid &&
+        fieldId && e.options.subfieldlist.pfieldid==fieldId)
+      if(v){
+        let element = v.options.subfieldlist.list.find(e=>e.value==val);
+        if(element){
+          let options:any = [];
+          for (let i = 0; i < element.list.length; i++) {
+            let ele = element.list[i];
+            options.push({value:ele,text:ele})
+          }
+          let obj:object = {
+            secId,
+            fieldId:v.fieldId,
+            options
+          }
+          let index: number = this.subfields.findIndex(e => e.secId == secId && e.fieldId == v.fieldId);
+          if (index == -1) {
+            this.subfields.push(obj);
+          } else {
+            this.subfields.splice(index, 1, obj);
+          }
+          console.log('this.subfields:',this.subfields);
+          
+        }
+      }
     }
   }
   getLookupOptions(para: object) {
