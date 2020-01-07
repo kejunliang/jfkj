@@ -38,7 +38,8 @@ export class NewFormPage implements OnInit {
   public isShowBtn: boolean = false;
   public btnBox: any = {
     "result": [
-      { "btnType": "Edit", "btnLabel": "Edit" }
+      { "btnType": "Edit", "btnLabel": "Edit" },
+      { "btnType": "Close", "btnLabel": "Close" }
     ]
   };
   public para = {
