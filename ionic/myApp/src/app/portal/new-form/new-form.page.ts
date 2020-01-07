@@ -542,10 +542,13 @@ export class NewFormPage implements OnInit {
     var tmparr: any = [];
     if (level == 1) {
       //return JSON.parse(this.ous).ou1;
-      tmparr = JSON.parse(this.ous).ou1;
-      for (let i = 0; i < tmparr.length; i++) {
-        arr.push({ text: tmparr[i], value: tmparr[i] });
+      if(this.ous){
+        tmparr = JSON.parse(this.ous).ou1;
+        for (let i = 0; i < tmparr.length; i++) {
+          arr.push({ text: tmparr[i], value: tmparr[i] });
+        }
       }
+      
     } else {
       let ouselect: any = this['ou' + (level - 1) + 'select'];
       
