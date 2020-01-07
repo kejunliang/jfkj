@@ -221,7 +221,7 @@ export class NewFormPage implements OnInit {
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
-              if(data.xtype == 'multiou' || data.xtype == 'singleou'){
+              if(data.xtype == 'multiou'){
                 let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
                 let level: number = obj.level;
                 let ouGroupId: string = obj.ouGroupId;
