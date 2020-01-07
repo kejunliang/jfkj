@@ -58,6 +58,8 @@ export class LoginpassPage implements OnInit {
        // this.logPic.log=data.LoginCompanyLogo
        // this.logPic.background=data.LoginBKImage
       });
+     }else{
+      this.loginDetails.email = localStorage.getItem('email')
      }
     
     })
