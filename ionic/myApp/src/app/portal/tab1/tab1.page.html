@@ -36,12 +36,12 @@
           <ion-col size="9">
             <div>
               <ion-text>
-                <a [routerLink]="['/form-list']" [queryParams]="{vid:item.SFMView,vtitle:item.LinkTitle,type:'formlist',formid:item.SFMForm}">
+                <a [routerLink]="['/form-list']" [queryParams]="{vid:item.SFMView,vtitle:item.LinkTitle,type:'formlist',formid:item.SFMForm,temptitle:portalTile}">
                   {{item.LinkTitle}} </a>
               </ion-text>
             </div>
           </ion-col>
-          <ion-col><span> <a [routerLink]="['/new-form']" [queryParams]="{aTitle:item.LinkTitle,aid:item.SFMForm}"><img
+          <ion-col><span> <a [routerLink]="['/new-form']" [queryParams]="{aTitle:item.LinkTitle,aid:item.SFMForm,temptitle:portalTile}"><img
                   src="../../../assets/icon/add.png" alt=""></a></span></ion-col>
         </ion-row>
       </ion-item>

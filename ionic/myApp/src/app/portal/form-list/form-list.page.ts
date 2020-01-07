@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { commonCtrl } from "../../common/common";
 import { NavController } from '@ionic/angular'; 
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-form-list',
   templateUrl: './form-list.page.html',
@@ -28,16 +29,25 @@ export class FormListPage implements OnInit {
     "start":1,
     "count":20
   }
+  public cururl:string;
+  public portaltitle:string ;
   constructor(
     private storage: Storage,
     public geapp: GetAppPortalService,
     public activeRoute: ActivatedRoute,
     public commonCtrl: commonCtrl,
     public nav:NavController,
+    public router:Router,
+    
   ) {
     console.log(  this.searchkey.start)
-    this.getData();
+    this.activeRoute.queryParams.subscribe(res => {
+      this.portaltitle=res.temptitle
+    })
 
+
+    this.getData();
+    this.cururl=this.router.url;
 
 
   }
@@ -67,6 +77,7 @@ export class FormListPage implements OnInit {
         if (res) {
           this.stype = res.type
           this.formid=res.formid
+         
           if (this.stype === "formlist") {
             this.vid = res.vid.split("/")[1].split("?")[0]
             this.vtitle = res.vtitle
@@ -177,7 +188,8 @@ export class FormListPage implements OnInit {
   }
   goBack(){
    // this.nav.back()
-    　this.nav.navigateBack('/tabs/tab1');
+    　this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
+    
   }
 
   getItems(ev: any) {

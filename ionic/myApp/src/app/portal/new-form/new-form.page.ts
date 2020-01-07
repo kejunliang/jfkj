@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController,NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { GetallformsService } from "../../services/getallforms.service";
@@ -80,6 +80,7 @@ export class NewFormPage implements OnInit {
   //subfield select --start 20200106
   public subfields:any = [];
   //subfield select --end
+  public lasturl:string 
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -89,6 +90,7 @@ export class NewFormPage implements OnInit {
     public commonCtrl: commonCtrl,
     public router: Router,
     public alertController: AlertController,
+    public nav: NavController
   ) {
 
     this.ulrs.url = this.router.url
@@ -96,7 +98,7 @@ export class NewFormPage implements OnInit {
     this.ulrs.aid = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "aid"))
     this.ulrs.title = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "title"))
     this.ulrs.stat = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "stat"))
-
+    
 
     this.storage.get('ous').then(data => {
       this.ous = data
@@ -110,7 +112,9 @@ export class NewFormPage implements OnInit {
       console.log("进")
       this.sections = []
       this.sectionsold = []
+     
       if (res.unid) {
+        this.lasturl=res.cururl
         this.fields=[];
         this.formID = res.unid
         console.log("旧文档")
@@ -181,6 +185,7 @@ export class NewFormPage implements OnInit {
           })
         })
       } else {
+        this.lasturl="/tabs/tab1"
         this.fields=[];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
@@ -343,6 +348,7 @@ export class NewFormPage implements OnInit {
     switch (btn) {
       case "Edit":
         actiontype = "edit"
+        this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
         break;
       case "Save":
         actiontype = "edit"
@@ -399,14 +405,14 @@ export class NewFormPage implements OnInit {
               //let con=this.formType.template.mandaFields[p].con;
               if (type == "m") {
                 if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
-                  msg += this.selecttemplat.template.mandaFields[p].label + ' field cannot be empty!<br/>';
+                  msg += this.selecttemplat.template.mandaFields[p].label + ' <br/>';
                   fieldError = true;
                 }
               }
               else {
                 if (type == "d") {
                   if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
-                    msg += this.selecttemplat.template.mandaFields[p].label + ' field cannot be empty!<br/>';
+                    msg += this.selecttemplat.template.mandaFields[p].label + '<br/>';
                     fieldError = true;
                   }
                   else {
@@ -428,7 +434,7 @@ export class NewFormPage implements OnInit {
         if (fieldError) {
           console.log("必填了")
           console.log(msg)
-          this.presentAlert(msg, "", "OK")
+          this.presentAlert("The following fields are mandatory:<br/>"+msg, "", "OK")
           return false;
         }
         else {
@@ -438,12 +444,14 @@ export class NewFormPage implements OnInit {
         break;
       default:
         actiontype = "open"
+        this.router.navigateByUrl(this.lasturl)
         break;
     }
     console.log("操作了吗")
-   
-    this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+   // this.router.navigateByUrl(this.lasturl)
+    //
     //this.Popover.dismiss(btn)
+    
 
   }
   async presentAlert(msg: string, header: string, btn: string) {
@@ -472,7 +480,8 @@ export class NewFormPage implements OnInit {
         this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
           this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
             console.log(data)
-            this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+            //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+            this.router.navigateByUrl(this.lasturl)
           })
           //resolve(data)
         })
