@@ -331,8 +331,8 @@
                   </ion-select>
          
                
-                  <ion-radio-group  [(ngModel)]='field.value' class="groupRadio3" *ngIf="getSelectOption(field,section.secId).length < 4">
-                    <ion-item *ngFor="let option of field.options">
+                  <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  [(ngModel)]='field.value' class="groupRadio3">
+                    <ion-item *ngFor="let option of getSelectOption(field,section.secId)">
                       <ion-label>{{option.text}}</ion-label>
                       <ion-radio  slot="start" value="{{option.text}}"></ion-radio>
                     </ion-item>
