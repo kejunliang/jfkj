@@ -3,7 +3,7 @@ ion-item {
     ion-label{
         white-space: normal;
     }
-    ion-text,ion-datetime,ion-select{
+    ion-text,ion-datetime,ion-select,ion-radio-group ion-item{
        color: #b81321;
     }
     
@@ -68,11 +68,17 @@ ion-item {
  .needfill{
     color: red;
  }
- ion-radio-group  ion-item{
-   
- }
+
  .fieldshow div{
     margin: 10px 0 10px 0 ;
  }
+
+ .field-container{
+   margin-bottom: 1px;
+}
+.groupRadio3 {
+   width: 50%;
+}
+
 
 

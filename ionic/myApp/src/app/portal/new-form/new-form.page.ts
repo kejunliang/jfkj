@@ -64,6 +64,7 @@ export class NewFormPage implements OnInit {
   public today = new Date().toISOString();
   public initiator:any='';
   public initiatorOU:any = '';
+  
   public ulrs = {
     "url":"",
     "stat":"",
@@ -81,6 +82,7 @@ export class NewFormPage implements OnInit {
   public subfields:any = [];
   //subfield select --end
   public lasturl:string 
+  public portaltitle :string 
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -112,7 +114,7 @@ export class NewFormPage implements OnInit {
       console.log("进")
       this.sections = []
       this.sectionsold = []
-     
+      this.portaltitle=res.temptitle
       if (res.unid) {
         this.lasturl=res.cururl
         this.fields=[];
@@ -185,7 +187,7 @@ export class NewFormPage implements OnInit {
           })
         })
       } else {
-        this.lasturl="/tabs/tab1"
+        this.lasturl="/tabs/tab1?title="+this.portaltitle
         this.fields=[];
         this.type = "edit"
         this.storage.get("allforms").then(data => {

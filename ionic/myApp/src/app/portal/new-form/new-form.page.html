@@ -110,7 +110,7 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-                <ion-select [(ngModel)]='field.value' multiple="false" name="field.name"
+                <ion-select  [(ngModel)]='field.value' multiple="false"  [interfaceOptions]="customPopoverOptions" interface="popover" name="field.name"
                   (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
                   <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
                     {{option.text}}</ion-select-option>
@@ -319,16 +319,26 @@
             <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
                 <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
-                  {{field.label}}
+                  {{field.label}}{{getSelectOption(field,section.secId).length}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-
-                <ion-select [(ngModel)]='field.value' multiple="false" (ionChange)="getSublistOption(field,section.secId)">
-                  <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
-                  <div *ngIf="field.name==sublistObjId">
-                    <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
-                  </div>
-                </ion-select>
+              
+                  <ion-select *ngIf="getSelectOption(field,section.secId).length >3"  [(ngModel)]='field.value' [interfaceOptions]="customPopoverOptions" interface="popover" (ionChange)="getSublistOption(field,section.secId)">
+                    <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
+                    <div *ngIf="field.name==sublistObjId">
+                      <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
+                    </div>
+                  </ion-select>
+         
+               
+                  <ion-radio-group  [(ngModel)]='field.value' class="groupRadio3" *ngIf="getSelectOption(field,section.secId).length < 4">
+                    <ion-item *ngFor="let option of field.options">
+                      <ion-label>{{option.text}}</ion-label>
+                      <ion-radio  slot="start" value="{{option.text}}"></ion-radio>
+                    </ion-item>
+                  </ion-radio-group>
+                
+                
               </ion-item>
             </div>
           </div>
