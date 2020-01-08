@@ -319,7 +319,7 @@
             <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
                 <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
-                  {{field.label}}{{getSelectOption(field,section.secId).length}}
+                  {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
               
