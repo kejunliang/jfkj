@@ -763,5 +763,12 @@ export class NewFormPage implements OnInit {
       })
     })
   }
+
+  goBack(){
+    // this.nav.back()
+     　this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
+     
+   }
+ 
 }
 
