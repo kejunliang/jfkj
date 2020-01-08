@@ -3,6 +3,10 @@ ion-item {
     ion-label{
         white-space: normal;
     }
+    ion-text,ion-datetime,ion-select{
+       color: #b81321;
+    }
+    
 }
 
 .btnHead-box{

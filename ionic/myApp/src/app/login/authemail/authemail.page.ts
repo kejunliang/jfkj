@@ -62,6 +62,7 @@ export class AuthemailPage implements OnInit {
             this.storage.set("loginDetails",this.loginDetails)
             this.router.navigate(['loginpass'])
             localStorage.setItem('email',this.authform.value.email)
+            localStorage.setItem('OUCategory',result.OUCategory)
           }else{
              this.translate.get('login').subscribe((res: any) => {
              this.resmsg=res.authmailerr;

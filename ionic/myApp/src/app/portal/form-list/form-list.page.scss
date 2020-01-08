@@ -31,7 +31,7 @@
       }
    }
    .searchRight{
-        background-color: #3A7AB2;
+        background-color: #B81321;
         border-radius:2px;
         width: 12%;
         margin-left: 4px;
@@ -66,6 +66,9 @@ ion-item {
             font-family:PingFang SC;
             font-weight:bold;
             color:rgba(34,34,34,1);
+            a{
+                color:#B81321;
+            }
         }
         .action{
             font-family:PingFang SC;

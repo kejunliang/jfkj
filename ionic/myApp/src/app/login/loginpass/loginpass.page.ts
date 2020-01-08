@@ -60,6 +60,7 @@ export class LoginpassPage implements OnInit {
       });
      }else{
       this.loginDetails.email = localStorage.getItem('email')
+      this.loginDetails.OUCategory = localStorage.getItem('OUCategory')
      }
     
     })

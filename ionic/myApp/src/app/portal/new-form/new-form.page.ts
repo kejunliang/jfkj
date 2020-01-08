@@ -99,10 +99,10 @@ export class NewFormPage implements OnInit {
     this.ulrs.title = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "title"))
     this.ulrs.stat = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "stat"))
     
-
     this.storage.get('ous').then(data => {
       this.ous = data
     })
+    
     this.storage.get('loginDetails').then(data=>{
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
@@ -678,7 +678,6 @@ export class NewFormPage implements OnInit {
   getSublistOption(field:any,secId:any){
     if(field.lookup.view){
       let column:any = field.lookup.column;
-      console.log('column:',column);
       
       let val:any= field.value;
       let view:any = field.lookup.view;
@@ -699,7 +698,6 @@ export class NewFormPage implements OnInit {
       this.getLookupOptions(obj).then((data:any)=>{
         if(data.status=="success"){
           let options:any = [];
-          console.log('data.data:',data.data);
           
           for (let i = 0; i < data.data.length; i++) {
             let element = data.data[i];
@@ -749,7 +747,6 @@ export class NewFormPage implements OnInit {
           } else {
             this.subfields.splice(index, 1, obj);
           }
-          console.log('this.subfields:',this.subfields);
           
         }
       }
