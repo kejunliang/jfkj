@@ -126,7 +126,7 @@ export class NewFormPage implements OnInit {
         console.log("旧文档")
         this.type = res.type
         if (res.stat) {
-          this.title = res.title + "(" + res.stat + ")"
+          this.title = res.title + " (" + res.stat + ")"
         } else {
           this.title = res.title
         }
@@ -155,7 +155,6 @@ export class NewFormPage implements OnInit {
 
               if (data.xtype == "date") {
                 //data.value = new Date()
-                console.log('data..',data.value);
                 
                 let element = data.value;
                   let tempdate = new Date(element.replace("ZE8", ""))
@@ -183,7 +182,44 @@ export class NewFormPage implements OnInit {
                       }
                     });
                   }
-                  
+                  if (data.xtype == "radio" || data.xtype == "select") {
+                    data.options = data.options.filter(function (obj) { return obj.value != "" })
+                    if(data.xtype == "select"){
+                      if(this.selecttemplat.template.subListFields.length>0){
+                        let secId = this.selecttemplat.template.secs[i].secId;
+                        let fieldname = data.name;
+                        let fieldId = fieldname.split(secId+'_')[1];
+                        let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
+                          e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid && e.options.subfieldlist.pfieldid==fieldId)
+                        if(v){
+                          data.hasSubfield = true;
+                          data.fieldId = fieldId;
+                        }
+                        
+                      }
+                    }
+                  }else if(data.xtype == 'multiou' || data.xtype == 'singleou'){
+                    let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
+                    console.log('obj:',obj);
+                    let level: number = obj.level;
+                    let ouGroupId: string = obj.ouGroupId;
+                    console.log('name:',data.name,'-->value:',data.value);
+                    
+                    if (data.value){
+                      // let iou:any = data.value.split('/');
+                      // let tmp:any = '';
+                      // for(let m=0;m<level;m++){
+                      //   if(tmp==''){
+                      //     if(iou[m]) tmp=iou[m];
+                      //   }else{
+                      //     if(iou[m]) tmp+="/"+iou[m];
+                      //   }
+                      // }
+                      this.getOUSublistdetails(data.name,data.value,this.selecttemplat.template.secs[i].secId);
+                      //data.value = tmp;
+                    }
+                   
+                  }
                   this.fields.push(data) //
                 })
               }
@@ -244,10 +280,7 @@ export class NewFormPage implements OnInit {
                     
                   }
                 }
-              }
-              this.loadSecs.push(data);
-              this.fields.push(data) //
-              if(data.xtype == 'multiou' || data.xtype == 'singleou'){
+              }else if(data.xtype == 'multiou' || data.xtype == 'singleou'){
                 let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
                 let level: number = obj.level;
                 let ouGroupId: string = obj.ouGroupId;
@@ -266,6 +299,9 @@ export class NewFormPage implements OnInit {
                 }
                
               }
+              this.loadSecs.push(data);
+              this.fields.push(data) //
+              
             })
             // console .log(this.selecttemplat.template.secs[i])
             this.sections.push(this.selecttemplat.template.secs[i])
@@ -654,7 +690,7 @@ export class NewFormPage implements OnInit {
     } else {
       this['ou' + level + 'select'].splice(index, 1, ou);
     }
-
+    console.log('xxx:',this['ou' + level + 'select'])
   }
   getOuLevelAndGroupId(fieldName: any, pSecId: any): object {
     let level: number = 1
@@ -675,6 +711,8 @@ export class NewFormPage implements OnInit {
     return { level, ouGroupId };
   }
   getSelectOption(field:any,secId:any){
+    console.log('name:',field.name);
+    
     if(field.lookup.view){
       let column:any = field.lookup.column;
       if(column=="1"){

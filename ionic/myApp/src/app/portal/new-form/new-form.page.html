@@ -68,9 +68,9 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-                <ion-select [(ngModel)]='field.value' multiple="false" name="field.name"
+                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
                   (ionChange)=getSublistdetails(field.name,field.value)>
-                  <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
+                  <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                 </ion-select>
               </ion-item>
             </div>
@@ -227,10 +227,13 @@
             </div>
             <!--attachment-->
             <div *ngIf="field.xtype==='attachment'" [hidden]="field.hide">
+              <ion-item>
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
                 {{field.label}}
                 <span *ngIf="field.hasmust==true" class="needfill">*</span>
               </ion-label>
+            <!-- </ion-item>
+            <ion-item> -->
               <div *ngIf="!field.value" class="signature-area">
                 <img src="../../../../assets/icon/attachment/camera.png" alt="">
                 <button ion-button clear>Take a Picture</button>
@@ -239,6 +242,7 @@
                 <img [src]="field.value" />
               </div>
               <canvas #latlon style="display:none"></canvas>
+            </ion-item>
             </div>
             <!--headline-->
             <div *ngIf="field.xtype==='headline'" [hidden]="field.hide" class="column-count"
@@ -284,11 +288,22 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-
-                <ion-select [(ngModel)]='field.value' multiple="true"
+                <div *ngIf="field.options.length>3">
+                  <ion-select [(ngModel)]='field.value' multiple="true"
                   (ionChange)=getSublistdetails(field.name,field.value)>
                   <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
-                </ion-select>
+                  </ion-select>
+                </div>
+                <div *ngIf="field.options.length<4">
+                  <ion-list>
+                    <ion-item *ngFor="let option of field.options">
+                      <ion-label>{{option.text}}</ion-label>
+                      <ion-checkbox slot="end" [(ngModel)]="field.value"></ion-checkbox>
+                    </ion-item>
+                  </ion-list>
+                </div>
+
+                
               </ion-item>
             </div>
             <!--radiofield-->
