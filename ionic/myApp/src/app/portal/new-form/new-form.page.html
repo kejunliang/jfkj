@@ -52,7 +52,7 @@
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
       <div *ngIf="index>0">
         <ion-item lines="none" color="favorite">
-          <ion-label color="light">{{section.title}}</ion-label>
+          <ion-label color="light">{{section.title}}{{section.score}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
             (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>
           <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="isShowGuidance(section.secId,index)"
@@ -301,14 +301,15 @@
                       <span *ngIf="field.hasmust==true" class="needfill">*</span>
                     </ion-label>
                   </div>
-                  <div>
-                    <ion-radio-group>
+                  <ion-list  >
+                    <ion-radio-group  >
                       <ion-item *ngFor="let option of field.options">
                         <ion-label>{{option.text}}</ion-label>
-                        <ion-radio slot="start" value="{{option.text}}"></ion-radio>
+                        <ion-radio check  slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
                       </ion-item>
                     </ion-radio-group>
-                  </div>
+                   
+                  </ion-list>
 
                 </div>
 

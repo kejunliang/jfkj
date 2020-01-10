@@ -83,6 +83,9 @@ export class NewFormPage implements OnInit {
   //subfield select --end
   public lasturl:string 
   public portaltitle :string 
+  public radio={
+    value:null
+  }
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -769,6 +772,42 @@ export class NewFormPage implements OnInit {
      　this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
      
    }
+
+   selectScore(field,value,sectiontitle){
+     
+      this.sections.forEach(element => {
+        // console.log(element)
+         if(element.title==sectiontitle){
+          // console.log(element.fields)
+           element.fields.forEach(data => {
+               if(field.name==data.name){
+                 data.value=value
+               }
+           });
+           let tempscore=0;
+           let num=0
+           element.fields.forEach(data => {
+            if(data.xtype=="radio"){
+               if(data.value=="Yes"){
+                tempscore=tempscore+1
+               }
+               num=num+1
+               if(data.value=="N/A"){
+                num=num-1
+               }
+            }
+          });
+          if(num!=0){
+            element.score=tempscore+"/"+num+"   ("+(tempscore/num*100)+"%)"
+          }
+          
+          }
+        
+      });
+   }
+   getValue(){
+    console.log('我选中的是', this.radio.value)
+  }
  
 }
 
