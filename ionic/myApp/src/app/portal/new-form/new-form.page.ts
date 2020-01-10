@@ -44,6 +44,7 @@ export class NewFormPage implements OnInit {
   };
   public para = {
     "unid": "",
+    'isedit':''
   }
   public formdata: any;
   public type: string;
@@ -131,14 +132,16 @@ export class NewFormPage implements OnInit {
         }
 
         this.commonCtrl.show()
-        this.getFormData(res.unid).then(formdata => {
+        this.getFormData(res.unid,res.type).then((data:any) => {
           // console.log(formdata)
-          this.storage.get("allforms").then(data => {
+          //this.storage.get("allforms").then(data => {
             // console.log(JSON.parse(data))
-            this.templates = JSON.parse(data).templates
+            //this.templates = JSON.parse(data).templates
+            this.templates = data.templates
             //  console.log(this.templates)
             // alert(fileName);
-            this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+            //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+            this.selecttemplat = this.templates[0]
 
             console.log(this.selecttemplat)
             if (!this.selecttemplat) {
@@ -151,27 +154,39 @@ export class NewFormPage implements OnInit {
             this.selecttemplat.template.secs[0].fields.forEach(data => {
 
               if (data.xtype == "date") {
-                data.value = new Date()
+                //data.value = new Date()
+                console.log('data..',data.value);
+                
+                let element = data.value;
+                  let tempdate = new Date(element.replace("ZE8", ""))
+                  console.log('tempdate..',tempdate);
+                  //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                  data.value  = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
               } else {
-                data.value = formdata[data.name]
+                //data.value = formdata[data.name]
               }
             })
             this.sysfields = this.selecttemplat.template.secs[0].fields
             this.mandafields = this.selecttemplat.template.mandaFields
             this.templatid = this.selecttemplat.template.templateId
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-              this.selecttemplat.template.secs[i].fields.forEach(data => {
-                data.value = formdata[data.name]
-                if (data.name == "GMP_SEV_GMP_SH") {
-                  this.severityvalue = data.value
-                }
-                this.mandafields.forEach(element => {
-                  if (element.label == data.label) {
-                    data.hasmust = true
+              if(this.selecttemplat.template.secs[i].fields){
+                this.selecttemplat.template.secs[i].fields.forEach(data => {
+                  //data.value = formdata[data.name]
+                  if (data.name == "GMP_SEV_GMP_SH") {
+                    this.severityvalue = data.value
                   }
-                });
-                this.fields.push(data) //
-              })
+                  if(this.mandafields){
+                    this.mandafields.forEach(element => {
+                      if (element.label == data.label) {
+                        data.hasmust = true
+                      }
+                    });
+                  }
+                  
+                  this.fields.push(data) //
+                })
+              }
               // console .log(this.selecttemplat.template.secs[i])
               // console.log(this.selecttemplat.template.secs[i].secId)
               this.sections.push(this.selecttemplat.template.secs[i])
@@ -187,7 +202,7 @@ export class NewFormPage implements OnInit {
             if (flag) {
               this.change({ "label": "Severity", "value": this.severityvalue })
             }
-          })
+          //})
         })
       } else {
         this.lasturl="/tabs/tab1?title="+this.portaltitle
@@ -494,10 +509,11 @@ export class NewFormPage implements OnInit {
     })
   }
 
-  getFormData(unid: any) {
+  getFormData(unid: any,isedit:any) {
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(data => {
         this.para.unid = unid
+        this.para.isedit = isedit=='edit'?'yes':'no';
         this.getforms.getFormData(data, this.para).pipe(first()).subscribe(data => {
           resolve(data)
         })

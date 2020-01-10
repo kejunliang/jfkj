@@ -31,13 +31,14 @@ export class GetallformsService {
   getFormData(logindetail:any,para:any ):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
     let unid=para.unid
+    let isedit = para.isedit;
     const options = {
       headers: {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getFormData?key='+unid,options)
+    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+unid+'&cnname='+logindetail.username+'&isedit='+isedit,options)
       .pipe(
         map(result => { 
                  return result;

@@ -92,7 +92,8 @@ export class FormListPage implements OnInit {
                   let tempdate;
                   data.data.forEach(element => {
                     tempdate = new Date(element.calendarDate.replace("ZE8", ""))
-                    this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                    //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                    this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
                     element.calendarDate = this.draftime;
                   });
                   this.data = this.data.concat( data.data)
@@ -153,7 +154,8 @@ export class FormListPage implements OnInit {
                 let tempdate;
                 data.data.forEach(element => {
                   tempdate = new Date(element.calendarDate.replace("ZE8", ""))
-                  this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                  //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                  this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
                   element.calendarDate = this.draftime;
                 });
                 this.data = data.data
