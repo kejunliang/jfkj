@@ -52,7 +52,7 @@
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
       <div *ngIf="index>0">
         <ion-item lines="none" color="favorite">
-          <ion-label color="light">{{section.title}}{{section.score}}</ion-label>
+          <ion-label color="light">{{section.title}}&nbsp;&nbsp;&nbsp;&nbsp;{{section.score}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
             (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>
           <ion-icon slot="end" color="light" name="arrow-down" mode="ios" (click)="isShowGuidance(section.secId,index)"
@@ -320,7 +320,8 @@
                     <ion-radio-group  >
                       <ion-item *ngFor="let option of field.options">
                         <ion-label>{{option.text}}</ion-label>
-                        <ion-radio check  slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
+                        <ion-radio *ngIf="field.value==option.text" checked slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
+                        <ion-radio *ngIf="field.value!=option.text"  slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
                       </ion-item>
                     </ion-radio-group>
                    
@@ -347,10 +348,11 @@
                   </ion-select>
          
                
-                  <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  [(ngModel)]='field.value' class="groupRadio3">
+                  <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  class="groupRadio3">
                     <ion-item *ngFor="let option of getSelectOption(field,section.secId)">
                       <ion-label>{{option.text}}</ion-label>
-                      <ion-radio  slot="start" value="{{option.text}}"></ion-radio>
+                      <ion-radio *ngIf="field.value==option.text" checked  slot="start" value="{{option.text}}"></ion-radio>
+                      <ion-radio *ngIf="field.value!=option.text"   slot="start" value="{{option.text}}"></ion-radio>
                     </ion-item>
                   </ion-radio-group>
                 

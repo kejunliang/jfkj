@@ -171,6 +171,7 @@ export class NewFormPage implements OnInit {
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               if(this.selecttemplat.template.secs[i].fields){
                 this.selecttemplat.template.secs[i].fields.forEach(data => {
+                  
                   //data.value = formdata[data.name]
                   if (data.name == "GMP_SEV_GMP_SH") {
                     this.severityvalue = data.value
@@ -221,6 +222,7 @@ export class NewFormPage implements OnInit {
                    
                   }
                   this.fields.push(data) //
+                  this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
                 })
               }
               // console .log(this.selecttemplat.template.secs[i])
@@ -301,7 +303,7 @@ export class NewFormPage implements OnInit {
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
-              
+              this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
             })
             // console .log(this.selecttemplat.template.secs[i])
             this.sections.push(this.selecttemplat.template.secs[i])
@@ -573,6 +575,12 @@ export class NewFormPage implements OnInit {
       }
     });
     this.sections = oldsections.slice(0, curindex + 1).concat(filtersections)
+    this.sections.forEach(secelement => {
+      secelement.fields.forEach(element => {
+        this.selectScore(element,element.value,secelement.title)
+      });
+    });
+
   }
 
   //查找名称
@@ -832,7 +840,7 @@ export class NewFormPage implements OnInit {
       this.sections.forEach(element => {
         // console.log(element)
          if(element.title==sectiontitle){
-          // console.log(element.fields)
+           console.log(element.fields)
            element.fields.forEach(data => {
                if(field.name==data.name){
                  data.value=value
