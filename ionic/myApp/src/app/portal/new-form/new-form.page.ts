@@ -448,22 +448,34 @@ export class NewFormPage implements OnInit {
         console.log("unid==" + this.formID)
         console.log(this.fields)
         actiontype = "edit"
-        if (this.formID) {
-          this.paraforsubmit = {
-            "tempid": this.templatid,
-            "formAction": "submit",
-            "docId": this.formID,
-            "fields": this.fields
-          }
-        } else {
-          console.log("tempid==" + this.templatid)
+        if(this.subformflag){
           this.paraforsubmit = {
             "tempid": this.templatid,
             "formAction": "submit",
             "docId": "",
-            "fields": this.fields
+            "fields": this.fields,
+            "subForm":"true",
+            "mainFormId":this.mainunid
+          }
+        }else{
+          if (this.formID) {
+            this.paraforsubmit = {
+              "tempid": this.templatid,
+              "formAction": "submit",
+              "docId": this.formID,
+              "fields": this.fields
+            }
+          } else {
+            console.log("tempid==" + this.templatid)
+            this.paraforsubmit = {
+              "tempid": this.templatid,
+              "formAction": "submit",
+              "docId": "",
+              "fields": this.fields
+            }
           }
         }
+       
         console.log("提交操作")
         let msg = "";
         let fieldError = false;
@@ -515,11 +527,16 @@ export class NewFormPage implements OnInit {
       case "New Sub Form":
            console.log("new sub form")
           actiontype = "edit"
-          this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid:this.ulrs.aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid}});
+          this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid:this.ulrs.aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
           break;
       case "Close":
         actiontype = "open"
-        this.router.navigateByUrl(this.lasturl)
+        if(this.subformflag){
+          this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
+         }else{
+          this.router.navigateByUrl(this.lasturl)
+         }
+       
         break;
       default:
         actiontype = "open"
@@ -560,7 +577,12 @@ export class NewFormPage implements OnInit {
           this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
             console.log(data)
             //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+           if(this.subformflag){
+            this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
+           }else{
             this.router.navigateByUrl(this.lasturl)
+           }
+            
           })
           //resolve(data)
         })
@@ -856,7 +878,8 @@ export class NewFormPage implements OnInit {
         let actiontype = "edit"
         this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
       }else{
-        this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
+        this.router.navigateByUrl(this.lasturl)
+        //this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
       }
      　
      
