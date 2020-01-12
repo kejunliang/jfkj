@@ -167,7 +167,7 @@ export class NewFormPage implements OnInit {
             })
             this.sysfields = this.selecttemplat.template.secs[0].fields
             this.mandafields = this.selecttemplat.template.mandaFields
-            this.templatid = this.selecttemplat.template.templateId
+            this.templatid = this.selecttemplat.templateId
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               if(this.selecttemplat.template.secs[i].fields){
                 this.selecttemplat.template.secs[i].fields.forEach(data => {
@@ -201,10 +201,8 @@ export class NewFormPage implements OnInit {
                     }
                   }else if(data.xtype == 'multiou' || data.xtype == 'singleou'){
                     let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
-                    console.log('obj:',obj);
                     let level: number = obj.level;
                     let ouGroupId: string = obj.ouGroupId;
-                    console.log('name:',data.name,'-->value:',data.value);
                     
                     if (data.value){
                       // let iou:any = data.value.split('/');
@@ -234,7 +232,6 @@ export class NewFormPage implements OnInit {
             }
             // console.log(this.list)
             let flag = this.sections.some(function (obj, index) {
-              console.log(obj.title)
               return obj.title == "Severity"
             })
             if (flag) {
@@ -249,7 +246,6 @@ export class NewFormPage implements OnInit {
         this.storage.get("allforms").then(data => {
           this.templates = JSON.parse(data).templates
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-          console.log(this.selecttemplat)
           if (!this.selecttemplat) {
             return false;
           }
@@ -258,7 +254,6 @@ export class NewFormPage implements OnInit {
           this.sysfields = this.selecttemplat.template.secs[0].fields
           this.mandafields = this.selecttemplat.template.mandaFields
           this.templatid = this.selecttemplat.template.templateId
-          console.log(this.sysfields)
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
               this.mandafields.forEach(element => {
@@ -698,7 +693,7 @@ export class NewFormPage implements OnInit {
     } else {
       this['ou' + level + 'select'].splice(index, 1, ou);
     }
-    console.log('xxx:',this['ou' + level + 'select'])
+    console.log(" this['ou' + level + 'select']:", this['ou' + level + 'select'])
   }
   getOuLevelAndGroupId(fieldName: any, pSecId: any): object {
     let level: number = 1
@@ -719,7 +714,6 @@ export class NewFormPage implements OnInit {
     return { level, ouGroupId };
   }
   getSelectOption(field:any,secId:any){
-    console.log('name:',field.name);
     
     if(field.lookup.view){
       let column:any = field.lookup.column;
@@ -737,6 +731,8 @@ export class NewFormPage implements OnInit {
       let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && e.fieldId == field.name);
       if(v){
         let t = this.subfields.find(e=>e.secId==secId && e.fieldId == field.name);
+        console.log('pFieldId...',this.subfields);
+        
         if(t) return t.options;
       }
     }
