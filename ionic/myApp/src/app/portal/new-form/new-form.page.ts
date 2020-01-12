@@ -143,7 +143,6 @@ export class NewFormPage implements OnInit {
             //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
             this.selecttemplat = this.templates[0]
 
-            console.log(this.selecttemplat)
             if (!this.selecttemplat) {
               return false;
             }
@@ -158,7 +157,6 @@ export class NewFormPage implements OnInit {
                 
                 let element = data.value;
                   let tempdate = new Date(element.replace("ZE8", ""))
-                  console.log('tempdate..',tempdate);
                   //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                   data.value  = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
               } else {
@@ -186,8 +184,8 @@ export class NewFormPage implements OnInit {
                   if (data.xtype == "radio" || data.xtype == "select") {
                     data.options = data.options.filter(function (obj) { return obj.value != "" })
                     if(data.xtype == "select"){
+                      let secId = this.selecttemplat.template.secs[i].secId;
                       if(this.selecttemplat.template.subListFields.length>0){
-                        let secId = this.selecttemplat.template.secs[i].secId;
                         let fieldname = data.name;
                         let fieldId = fieldname.split(secId+'_')[1];
                         let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
@@ -195,8 +193,12 @@ export class NewFormPage implements OnInit {
                         if(v){
                           data.hasSubfield = true;
                           data.fieldId = fieldId;
+                          this.getSublistOption(data,secId);
                         }
                         
+                      }
+                      if(data.lookup.view){
+                        this.getSublistOption(data,secId);
                       }
                     }
                   }else if(data.xtype == 'multiou' || data.xtype == 'singleou'){
@@ -693,7 +695,6 @@ export class NewFormPage implements OnInit {
     } else {
       this['ou' + level + 'select'].splice(index, 1, ou);
     }
-    console.log(" this['ou' + level + 'select']:", this['ou' + level + 'select'])
   }
   getOuLevelAndGroupId(fieldName: any, pSecId: any): object {
     let level: number = 1
@@ -731,7 +732,6 @@ export class NewFormPage implements OnInit {
       let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && e.fieldId == field.name);
       if(v){
         let t = this.subfields.find(e=>e.secId==secId && e.fieldId == field.name);
-        console.log('pFieldId...',this.subfields);
         
         if(t) return t.options;
       }
