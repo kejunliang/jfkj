@@ -393,23 +393,53 @@
           </ion-icon>
         </ion-item>
         <div *ngIf="list[index].show" class="guidance-box">
-          <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
-            <!--multiselectfield-->
-
+          <div *ngIf="section.secId!='AuditTrail' && section.secId!='subform' ">
+            <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
+              <!--multiselectfield-->
+                <ion-item lines="none">
+                  <div>
+                    <ion-label color="basic" stacked>
+                      {{field.label}}
+                      <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                    </ion-label>
+                    <ion-text color="primary">
+                      {{field.value}}
+                    </ion-text>
+                  </div>
+    
+                </ion-item>
+            </div>
+          </div>
+          <div *ngIf="section.secId=='subform'">
             <ion-item lines="none">
               <div>
                 <ion-label color="basic" stacked>
-                  {{field.label}}
-                  <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                  Ref No.
                 </ion-label>
+                
+              </div>
+
+            </ion-item>
+            <div *ngFor="let sdoc of section.sdocs;let index = index;" class="fieldshow">
+                <ion-item lines="none">
+                  <div>
+                    <ion-text color="primary">
+                      <a [routerLink]="['/new-form']" style="color:#b81321" [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
+                    </ion-text>
+                  </div>
+    
+                </ion-item>
+            </div>
+          </div>
+          <div *ngIf="section.secId=='AuditTrail'">
+            <ion-item lines="none">
+              <div>
                 <ion-text color="primary">
-                  {{field.value}}
+                  {{section.secInfoContent}}
                 </ion-text>
               </div>
 
             </ion-item>
-
-
           </div>
         </div>
 
