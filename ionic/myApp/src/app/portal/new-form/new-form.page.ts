@@ -87,6 +87,8 @@ export class NewFormPage implements OnInit {
   public radio={
     value:null
   }
+  public subformflag:string;
+  public mainunid:string;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -119,6 +121,8 @@ export class NewFormPage implements OnInit {
       this.sections = []
       this.sectionsold = []
       this.portaltitle=res.temptitle
+      this.subformflag=res.subform
+      this.mainunid=res.mainunid
       if (res.unid) {
         this.lasturl=res.cururl
         this.fields=[];
@@ -409,23 +413,34 @@ export class NewFormPage implements OnInit {
         actiontype = "edit"
         console.log("unid==" + this.formID)
         console.log(this.fields)
-
-        if (this.formID) {
-          this.paraforsubmit = {
-            "tempid": this.templatid,
-            "formAction": "save",
-            "docId": this.formID,
-            "fields": this.fields
-          }
-        } else {
-          console.log("tempid==" + this.templatid)
+        if(this.subformflag){
           this.paraforsubmit = {
             "tempid": this.templatid,
             "formAction": "save",
             "docId": "",
-            "fields": this.fields
+            "fields": this.fields,
+            "subForm":"true",
+            "mainFormId":this.mainunid
+          }
+        }else{
+          if (this.formID) {
+            this.paraforsubmit = {
+              "tempid": this.templatid,
+              "formAction": "save",
+              "docId": this.formID,
+              "fields": this.fields
+            }
+          } else {
+            console.log("tempid==" + this.templatid)
+            this.paraforsubmit = {
+              "tempid": this.templatid,
+              "formAction": "save",
+              "docId": "",
+              "fields": this.fields
+            }
           }
         }
+        
         console.log("保存了")
         this.submit(this.paraforsubmit,actiontype)
         break;
@@ -497,9 +512,18 @@ export class NewFormPage implements OnInit {
         }
        
         break;
-      default:
+      case "New Sub Form":
+           console.log("new sub form")
+          actiontype = "edit"
+          this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid:this.ulrs.aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid}});
+          break;
+      case "Close":
         actiontype = "open"
         this.router.navigateByUrl(this.lasturl)
+        break;
+      default:
+        actiontype = "open"
+       // this.router.navigateByUrl(this.lasturl)
         break;
     }
     console.log("操作了吗")
@@ -827,7 +851,14 @@ export class NewFormPage implements OnInit {
 
   goBack(){
     // this.nav.back()
-     　this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
+      console.log( this.subformflag)
+      if(this.subformflag){
+        let actiontype = "edit"
+        this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
+      }else{
+        this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
+      }
+     　
      
    }
 
