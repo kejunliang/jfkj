@@ -532,6 +532,7 @@ export class NewFormPage implements OnInit {
       case "Close":
         actiontype = "open"
         if(this.subformflag){
+          actiontype = "edit"
           this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
          }else{
           this.router.navigateByUrl(this.lasturl)
