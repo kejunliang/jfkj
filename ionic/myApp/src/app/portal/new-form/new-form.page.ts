@@ -229,7 +229,7 @@ export class NewFormPage implements OnInit {
                    
                   }
                   this.fields.push(data) //
-                  this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
+                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
                 })
               }
               // console .log(this.selecttemplat.template.secs[i])
@@ -318,7 +318,7 @@ export class NewFormPage implements OnInit {
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
-              this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
+              //this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
             })
             // console .log(this.selecttemplat.template.secs[i])
             if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
@@ -658,7 +658,13 @@ export class NewFormPage implements OnInit {
         let el = this.sectionsold.find(e=>e.secId==element);
         if(el) this.sections.push(el);
       });
+      
     }
+    this.sections.forEach(secelement => {
+      secelement.fields.forEach(element => {
+        this.selectScore(element,element.value,secelement.title)
+      });
+    });
     
 
   }
