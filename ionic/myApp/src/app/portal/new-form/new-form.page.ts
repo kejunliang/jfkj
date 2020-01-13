@@ -89,6 +89,7 @@ export class NewFormPage implements OnInit {
   }
   public subformflag:string;
   public mainunid:string;
+  public quesSecId:any = [];
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -146,7 +147,8 @@ export class NewFormPage implements OnInit {
             // alert(fileName);
             //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
             this.selecttemplat = this.templates[0]
-
+            let selectSecId:any = this.selecttemplat.sectionids?this.selecttemplat.sectionids:[];
+            selectSecId = ['FormMr'].concat(selectSecId);
             if (!this.selecttemplat) {
               return false;
             }
@@ -170,6 +172,7 @@ export class NewFormPage implements OnInit {
             this.sysfields = this.selecttemplat.template.secs[0].fields
             this.mandafields = this.selecttemplat.template.mandaFields
             this.templatid = this.selecttemplat.templateId
+            
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               if(this.selecttemplat.template.secs[i].fields){
                 this.selecttemplat.template.secs[i].fields.forEach(data => {
@@ -231,7 +234,8 @@ export class NewFormPage implements OnInit {
               }
               // console .log(this.selecttemplat.template.secs[i])
               // console.log(this.selecttemplat.template.secs[i].secId)
-              this.sections.push(this.selecttemplat.template.secs[i])
+              //console.log('selectSecId:',selectSecId)
+              if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
               this.sectionsold.push(this.selecttemplat.template.secs[i])
               this.list.push({ "show": false })
               this.commonCtrl.hide()
@@ -260,6 +264,16 @@ export class NewFormPage implements OnInit {
           this.sysfields = this.selecttemplat.template.secs[0].fields
           this.mandafields = this.selecttemplat.template.mandaFields
           this.templatid = this.selecttemplat.template.templateId
+          //get questionnaire sections
+          let quesFields:any = this.selecttemplat.template.quesFields;
+            for (let i = 0; i < quesFields.length; i++) {
+              const element = quesFields[i];
+              let answerWhen = element.answerWhen;
+              for (let key in answerWhen) {
+                this.quesSecId = this.quesSecId.concat(answerWhen[key]);
+              }
+            }
+
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
               this.mandafields.forEach(element => {
@@ -307,7 +321,7 @@ export class NewFormPage implements OnInit {
               this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
             })
             // console .log(this.selecttemplat.template.secs[i])
-            this.sections.push(this.selecttemplat.template.secs[i])
+            if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
             this.sectionsold.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
@@ -602,7 +616,7 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  change(field: any) {
+  changeback0113(field: any) {
     console.log(field)
     if (field.label.trim() != "Severity") {
       return false;
@@ -626,7 +640,28 @@ export class NewFormPage implements OnInit {
     });
 
   }
+  change(field: any) {
+    let quesFields:any = this.selecttemplat.template.quesFields;
+    let v = quesFields.find(e=>e.fieldId==field.name);
+    if(v){
+      let quesFields:any=[];
+      let answerWhen = v.answerWhen;
+      let disSecId:any = v.answerWhen[field.value];
+      for (let key in answerWhen) {
+        quesFields = quesFields.concat(answerWhen[key]);
+      }
+      quesFields.forEach(element => {
+        let index:number = this.sections.findIndex(e=>e.secId==element);
+        if(index!=-1) this.sections.splice(index,1);
+      });
+      disSecId.forEach(element => {
+        let el = this.sectionsold.find(e=>e.secId==element);
+        if(el) this.sections.push(el);
+      });
+    }
+    
 
+  }
   //查找名称
   async getSecurity(fieldname, fieldvalue) {
     const modal = await this.modal.create({
