@@ -525,9 +525,9 @@ export class NewFormPage implements OnInit {
        
         break;
       case "New Sub Form":
-           console.log("new sub form")
           actiontype = "edit"
-          this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid:this.ulrs.aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
+          let aid:string = this.selecttemplat.template.subform.templates[0];
+          this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
           break;
       case "Close":
         actiontype = "open"
