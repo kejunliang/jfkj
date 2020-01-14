@@ -538,7 +538,7 @@ export class NewFormPage implements OnInit {
         }
        
         break;
-      case "New Sub Form":
+      case "New Action":
           actiontype = "edit"
           let aid:string = this.selecttemplat.template.subform.templates[0];
           this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
@@ -588,7 +588,7 @@ export class NewFormPage implements OnInit {
   submit(para,actiontype) {
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(logindata => {
-        this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
+        //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
           this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
             console.log(data)
             //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
@@ -600,7 +600,7 @@ export class NewFormPage implements OnInit {
             
           })
           //resolve(data)
-        })
+        //})
       })
     })
   }

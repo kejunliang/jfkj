@@ -351,8 +351,8 @@
                   <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  class="groupRadio3">
                     <ion-item *ngFor="let option of getSelectOption(field,section.secId)">
                       <ion-label>{{option.text}}</ion-label>
-                      <ion-radio *ngIf="field.value==option.text" checked  slot="start" value="{{option.text}}"></ion-radio>
-                      <ion-radio *ngIf="field.value!=option.text"   slot="start" value="{{option.text}}"></ion-radio>
+                      <ion-radio *ngIf="field.value==option.text" checked  slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
+                      <ion-radio *ngIf="field.value!=option.text"   slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)" ></ion-radio>
                     </ion-item>
                   </ion-radio-group>
                 
