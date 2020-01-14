@@ -51,6 +51,7 @@
 
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
       <div *ngIf="index>0">
+        
         <ion-item lines="none" color="favorite">
           <ion-label color="light">{{section.title}}&nbsp;&nbsp;&nbsp;&nbsp;{{section.score}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
@@ -59,7 +60,9 @@
             *ngIf="list[index].show">
           </ion-icon>
         </ion-item>
+        
         <div *ngIf="list[index].show" class="guidance-box">
+          <div *ngIf="section.secId!='AuditTrail' && section.secId!='subform' ">
           <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
             <!--multiselectfield-->
             <div *ngIf="field.xtype==='multiselect'">
@@ -363,6 +366,28 @@
         </div>
 
       </div>
+      <div *ngIf="section.secId=='subform'">
+        <ion-item lines="none">
+          <div>
+            <ion-label color="basic" stacked>
+              Ref No.
+            </ion-label>
+            
+          </div>
+
+        </ion-item>
+        <div *ngFor="let sdoc of section.sdocs;let index = index;" class="fieldshow">
+            <ion-item lines="none">
+              <div>
+                <ion-text color="primary">
+                  <a [routerLink]="['/new-form']" style="color:#b81321" [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
+                </ion-text>
+              </div>
+
+            </ion-item>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 

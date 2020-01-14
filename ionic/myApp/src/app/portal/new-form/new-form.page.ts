@@ -172,7 +172,14 @@ export class NewFormPage implements OnInit {
             this.sysfields = this.selecttemplat.template.secs[0].fields
             this.mandafields = this.selecttemplat.template.mandaFields
             this.templatid = this.selecttemplat.templateId
-            
+            let quesFields:any = this.selecttemplat.template.quesFields;
+            for (let i = 0; i < quesFields.length; i++) {
+              const element = quesFields[i];
+              let answerWhen = element.answerWhen;
+              for (let key in answerWhen) {
+                this.quesSecId = this.quesSecId.concat(answerWhen[key]);
+              }
+            }
             for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
               if(this.selecttemplat.template.secs[i].fields){
                 this.selecttemplat.template.secs[i].fields.forEach(data => {
@@ -234,9 +241,12 @@ export class NewFormPage implements OnInit {
               }
               // console .log(this.selecttemplat.template.secs[i])
               // console.log(this.selecttemplat.template.secs[i].secId)
-              //console.log('selectSecId:',selectSecId)
-              if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
+              console.log('selectSecId:',selectSecId)
+              //if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
+              if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
               this.sectionsold.push(this.selecttemplat.template.secs[i])
+              console.log('this.sections:',this.sections);
+              
               this.list.push({ "show": false })
               this.commonCtrl.hide()
             }
