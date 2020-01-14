@@ -660,6 +660,7 @@ export class NewFormPage implements OnInit {
       });
       
     }
+   
     this.sections.forEach(secelement => {
       secelement.fields.forEach(element => {
         this.selectScore(element,element.value,secelement.title)
@@ -951,7 +952,8 @@ export class NewFormPage implements OnInit {
                }
             }
           });
-          if(num!=0){
+          console.log( this.templatid) 
+          if(num!=0&&this.templatid=="GMP_AU"){
             element.score=tempscore+"/"+num+"   ("+(tempscore/num*100)+"%)"
           }
           
