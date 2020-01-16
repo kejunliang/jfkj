@@ -38,8 +38,8 @@ export class NewFormPage implements OnInit {
   public isShowBtn: boolean = false;
   public btnBox: any = {
     "result": [
-      { "btnType": "Edit", "btnLabel": "Edit" },
-      { "btnType": "Close", "btnLabel": "Close" }
+      { "btnType": "btnEdit", "btnLabel": "Edit" },
+      { "btnType": "btnClose", "btnLabel": "Close" }
     ]
   };
   public para = {
@@ -421,7 +421,6 @@ export class NewFormPage implements OnInit {
   }
 
   getBtnLink(btn) {
-
     this.fields.forEach(data => {
       if(data.xtype == "date"&&data.value!=undefined){
        data.value =data.value.substring(0,data.value.indexOf("T"))
@@ -429,11 +428,11 @@ export class NewFormPage implements OnInit {
     })
     let actiontype = ""
     switch (btn) {
-      case "Edit":
+      case "btnEdit":
         actiontype = "edit"
         this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
         break;
-      case "Save":
+      case "btnSave":
         actiontype = "edit"
         console.log("unid==" + this.formID)
         console.log(this.fields)
@@ -468,7 +467,7 @@ export class NewFormPage implements OnInit {
         console.log("保存了")
         this.submit(this.paraforsubmit,actiontype)
         break;
-      case "Submit":
+      case "btnSubmit":
         console.log("unid==" + this.formID)
         console.log(this.fields)
         actiontype = "edit"
@@ -548,12 +547,12 @@ export class NewFormPage implements OnInit {
         }
        
         break;
-      case "New Action":
+      case "btnNewSubForm":
           actiontype = "edit"
           let aid:string = this.selecttemplat.template.subform.templates[0];
           this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
           break;
-      case "Close":
+      case "btnClose":
         actiontype = "open"
         if(this.subformflag){
           actiontype = "edit"
