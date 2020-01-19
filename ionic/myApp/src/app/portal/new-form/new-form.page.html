@@ -148,7 +148,7 @@
               </ion-item>
             </div>
             <!--riskmatrix-->
-            <div *ngIf="field.xtype=='riskmatrix'">
+            <!-- <div *ngIf="field.xtype=='riskmatrix'">
               <ion-item>
                 <ion-label position="stacked">
                   {{field.label}}
@@ -159,6 +159,14 @@
                   <h6> {{field.value}}</h6>
                 </ion-text>
               </ion-item>
+            </div> -->
+            <div *ngIf="field.xtype==='riskmatrix'">
+              <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+               <!-- <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button> -->
+               <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a>
+               <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
+                  {{field.value.TheScore}}
+               </ion-item>
             </div>
             <!--richtext-->
             <div *ngIf="field.xtype=='richtext'">
@@ -422,7 +430,7 @@
             <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
               <!--multiselectfield-->
                 <ion-item lines="none">
-                  <div>
+                  <div *ngIf="field.xtype!='riskmatrix'">
                     <ion-label color="basic" stacked>
                       {{field.label}}
                       <span *ngIf="field.hasmust==true" class="needfill">*</span>
@@ -431,7 +439,14 @@
                       {{field.value}}
                     </ion-text>
                   </div>
-    
+                  <div *ngIf="field.xtype==='riskmatrix'">
+                    <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+                     <!-- <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button> -->
+                     <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a>
+                     <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
+                        {{field.value.TheScore}}
+                     </ion-item>
+                  </div>
                 </ion-item>
             </div>
           </div>

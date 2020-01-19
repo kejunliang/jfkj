@@ -90,6 +90,7 @@ export class NewFormPage implements OnInit {
   public subformflag:string;
   public mainunid:string;
   public quesSecId:any = [];
+  public tobj:any;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -234,6 +235,8 @@ export class NewFormPage implements OnInit {
                       //data.value = tmp;
                     }
                    
+                  }else if(data.xtype=='riskmatrix'){
+                    this.tobj = JSON.stringify(data.RiskMatrix);
                   }
                   this.fields.push(data) //
                  // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
