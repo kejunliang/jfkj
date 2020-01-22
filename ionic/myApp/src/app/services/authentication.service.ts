@@ -3,15 +3,17 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
+import { Storage } from '@ionic/storage'
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient,private common:CommonService) { }
+  constructor(private http: HttpClient,private common:CommonService,private storage:Storage,) {}
 
   login(userid: string,pass:string): Observable<any> {
     console.log("code")
+    
     let  data=new HttpParams().set("Code","");
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {

@@ -90,7 +90,9 @@ export class NewFormPage implements OnInit {
   public subformflag:string;
   public mainunid:string;
   public quesSecId:any = [];
-  public tobj:any;
+  // riskmatrix
+  public riskname:string;
+  public riskmatrixvalue:any;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -108,7 +110,11 @@ export class NewFormPage implements OnInit {
     this.ulrs.aid = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "aid"))
     this.ulrs.title = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "title"))
     this.ulrs.stat = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "stat"))
-    
+
+    this.riskname = this.getQueryVariable( this.ulrs.url, "riskName")
+    if(this.riskname){
+      this.riskmatrixvalue = JSON.parse(decodeURIComponent(this.getQueryVariable( this.ulrs.url, "value")));
+    }
     this.storage.get('ous').then(data => {
       this.ous = data
     })
@@ -119,7 +125,6 @@ export class NewFormPage implements OnInit {
     })
     this.activeRoute.queryParams.subscribe(res => {
       console.log(res);
-      console.log("进")
       this.sections = []
       this.sectionsold = []
       this.portaltitle=res.temptitle
@@ -236,7 +241,21 @@ export class NewFormPage implements OnInit {
                     }
                    
                   }else if(data.xtype=='riskmatrix'){
-                    this.tobj = JSON.stringify(data.RiskMatrix);
+                    if(this.riskname){
+                      if(this.riskname==data.name){
+                        data.value = this.riskmatrixvalue;
+                      }
+                    }else{
+                      if(data.value && data.value.ResultColor){
+                        let ResultColor:string = data.value.ResultColor;
+                        if(ResultColor.indexOf('.jpg')!=-1){
+                          let corlor:string = ResultColor.split('.jpg')[0];
+                          if(corlor.indexOf('riskrank_')!=-1){
+                            data.value['ResultColor'] = corlor.split('riskrank_')[1];
+                          }
+                        }
+                      }
+                    }
                   }
                   this.fields.push(data) //
                  // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
@@ -244,15 +263,16 @@ export class NewFormPage implements OnInit {
               }
               // console .log(this.selecttemplat.template.secs[i])
               // console.log(this.selecttemplat.template.secs[i].secId)
-              console.log('selectSecId:',selectSecId)
+              //console.log('selectSecId:',selectSecId)
               //if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
               if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
               this.sectionsold.push(this.selecttemplat.template.secs[i])
-              console.log('this.sections:',this.sections);
+              
               
               this.list.push({ "show": false })
               this.commonCtrl.hide()
             }
+            console.log('this.sections:',this.sections);
             // console.log(this.list)
             let flag = this.sections.some(function (obj, index) {
               return obj.title == "Severity"
@@ -976,6 +996,25 @@ export class NewFormPage implements OnInit {
    getValue(){
     console.log('我选中的是', this.radio.value)
   }
+  riskMatrix(selectedRiskMatrix,savedValue,riskName){
+    let obj:Object = {
+      riskMatrixFrameData:selectedRiskMatrix,
+      riskMatrixSaveData:savedValue,
+      riskName,
+
+      type:this.type,
+      unid:  this.ulrs.unid,
+      aid: this.ulrs.aid,
+      title: this.ulrs.title,
+      stat: this.ulrs.stat,
+      refresh: new Date().getTime(),
+      cururl:this.lasturl,
+      lasturl:this.router.url
+    }
+    this.nav.navigateBack('/risk-matrix',{queryParams:obj});
+    //this.navCtrl.push(RiskMatrix, {riskMatrixFrameData:selectedRiskMatrix,riskMatrixSaveData:savedValue});
+    //this.riskName=riskName;
+  };
  
 }
 
