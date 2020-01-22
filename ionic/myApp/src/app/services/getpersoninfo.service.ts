@@ -10,7 +10,7 @@ export class GetpersoninfoService {
 
   constructor(private http: HttpClient,private common:CommonService) { }
 
-getpersoninfo(userid: string,pass:string): Observable<any> {
+getpersoninfo(userid: string,pass:string,server:string,folder:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -18,7 +18,7 @@ getpersoninfo(userid: string,pass:string): Observable<any> {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username='+encodeURIComponent(userid),options)
+    return this.http.get<{token: string}>(folder+'/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username='+encodeURIComponent(userid),options)
       .pipe(
         map(result => { 
                  return result;

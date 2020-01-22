@@ -25,7 +25,7 @@ export class SecurityComponent implements OnInit {
 
   ngOnInit() {
       this.storage.get("loginDetails").then(data=>{
-     this.getPersonSerice.getPersonInfo(data,data.username).pipe(first()).subscribe(
+     this.getPersonSerice.getPersonInfo(data,data.username,data.server,data.folder).pipe(first()).subscribe(
        data => {
          console.log(data)
         this.listData=data.person;

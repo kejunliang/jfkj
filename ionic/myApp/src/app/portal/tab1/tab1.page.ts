@@ -51,7 +51,7 @@ export class Tab1Page {
           this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })
-        this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
+        this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
           console.log(data)
           this.titlelog=data.HeaderCompanyLogo
           
@@ -93,7 +93,7 @@ export class Tab1Page {
     let lan = this.translate.getDefaultLang();
     console.log(this.logoutService)
     this.storage.get("loginDetails").then(data => {
-      this.logoutService.setLogout(data.username, data.password, data.email, lan, this.portalTile).pipe(first())
+      this.logoutService.setLogout(data.username, data.password, data.email, lan, this.portalTile,data.server,data.folder).pipe(first())
         .subscribe(res => {
           console.log(res)
           if (res.status) {

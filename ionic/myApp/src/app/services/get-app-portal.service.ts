@@ -19,7 +19,7 @@ export class GetAppPortalService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,options)
       .pipe(
         map(result => { 
                  return result;
@@ -39,7 +39,7 @@ export class GetAppPortalService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getViewData?viewid='+key+'&countperpage='+count+'&curpage='+curpage,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getViewData?viewid='+key+'&countperpage='+count+'&curpage='+curpage,options)
       .pipe(
         map(result => { 
                  return result;
@@ -57,7 +57,7 @@ export class GetAppPortalService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,options)
       .pipe(
         map(result => { 
                  return result;

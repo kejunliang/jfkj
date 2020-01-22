@@ -19,7 +19,7 @@ export class CreateFromService {
       }
     };
     //http://oa.jf81.com/sfv3/integrumws.nsf/xp_App.xsp/getActDocFormData?unid=1A9D2024BB1EA9E4482584BE007DBC3E
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,options)
       .pipe(
         map(result => { 
              return result;
@@ -27,7 +27,7 @@ export class CreateFromService {
         catchError(this.common.handleError)
       )
   }
-  getPersonInfo(logindetail:any,key:any): Observable<any> {
+  getPersonInfo(logindetail:any,key:any,server:string,folder:string): Observable<any> {
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
     const options = {
       headers: {
@@ -36,7 +36,7 @@ export class CreateFromService {
       }
     };
     //http://oa.jf81.com/sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username=yuan%20tian
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username='+key,options)
+    return this.http.get<{token: string}>(folder+'/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username='+key,options)
       .pipe(
         map(result => { 
              return result;
@@ -60,7 +60,7 @@ export class CreateFromService {
     //pid=555DEF88C9657A7E482584B90020ECC0&actTitle=Action+title01&actAssignee=zhen+ding
     //&actDesc=Description%3A&actDueDate=2019-12-03&actAtt=&actPriority=Minor
     //&actPriorityTitle=Minor&actionRevToInitiator=true
-    return this.http.post<{token: string}>('sfv3/integrumws.nsf/xp_smartFormWs.xsp/createActionDoc',data,options)
+    return this.http.post<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_smartFormWs.xsp/createActionDoc',data,options)
       .pipe(
         map(result => { 
                  console.log(result);
@@ -79,7 +79,7 @@ export class CreateFromService {
       }
     };
     //http://oa.jf81.com/sfv3/integrumws.nsf/xp_webservices.xsp/getPersonInfo?username=yuan%20tian
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getActPriority',options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getActPriority',options)
       .pipe(
         map(result => { 
              return result;

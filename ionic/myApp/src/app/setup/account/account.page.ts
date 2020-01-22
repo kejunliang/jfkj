@@ -19,6 +19,8 @@ export class AccountPage implements OnInit {
   public pass:string='';
   public email:string='';
   public accountLan:string
+  public server:string;
+  public folder:string;
   constructor(
     public translate :TranslateService,
     public http:HttpClient,public account:AccountService,
@@ -38,7 +40,9 @@ export class AccountPage implements OnInit {
     this.user=data.username;
     this.pass=data.password;
     this.email=data.email;
-    this.account.getAccount(this.user,this.pass,this.email).pipe(first()).subscribe(
+    this.server = data.server;
+    this.folder = data.folder;
+    this.account.getAccount(this.user,this.pass,this.email,data.server,data.folder).pipe(first()).subscribe(
       data => {
         console.log(data)
         this.accountData=data;
@@ -55,7 +59,7 @@ export class AccountPage implements OnInit {
     let browerLang=this.translate.getDefaultLang();
     console.log(browerLang)
    if(this.accountData.language==browerLang){
-    this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+    this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
       data => {
        let langularArr=data.Languages;
        langularArr.forEach(item => {
@@ -66,7 +70,7 @@ export class AccountPage implements OnInit {
       }
     )
    }else{
-    this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+    this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
       data => {
        let langularArr=data.Languages;
        langularArr.forEach(item => {

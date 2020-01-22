@@ -10,7 +10,7 @@ export class LanguageService {
   constructor(public http: HttpClient) { }
 
   
-  getAppTranslation(userid: string,pass:string): Observable<any> {
+  getAppTranslation(userid: string,pass:string,server:string,folder:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -18,7 +18,7 @@ export class LanguageService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppTranslation',options)
+    return this.http.get<{token: string}>(folder+'/integrumws.nsf/xp_App.xsp/getAppTranslation',options)
       .pipe(
         map(result => { 
                  return result;

@@ -22,12 +22,16 @@ export class LoginpassPage implements OnInit {
     username:"",
     password:"",
     email:"",
-    OUCategory:""
+    OUCategory:"",
+    server:"",
+    folder:""
   }
   public logPic={
     log:"/assets/icon/logo.png",
     background:"/assets/icon/loginpass.png"
   }
+  public server:string;
+  public folder:string;
   constructor(
     public  alertController:AlertController,
     private auth: AuthenticationService,
@@ -49,18 +53,22 @@ export class LoginpassPage implements OnInit {
    this.storage.get("loginDetails").then(data => {
      if(data){
       
-       console.log(data)
+       console.log('loginDetails:',data)
        this.loginDetails.email=data.email
        this.loginDetails.OUCategory = data.OUCategory
-      this.pass=data.password
-      this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
-        console.log(data)
+       this.server = data.server;
+       this.folder = data.folder;
+      this.pass=data.password;
+      this.getou.getLoginPic(data.username,data.password,this.server,this.folder).pipe(first()).subscribe(data => {
+       
        // this.logPic.log=data.LoginCompanyLogo
        // this.logPic.background=data.LoginBKImage
       });
      }else{
       this.loginDetails.email = localStorage.getItem('email')
       this.loginDetails.OUCategory = localStorage.getItem('OUCategory')
+      this.server = localStorage.getItem('server');
+      this.folder = localStorage.getItem('folder');
      }
     
     })
@@ -74,24 +82,26 @@ export class LoginpassPage implements OnInit {
    
   console.log(this.user)
   console.log(this.pass)
-  this.auth.login(this.user,this.pass)
+  this.auth.login(this.user,this.pass,this.server,this.folder)
     .pipe(first())
     .subscribe(
       result => {
         if(result.returnResponse=="Success"){
           this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
           this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-          this.loginDetails.email= this.loginDetails.email
+          this.loginDetails.email= this.loginDetails.email;
+          this.loginDetails.server = this.server;
+          this.loginDetails.folder = this.folder;
           console.log(this.loginDetails)
          // alert(JSON.stringify(this.loginDetails))
           this.storage.set("loginDetails",this.loginDetails)
           localStorage.setItem('hasLogged','true');
-          this.getou.getous(this.user,this.pass).pipe(first()).subscribe(
+          this.getou.getous(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
             data => {
               this.storage.set('ous', JSON.stringify(data));    
             }
           )
-          this.getpsn.getpersoninfo(this.user,this.pass).pipe(first()).subscribe(
+          this.getpsn.getpersoninfo(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
             data => {
               this.storage.set('psninfo', JSON.stringify(data));    
             }

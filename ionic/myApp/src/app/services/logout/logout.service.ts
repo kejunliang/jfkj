@@ -10,7 +10,7 @@ export class LogoutService {
 
   constructor(private http: HttpClient,private common:CommonService) { }
 
-  setLogout(userid: string,pass:string,email:string,language:string,protalGroup:any): Observable<any> {
+  setLogout(userid: string,pass:string,email:string,language:string,protalGroup:any,server:string,folder:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -20,7 +20,7 @@ export class LogoutService {
     };
     console.log(options)
     //http://oa.jf81.com/sfv3/appmgt.nsf/xp_ws.xsp/Logout?&email=zding@jf81.com&languageCode=zh&portalGroup=app.integrum Group A
-    return this.http.get<{token: string}>('sfv3/appmgt.nsf/xp_ws.xsp/Logout?&email='+email+'&languageCode='+language+'&portalGroup='+protalGroup,options)
+    return this.http.get<{token: string}>(folder+'/appmgt.nsf/xp_ws.xsp/Logout?&email='+email+'&languageCode='+language+'&portalGroup='+protalGroup,options)
       .pipe(
         map(result => { 
                  return result;

@@ -11,7 +11,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient,private common:CommonService,private storage:Storage,) {}
 
-  login(userid: string,pass:string): Observable<any> {
+  login(userid: string,pass:string,server:string,folder:string): Observable<any> {
     console.log("code")
     
     let  data=new HttpParams().set("Code","");
@@ -22,7 +22,7 @@ export class AuthenticationService {
         "Authorization":auth
       }
     };
-    return this.http.post<{token: string}>('sfv3/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options)
+    return this.http.post<{token: string}>(folder+'/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options)
       .pipe(
         map(result => { 
                  console.log(result);

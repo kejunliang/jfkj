@@ -18,7 +18,7 @@ export class GetallformsService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAllForms?ver=v2&languageid&cnname='+encodeURIComponent(logindetail.username),options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAllForms?ver=v2&languageid&cnname='+encodeURIComponent(logindetail.username),options)
       .pipe(
         map(result => { 
                  return result;
@@ -38,7 +38,7 @@ export class GetallformsService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+unid+'&cnname='+logindetail.username+'&isedit='+isedit,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+unid+'&cnname='+logindetail.username+'&isedit='+isedit,options)
       .pipe(
         map(result => { 
                  return result;
@@ -56,7 +56,7 @@ export class GetallformsService {
       }
     };
     let  data=para
-    return this.http.post('/sfv3/integrumws.nsf/xp_App.xsp/submitFormV2',data,options).pipe(
+    return this.http.post('/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/submitFormV2',data,options).pipe(
        map(
         result => { 
           return result;
@@ -78,7 +78,7 @@ export class GetallformsService {
       }
     };
     let sparas = '&db='+db+'&view='+view+'&column='+column;
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getLookupOption?key='+key+sparas,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getLookupOption?key='+key+sparas,options)
       .pipe(
         map(result => { 
                  return result;

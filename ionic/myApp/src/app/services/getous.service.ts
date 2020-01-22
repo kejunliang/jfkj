@@ -11,7 +11,7 @@ export class GetousService {
   constructor(private http: HttpClient,private common:CommonService) { }
 
 
-  getous(userid: string,pass:string): Observable<any> {
+  getous(userid: string,pass:string,server:string,folder:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
       headers: {
@@ -19,7 +19,7 @@ export class GetousService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getOUs',options)
+    return this.http.get<{token: string}>(folder+'/integrumws.nsf/xp_App.xsp/getOUs',options)
       .pipe(
         map(result => { 
                  return result;
@@ -28,7 +28,7 @@ export class GetousService {
       )
   }
 
-  getLoginPic(userid: string,pass:string): Observable<any> {
+  getLoginPic(userid: string,pass:string,server:string,folder:string): Observable<any> {
   
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
@@ -37,7 +37,7 @@ export class GetousService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>('sfv3/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum')
+    return this.http.get<{token: string}>(folder+'/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum')
       .pipe(
         map(result => { 
                  return result;
