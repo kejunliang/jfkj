@@ -309,7 +309,7 @@
                   <ion-list>
                     <ion-item *ngFor="let option of field.options">
                       <ion-label>{{option.text}}</ion-label>
-                      <ion-checkbox slot="end" [(ngModel)]="field.value"></ion-checkbox>
+                      <ion-checkbox slot="end" [(ngModel)]="option.ischeck" (ionChange)='getCheckValue(option,field)'></ion-checkbox>
                     </ion-item>
                   </ion-list>
                 </div>

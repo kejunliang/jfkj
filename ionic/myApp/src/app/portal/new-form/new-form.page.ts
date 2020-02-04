@@ -268,7 +268,23 @@ export class NewFormPage implements OnInit {
                       }
                     }
                   }
-                }
+                }else if(data.xtype == 'checkbox'){
+                  if(data.value){
+                    let cehckvalues=data.value.split(",")
+                    data.options.forEach(option =>{
+                       let flag=cehckvalues.some(v =>{
+                         return v==option.value
+                       })
+                       if(flag){
+                         option.ischeck=true
+                       }else{
+                        option.ischeck=false
+                       }
+                    })
+                  }
+                
+                 
+              }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
               })
@@ -302,6 +318,7 @@ export class NewFormPage implements OnInit {
         this.storage.get("allforms").then(data => {
           this.templates = JSON.parse(data).templates
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+          console.log(  this.selecttemplat)
           if (!this.selecttemplat) {
             return false;
           }
@@ -361,6 +378,10 @@ export class NewFormPage implements OnInit {
                   data.value = tmp;
                 }
 
+              }else if(data.xtype == 'checkbox'){
+                  data.options.forEach(option =>{
+                    option.ischeck=true;
+                  })
               }
               this.loadSecs.push(data);
               this.fields.push(data) //
@@ -1320,5 +1341,14 @@ export class NewFormPage implements OnInit {
 
     }//End for loop
   };
+  getCheckValue(option,field){
+      let resvalue=[];
+      field.options.forEach(option => {
+        if(option.ischeck==true){
+          resvalue.push(option.value)
+        }
+      });
+      field.value=resvalue.join(",")
+  }
 }
 
