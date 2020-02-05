@@ -20,6 +20,24 @@ export class GetAppPortalService {
       }
     };
     return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,options)
+    //return this.http.get<{token: string}>(logindetail.folder+'/appmgt.nsf/xp_ws.xsp/getAppPortal?&email='+logindetail.email,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+  getPortalInfoV2(logindetail:any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+'/appmgt.nsf/xp_ws.xsp/getAppPortal?&email='+logindetail.email,options)
+    //return this.http.get<{token: string}>(logindetail.folder+'/appmgt.nsf/xp_ws.xsp/getAppPortal?&email='+logindetail.email,options)
       .pipe(
         map(result => { 
                  return result;

@@ -43,7 +43,7 @@ export class Tab1Page {
 
     this.show()
     this.storage.get("loginDetails").then(data => {
-      this.geapp.getPortalInfo(data).pipe(first())
+      this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)
           this.portalInfo = data
