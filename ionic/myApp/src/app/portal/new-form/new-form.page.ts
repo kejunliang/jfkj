@@ -1346,6 +1346,8 @@ export class NewFormPage implements OnInit {
       field.options.forEach(option => {
         if(option.ischeck==true){
           resvalue.push(option.value)
+        }else{
+          // resvalue.push("no")
         }
       });
       field.value=resvalue.join(",")
