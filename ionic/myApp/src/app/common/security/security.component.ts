@@ -17,6 +17,8 @@ export class SecurityComponent implements OnInit {
   public isSelectList: boolean = false;
   public isDelect: boolean = false;
   public listDatabak:any;
+  public stype:string;
+  public fval:any;
   public listData: any = [
     { title: 'sholla Ameko' },
     { title: 'xuze ren' },
@@ -24,13 +26,33 @@ export class SecurityComponent implements OnInit {
     { title: 'hongtu zhao' }
   ];
   public searchName: string = ''
+  public checkedEmp:any=[];
   constructor(public navParams: NavParams) {
     this.listData = this.navParams.data.value
     this.listDatabak=   this.navParams.data.value
+    this.stype = this.navParams.data.stype;
+    this.fval = this.navParams.data.fieldvalue;
+    if(!this.fval){
+      this.fval = [];
+    }else{
+      this.fval = this.fval.split(';');
+    }
     console.log(this.listData)
+    console.log('stype:',this.stype)
+    console.log('fval',this.fval);
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    if(this.stype == 'multi'){
+      this.listDatabak.forEach(e => {
+        if(this.fval.indexOf(e.EMPFullName)==-1){
+          e.checked = false;
+        }else{
+          e.checked = true;
+        }
+      });
+    }
+  }
   getSelectlist() {
     this.isSelectList = !this.isSelectList;
   }
@@ -77,4 +99,23 @@ export class SecurityComponent implements OnInit {
       })
     }
   };
+  addCheckedItems(ischecked,item){
+  
+    if(ischecked){
+      this.checkedEmp.push(item);
+    }
+    else{
+      let index= this.checkedEmp.indexOf(item);
+      this.checkedEmp.splice(index, 1);
+    }
+    
+    };
+    saveChoice(){
+      if(this.stype == 'multi'){
+        this.navParams.data.modal.dismiss({
+          result: this.checkedEmp.join(';')
+        })
+      }
+      
+    }
 }
