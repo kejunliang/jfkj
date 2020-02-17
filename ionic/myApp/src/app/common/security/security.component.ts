@@ -27,6 +27,7 @@ export class SecurityComponent implements OnInit {
   ];
   public searchName: string = ''
   public checkedEmp:any=[];
+  public  searchkey :String;
   constructor(public navParams: NavParams) {
     this.listData = this.navParams.data.value
     this.listDatabak=   this.navParams.data.value
@@ -82,9 +83,10 @@ export class SecurityComponent implements OnInit {
     })
   }
   clean() {
-    this.navParams.data.modal.dismiss({
-      result: ''
-    })
+    // this.navParams.data.modal.dismiss({
+    //   result: ''
+    // })
+    this.searchkey=""
   }
 
   getItems(ev: any) {
@@ -92,6 +94,7 @@ export class SecurityComponent implements OnInit {
     console.log()
     this.listData= this.listDatabak
     let val = ev.target.value;
+    this.searchkey=val
    console.log(val)
     if (val && val.trim() != '') {
       this.listData = this.listData.filter((item) => {

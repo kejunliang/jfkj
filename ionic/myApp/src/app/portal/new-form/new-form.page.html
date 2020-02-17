@@ -385,7 +385,7 @@
                 <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
                   <ion-select [(ngModel)]='field.value'
                     [interfaceOptions]="customPopoverOptions" interface="popover"
-                    (ionChange)="getSublistOption(field,section.secId,'change')">
+                    (ionChange)="getSublistOption(field,section.secId,'change')" placeholder="Select One">
                     <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
                     <div *ngIf="field.name==sublistObjId">
                       <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
