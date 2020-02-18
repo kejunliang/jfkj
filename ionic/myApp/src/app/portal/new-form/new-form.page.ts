@@ -160,6 +160,7 @@ export class NewFormPage implements OnInit {
           let selectSecId: any = this.selecttemplat.sectionids ? this.selecttemplat.sectionids : [];
           selectSecId = ['FormMr'].concat(selectSecId);
           if (!this.selecttemplat) {
+            console.log('Not find selecttemplat!');
             return false;
           }
           //if (this.type == "edit") {
@@ -330,6 +331,7 @@ export class NewFormPage implements OnInit {
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
           console.log(  this.selecttemplat)
           if (!this.selecttemplat) {
+            console.log(res.aid,' is not find!');
             return false;
           }
           this.btnBox = this.selecttemplat.menubaritem
@@ -346,7 +348,6 @@ export class NewFormPage implements OnInit {
               this.quesSecId = this.quesSecId.concat(answerWhen[key]);
             }
           }
-
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
               this.mandafields.forEach(element => {
@@ -727,6 +728,12 @@ export class NewFormPage implements OnInit {
       let quesFields: any = [];
       let answerWhen = v.answerWhen;
       let disSecId: any = v.answerWhen[field.value];
+      let newArr:any = [];
+      disSecId.forEach(e=>{
+        let index = this.sectionsold.findIndex(el=>el.secId==e);
+        if(index) newArr.push({e,index});
+      })
+      newArr.sort((a,b)=>a.index-b.index);
       for (let key in answerWhen) {
         quesFields = quesFields.concat(answerWhen[key]);
       }
@@ -734,8 +741,8 @@ export class NewFormPage implements OnInit {
         let index: number = this.sections.findIndex(e => e.secId == element);
         if (index != -1) this.sections.splice(index, 1);
       });
-      disSecId.forEach(element => {
-        let el = this.sectionsold.find(e => e.secId == element);
+      newArr.forEach(element => {
+        let el = this.sectionsold.find(e => e.secId == element.e);
         if (el) this.sections.push(el);this.initHasSubfield('change');
       });
 
