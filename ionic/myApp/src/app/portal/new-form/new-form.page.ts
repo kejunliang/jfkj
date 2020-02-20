@@ -25,7 +25,6 @@ export class NewFormPage implements OnInit {
   public fields: any = [];
   //For lat, lon field
   public attachedImages = [];
-  public guidanceData: any = [{ value: '1' }];
   public resvalue: any;
   public selecttemplat: any;
   public showGuidance: any = false;
@@ -426,13 +425,7 @@ export class NewFormPage implements OnInit {
 
         })
       }
-      //get Person
-      this.storage.get('psninfo').then(data => {
-        //console.log(JSON.parse(data))
-        this.psninfo = JSON.parse(data).person
-        this.guidanceData = this.psninfo
 
-      })
 
     })
 
@@ -777,7 +770,7 @@ export class NewFormPage implements OnInit {
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: { value: this.guidanceData ,stype,fieldvalue}
+      componentProps: {stype,fieldvalue}
     });
     modal.present();
     //监听销毁的事件
