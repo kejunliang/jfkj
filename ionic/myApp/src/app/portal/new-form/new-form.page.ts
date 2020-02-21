@@ -137,7 +137,7 @@ export class NewFormPage implements OnInit {
         this.formID = res.unid
         console.log("旧文档")
         this.type = res.type
-        if (res.stat) {
+        if (res.stat  && res.stat!='false') {
           this.title = res.title + " (" + res.stat + ")"
         } else {
           this.title = res.title
@@ -986,8 +986,9 @@ export class NewFormPage implements OnInit {
       }
       this.getLookupOptions(obj).then((data: any) => {
         if (data.status == "success") {
+          let fval:any;
           let options: any = [];
-          options.push({ value: '', text: '' })
+          if(data.data.length>0) options.push({ value: '', text: '' })
           for (let i = 0; i < data.data.length; i++) {
             let element = data.data[i];
             options.push({ value: element, text: element })
@@ -1007,7 +1008,6 @@ export class NewFormPage implements OnInit {
               this['lookupOptins' + column].splice(index, 1, tobj);
             }
           }
-
         }
       });
       

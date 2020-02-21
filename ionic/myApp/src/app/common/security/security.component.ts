@@ -32,7 +32,7 @@ export class SecurityComponent implements OnInit {
   public checkedEmp: any = [];
   public searchkey: String;
   public start:number;
-  public pnum:number = 8;
+  public pnum:number = 16;
   constructor(
     public navParams: NavParams,
     public storage: Storage,
