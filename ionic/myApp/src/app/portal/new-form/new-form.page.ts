@@ -834,6 +834,11 @@ export class NewFormPage implements OnInit {
     let text: any;
     let value: any;
 
+    if(!val || val==[]){
+
+      let index: number = this['ou' + level + 'select'].findIndex(e => e.ouGroupId == ouGroupId);
+    }
+
     for (let i = 0; i < val.length; i++) {
       if (val[i].indexOf('/') > -1) {
         tmparr2 = val[i].split('/');
@@ -882,6 +887,17 @@ export class NewFormPage implements OnInit {
       this['ou' + level + 'select'].push(ou);
     } else {
       this['ou' + level + 'select'].splice(index, 1, ou);
+    }
+    let s = this.sections.find(e=>e.secId==pSecId);
+    if(s){
+      if(s.fields){
+        for (let i = 0; i < s.fields.length; i++) {
+          let element = s.fields[i];
+          if(element.xtype=="singleou"){
+
+          }
+        }
+      }
     }
   }
   getOuLevelAndGroupId(fieldName: any, pSecId: any): object {
