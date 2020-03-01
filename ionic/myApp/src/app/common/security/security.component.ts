@@ -135,7 +135,7 @@ export class SecurityComponent implements OnInit {
     console.log(val)
     if (val && val.trim() != '') {
       this.listData = this.listData.filter((item) => {
-        return (item[this.selectManger].toLowerCase().iOf(val.toLowerCase()) > -1);
+        return (item[this.selectManger].toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   };
