@@ -34,6 +34,8 @@ export class SecurityComponent implements OnInit {
   public start:number;
   public pnum:number = 16;
   public title:string ="Security Manager";
+  public firstData:any =[];
+
   constructor(
     public navParams: NavParams,
     public storage: Storage,
@@ -68,6 +70,7 @@ export class SecurityComponent implements OnInit {
       }else{
         this.listData = persons;
       }
+      this.firstData=this.listData;
       console.log('this.listData:', this.listData);
       console.log('this.navParams.data:',this.navParams.data);
       this.stype = this.navParams.data.stype;
@@ -124,6 +127,7 @@ export class SecurityComponent implements OnInit {
     //   result: ''
     // })
     this.searchkey = ""
+    this.listData = this.firstData
   }
 
   getItems(ev: any) {
