@@ -127,7 +127,7 @@ export class SecurityComponent implements OnInit {
     //   result: ''
     // })
     this.searchkey = ""
-    this.listData = this.firstData
+    this.listData = this.firstData  //;清空后初始化第一次得数据，上次提交不是问题编号48 9868d3cc7c445211c71da65ac322cec82df35dff
   }
 
   getItems(ev: any) {
