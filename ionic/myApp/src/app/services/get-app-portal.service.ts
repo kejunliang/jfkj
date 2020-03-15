@@ -57,7 +57,13 @@ export class GetAppPortalService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getViewData?viewid='+key+'&countperpage='+count+'&curpage='+curpage,options)
+    let url:string = '';
+    if(key.startsWith('my_')){
+      url = `${logindetail.folder}/integrumws.nsf/xp_App.xsp/getViewData?viewid=${key}&countperpage=${count}&curpage=${curpage}&uname=${logindetail.username}`;
+    }else{
+      url = `${logindetail.folder}/integrumws.nsf/xp_App.xsp/getViewData?viewid=${key}&countperpage=${count}&curpage=${curpage}`;
+    }
+    return this.http.get<{token: string}>(url,options)
       .pipe(
         map(result => { 
                  return result;

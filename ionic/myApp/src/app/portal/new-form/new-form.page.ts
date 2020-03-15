@@ -10,6 +10,7 @@ import { commonCtrl } from "../../common/common";
 import { PopoverComponent } from "../../common/popover/popover.component"
 import { SecurityComponent } from "../../common/security/security.component"
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -297,6 +298,19 @@ export class NewFormPage implements OnInit {
                 let v = data.options[0];
                 if(v && v.value){
                   if(v.value!='') data.options.unshift({value:'',text:''});
+                }
+              }else if(data.xtype == 'date'){
+                if(this.type == 'edit'){
+                  if(data.value!=''){
+                    let tmp = '/';
+                    if(data.value.indexOf('/')!=-1){
+                      tmp = '/';
+                    }else if(data.value.indexOf('-')!=-1){
+                      tmp = '-';
+                    }
+                    let ret = data.value.split(tmp);
+                    if(ret[0].length==2) data.value = moment(`${data.value}`,'DD/MM/YYYY').format('YYYY-MM-DD');
+                  }
                 }
               }
                 this.fields.push(data) //

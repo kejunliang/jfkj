@@ -43,6 +43,7 @@ export class Tab1Page {
 
     this.show()
     this.storage.get("loginDetails").then(data => {
+      console.log('loginDetails:',data)
       this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)
@@ -52,7 +53,7 @@ export class Tab1Page {
           this.hide()
         })
         this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
-          console.log(data)
+          console.log('getLoginPic:',data)
           this.titlelog=data.HeaderCompanyLogo
           
         });
