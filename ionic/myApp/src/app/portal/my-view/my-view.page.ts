@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GetAppPortalService } from '../../services/get-app-portal.service';
+import { Storage } from '@ionic/storage';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-my-view',
   templateUrl: './my-view.page.html',
@@ -7,7 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyViewPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public getvw: GetAppPortalService,
+    public storage:Storage
+  ) { 
+    this.storage.get('loginDetails').then(data => {
+        this.getvw.getMyView(data,"").pipe(first())
+        .subscribe(data => {
+          console.log(data)
+        })
+    })
+  }
 
   ngOnInit() {
   }

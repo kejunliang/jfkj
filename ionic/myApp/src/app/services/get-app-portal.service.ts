@@ -90,4 +90,22 @@ export class GetAppPortalService {
       )
   }
 
+  getMyView(logindetail:any,para:any ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let key=para.key
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getViewData?viewid=met_ManagementEngagementTour&countperpage=20&curpage=1',options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+
 }
