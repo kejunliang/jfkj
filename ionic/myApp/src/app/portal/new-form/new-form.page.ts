@@ -239,7 +239,7 @@ export class NewFormPage implements OnInit {
                       }
 
                     }
-                    if (data.lookup.view) {
+                    if (data.lookup && data.lookup.view) {
                       this.getSublistOption(data, secId,'open');
                     }
                   }
@@ -301,7 +301,7 @@ export class NewFormPage implements OnInit {
                 }
               }else if(data.xtype == 'date'){
                 if(this.type == 'edit'){
-                  if(data.value!=''){
+                  if(data.value && data.value!=''){
                     let tmp = '/';
                     if(data.value.indexOf('/')!=-1){
                       tmp = '/';
@@ -772,9 +772,12 @@ export class NewFormPage implements OnInit {
     }
 
     this.sections.forEach(secelement => {
-      secelement.fields.forEach(element => {
-        this.selectScore(element, element.value, secelement.title)
-      });
+      if(secelement.fields){
+        secelement.fields.forEach(element => {
+          this.selectScore(element, element.value, secelement.title)
+        });
+      }
+      
     });
 
 
@@ -1440,7 +1443,7 @@ export class NewFormPage implements OnInit {
       let v = this.initHasSubfieldValue(showfield.fieldId);
 
       var array = [];
-      if (!v) return;
+      if (!v) continue;
       if (typeof (v) == 'string') {
 
         array.push(v);
