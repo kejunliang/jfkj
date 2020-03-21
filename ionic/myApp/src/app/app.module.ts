@@ -25,10 +25,13 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 //扫描
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import {GetousService} from '../app/services/getous.service'
+import { CustomTranslateLoader } from "../app/services/trans-loader"
 //导出加载函数
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  //return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -36,7 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
     })
