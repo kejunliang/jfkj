@@ -8,7 +8,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./my-view.page.scss'],
 })
 export class MyViewPage implements OnInit {
-
+  public data:string ="";
   constructor(
     public getvw: GetAppPortalService,
     public storage:Storage
@@ -17,6 +17,7 @@ export class MyViewPage implements OnInit {
         this.getvw.getMyView(data,"").pipe(first())
         .subscribe(data => {
           console.log(data)
+          this.data = data.data
         })
     })
   }
