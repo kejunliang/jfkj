@@ -74,7 +74,7 @@ export class AuthemailPage implements OnInit {
           if(result.status!="fail"){
             this.sendStat=true;
             localStorage.setItem('user',result.username);
-            this.loginDetails.email="shijun@integrumsystems.com"
+            this.loginDetails.email=""
             this.loginDetails.code=this.authform.value.code
             this.loginDetails.OUCategory=result.OUCategory;
             this.loginDetails.server=result.server;
@@ -87,7 +87,7 @@ export class AuthemailPage implements OnInit {
             this.folder=result.folder
            
             this.Login();
-            localStorage.setItem('email',"shijun@integrumsystems.com")
+            localStorage.setItem('email',"")
             localStorage.setItem('OUCategory',result.OUCategory)
             localStorage.setItem('server',result.server)
             localStorage.setItem('folder',result.folder)
@@ -105,16 +105,17 @@ export class AuthemailPage implements OnInit {
 
   Login() {
    
-    console.log(this.user)
-    console.log(this.pass)
+    console.log("user=="+this.user)
+    console.log("pass=="+this.pass)
     this.auth.login(this.user,this.pass,this.server,this.folder)
       .pipe(first())
       .subscribe(
         result => {
           if(result.returnResponse=="Success"){
+            console.log("登录成功=="+result)
             this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
             this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-            this.loginDetails.email= this.loginDetails.email;
+            this.loginDetails.email= result.user.email;
             this.loginDetails.server = this.server;
             this.loginDetails.folder = this.folder;
             console.log(this.loginDetails)

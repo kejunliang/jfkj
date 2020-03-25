@@ -12,8 +12,8 @@ export class AuthenticationService {
   constructor(private http: HttpClient,private common:CommonService,private storage:Storage,) {}
 
   login(userid: string,pass:string,server:string,folder:string): Observable<any> {
-    console.log("code")
     
+    console.log(userid+':'+pass)
     let  data=new HttpParams().set("Code","");
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
