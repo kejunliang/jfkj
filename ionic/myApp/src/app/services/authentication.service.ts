@@ -34,10 +34,10 @@ export class AuthenticationService {
 
   
   
-  sendEmail(email:string,slid:string,code:string):Observable<any>{
+  sendEmail(name:string,slid:string,code:string,password:string):Observable<any>{
     let s=new Date();
     let deviceid=s.getTime().toString()
-    let  data=new HttpParams().set("email",email).set("code",code).set("deviceid",deviceid).set("devicettype","test"); 
+    let  data=new HttpParams().set("code",code).set("deviceid",deviceid).set("devicettype","test"); 
     return this.http.post('/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data).pipe(
        map(
         result => { 

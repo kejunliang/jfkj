@@ -47,7 +47,8 @@
         "login":"Log In",
         "ssologin":"SSO Log In",
         "authmailerr":"Please enter correct email and authentication code!",
-        "authpasserr":"Incorrect password. Please be aware that password is case sensitive."
+        "authpasserr":"Incorrect password. Please be aware that password is case sensitive.",
+        "user":"name"
     },
     "setting":{
         "account":"My account",

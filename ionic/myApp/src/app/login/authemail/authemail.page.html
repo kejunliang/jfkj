@@ -34,7 +34,7 @@
         <ion-row>
             <ion-col> </ion-col>
             <ion-col  size="9">
-                <ion-item class="email" >
+                <ion-item class="email" *ngIf="fase">
                   <ion-thumbnail class="emailthumbnail">
                       <ion-img class="emailpng" [src]="'/assets/icon/email.png'"></ion-img>
                   </ion-thumbnail>
@@ -48,6 +48,20 @@
                     <ion-text>|&nbsp;&nbsp;</ion-text>
                     <ion-input   [formControl]="code"   placeholder="{{'login.authcode' | translate}} "></ion-input>
                 </ion-item>
+                <ion-item class="email" >
+                  <ion-thumbnail class="auththumbnail">
+                        <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
+                  </ion-thumbnail>
+                  <ion-text>|&nbsp;&nbsp;</ion-text>
+                  <ion-input   [formControl]="name"   placeholder="{{'login.user' | translate}} "></ion-input>
+              </ion-item>
+              <ion-item class="email" >
+                <ion-thumbnail class="auththumbnail">
+                      <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
+                </ion-thumbnail>
+                <ion-text>|&nbsp;&nbsp;</ion-text>
+                <ion-input   [formControl]="password"   placeholder="{{'login.password' | translate}} "></ion-input>
+            </ion-item>
             </ion-col> 
             <ion-col></ion-col>
         </ion-row>
