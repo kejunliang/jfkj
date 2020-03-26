@@ -49,9 +49,9 @@ export class AuthemailPage implements OnInit {
     public navCtrl:NavController
     ) {
       this.authform = formBuilder.group({
-        password: ['', Validators.compose([ Validators.required,])],
-        code: ['', Validators.compose([Validators.required,])],
-        name: ['', Validators.compose([Validators.required,])]
+        code: ['', Validators.required],
+        name: ['', Validators.compose([Validators.required])],
+        password: ['', Validators.compose([ Validators.required])],      
       });
       this.email = this.authform.controls['email']
       this.code = this.authform.controls['code'];
@@ -179,5 +179,9 @@ export class AuthemailPage implements OnInit {
     });
 
     await alert.present();
+  }
+  onchange(){
+  
+   
   }
 }
