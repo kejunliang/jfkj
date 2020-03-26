@@ -43,12 +43,17 @@ export class Tab1Page {
 
     this.show()
     this.storage.get("loginDetails").then(data => {
-      console.log('loginDetails:',data)
+      console.log('***************loginDetails:',data)
       this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)
           this.portalInfo = data
-          this.portalTile = data.selectedPortal
+          if(localStorage.getItem('EmpCurrentPortal')!=''){
+            this.portalTile = localStorage.getItem('EmpCurrentPortal');
+          }else{
+            this.portalTile = data.selectedPortal
+          }
+          
           this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })

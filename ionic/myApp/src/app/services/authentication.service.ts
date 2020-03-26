@@ -13,7 +13,7 @@ export class AuthenticationService {
 
   login(userid: string,pass:string,server:string,folder:string): Observable<any> {
     
-    console.log(userid+':'+pass)
+    //console.log(userid+':'+pass)
     let  data=new HttpParams().set("Code","");
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
@@ -25,7 +25,6 @@ export class AuthenticationService {
     return this.http.post<{token: string}>(folder+'/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options)
       .pipe(
         map(result => { 
-                 console.log(result);
                  return result;
         }),
         catchError(this.common.handleError)
@@ -41,7 +40,20 @@ export class AuthenticationService {
     return this.http.post('/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data).pipe(
        map(
         result => { 
-          console.log(result)
+          return result;
+        } 
+       )
+      
+    )
+  }
+
+  updateUserInfo(logindetail:any):Observable<any>{
+    const {folder,username,email,code,OUCategory} = logindetail;
+    const deviceid = "iphone12 001";
+    let  data=new HttpParams().set("username",username).set("email",email).set("oucategory",OUCategory).set("code",code).set("deviceid",deviceid).set("devicettype","iphone13 plus"); 
+    return this.http.post(`/${folder}/appmgt.nsf/xp_ws.xsp/updateUserInfo`,data).pipe(
+       map(
+        result => { 
           return result;
         } 
        )

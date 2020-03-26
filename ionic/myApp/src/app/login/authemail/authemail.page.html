@@ -53,14 +53,14 @@
                         <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
                   </ion-thumbnail>
                   <ion-text>|&nbsp;&nbsp;</ion-text>
-                  <ion-input   [formControl]="name"   placeholder="{{'login.user' | translate}} "></ion-input>
+                  <ion-input   [formControl]="name"   placeholder="{{'login.email' | translate}} "></ion-input>
               </ion-item>
               <ion-item class="email" >
                 <ion-thumbnail class="auththumbnail">
                       <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
                 </ion-thumbnail>
                 <ion-text>|&nbsp;&nbsp;</ion-text>
-                <ion-input   [formControl]="password"   placeholder="{{'login.password' | translate}} "></ion-input>
+                <ion-input type="password" [formControl]="password" placeholder="{{'login.password' | translate}} "></ion-input>
             </ion-item>
             </ion-col> 
             <ion-col></ion-col>
@@ -68,7 +68,7 @@
         <ion-row>
             <ion-col></ion-col>
             <ion-col  size="9">
-                <ion-button  class="emailSend" *ngIf="sendStat" [disabled]="!authform.valid" ion-button type="submit"   expand="block">{{'login.submit' | translate}}</ion-button>
+                <ion-button  class="emailSend" *ngIf="sendStat" [disabled]="!authform.valid" ion-button type="submit"   expand="block">{{'login.login' | translate}}</ion-button>
             </ion-col> 
             <ion-col></ion-col>
         </ion-row>

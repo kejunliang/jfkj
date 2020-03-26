@@ -36,7 +36,8 @@ export class AuthemailPage implements OnInit {
       server:"",
       folder:"",
       username:"",
-      password:""
+      password:"",
+      empgroup:""
   }
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
@@ -73,24 +74,31 @@ export class AuthemailPage implements OnInit {
           console.log('SendEmail--result:',result)
           if(result.status!="fail"){
             this.sendStat=true;
-            localStorage.setItem('user',result.username);
-            this.loginDetails.email=""
-            this.loginDetails.code=this.authform.value.code
-            this.loginDetails.OUCategory=result.OUCategory;
-            this.loginDetails.server=result.server;
-            this.loginDetails.folder=result.folder;
-            this.storage.set("loginDetails",this.loginDetails)
             //this.router.navigate(['loginpass'])
             this.user=this.authform.value.name
             this.pass=this.authform.value.password
+            this.code = this.authform.value.code;
             this.server=result.server
             this.folder=result.folder
+
+            this.loginDetails.username = this.user;
+            this.loginDetails.password = this.pass;
+            this.loginDetails.server = this.server;
+            this.loginDetails.folder = this.folder;
+            this.loginDetails.code = this.code;
+
+            this.storage.set("loginDetails",this.loginDetails)
            
             this.Login();
-            localStorage.setItem('email',"")
-            localStorage.setItem('OUCategory',result.OUCategory)
-            localStorage.setItem('server',result.server)
-            localStorage.setItem('folder',result.folder)
+
+            // this.loginDetails.email=""
+            // this.loginDetails.code=this.authform.value.code
+            // this.loginDetails.OUCategory=result.OUCategory;
+            // this.loginDetails.server=result.server;
+            // this.loginDetails.folder=result.folder;
+            // this.storage.set("loginDetails",this.loginDetails)
+
+            
           }else{
              this.translate.get('login').subscribe((res: any) => {
              this.resmsg=res.authmailerr;
@@ -105,22 +113,34 @@ export class AuthemailPage implements OnInit {
 
   Login() {
    
-    console.log("user=="+this.user)
-    console.log("pass=="+this.pass)
     this.auth.login(this.user,this.pass,this.server,this.folder)
       .pipe(first())
       .subscribe(
         result => {
           if(result.returnResponse=="Success"){
-            console.log("登录成功=="+result)
-            this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-            this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-            this.loginDetails.email= result.user.email;
+            //this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
+            //this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
+            this.loginDetails.username = this.user;
+            this.loginDetails.password = this.pass;
             this.loginDetails.server = this.server;
             this.loginDetails.folder = this.folder;
-            console.log(this.loginDetails)
-           // alert(JSON.stringify(this.loginDetails))
+            this.loginDetails.code = this.code;
+            this.loginDetails.email = result.user.email;
+            this.loginDetails.OUCategory = result.user.oucategory;
+
             this.storage.set("loginDetails",this.loginDetails)
+
+            this.auth.updateUserInfo(this.loginDetails).pipe(first()).subscribe(
+              data => {
+                this.loginDetails.OUCategory = data.OUCategory;
+                const EmpCurrentPortal = data.EmpCurrentPortal;
+                this.loginDetails.empgroup = EmpCurrentPortal;
+                console.log('updateUserInfo---->this.loginDetails:',this.loginDetails)
+                localStorage.setItem('EmpCurrentPortal',EmpCurrentPortal)
+                this.storage.set("loginDetails",this.loginDetails)
+              }
+            )
+            
             localStorage.setItem('hasLogged','true');
             this.getou.getous(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
               data => {
@@ -133,13 +153,12 @@ export class AuthemailPage implements OnInit {
               }
             )
             this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
-               // console.log("forms信息"+JSON.stringify(data))
                 this.storage.set('allforms', JSON.stringify(data));    
             })
             this.router.navigate(['tabs/tab1'])
   
           }else{
-            //this.presentAlert("密码错误！");
+            //this.presentAlert("password error！");
             this.translate.get('login').subscribe((res: any) => {
               this.resmsg=res.authpasserr;
            }).add(this.translate.get('alert').subscribe((res: any) => {
