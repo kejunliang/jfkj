@@ -142,6 +142,7 @@ export class AuthemailPage implements OnInit {
             )
             
             localStorage.setItem('hasLogged','true');
+            localStorage.setItem('user',this.user);
             this.getou.getous(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
               data => {
                 this.storage.set('ous', JSON.stringify(data));    

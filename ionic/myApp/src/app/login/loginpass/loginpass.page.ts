@@ -59,10 +59,10 @@ export class LoginpassPage implements OnInit {
        this.server = data.server;
        this.folder = data.folder;
       this.pass=data.password;
-      this.getou.getLoginPic(data.username,data.password,this.server,this.folder).pipe(first()).subscribe(data => {
+      this.getou.getLoginPic(data).pipe(first()).subscribe(data => {
        
-       // this.logPic.log=data.LoginCompanyLogo
-       // this.logPic.background=data.LoginBKImage
+        this.logPic.log=data.LoginCompanyLogo
+        this.logPic.background=data.LoginBKImage
       });
      }else{
       this.loginDetails.email = localStorage.getItem('email')
@@ -94,7 +94,7 @@ export class LoginpassPage implements OnInit {
           this.loginDetails.folder = this.folder;
           console.log(this.loginDetails)
          // alert(JSON.stringify(this.loginDetails))
-          this.storage.set("loginDetails",this.loginDetails)
+          //this.storage.set("loginDetails",this.loginDetails)
           localStorage.setItem('hasLogged','true');
           this.getou.getous(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
             data => {

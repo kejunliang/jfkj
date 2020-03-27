@@ -43,7 +43,7 @@ export class Tab1Page {
 
     this.show()
     this.storage.get("loginDetails").then(data => {
-      console.log('***************loginDetails:',data)
+      
       this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)
@@ -57,7 +57,8 @@ export class Tab1Page {
           this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })
-        this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
+        console.log('***************loginDetails:',data) 
+        this.getou.getLoginPic(data).pipe(first()).subscribe(data => {
           console.log('getLoginPic:',data)
           this.titlelog=data.HeaderCompanyLogo
           

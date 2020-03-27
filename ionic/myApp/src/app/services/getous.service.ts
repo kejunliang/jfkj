@@ -28,16 +28,19 @@ export class GetousService {
       )
   }
 
-  getLoginPic(userid: string,pass:string,server:string,folder:string): Observable<any> {
-  
-    let auth='Basic '+btoa(userid+':'+pass);
+  getLoginPic(logindetail:any): Observable<any> {
+    const {server,folder,username,password,code} = logindetail;
+    let auth='Basic '+btoa(username+':'+password);
     const options = {
       headers: {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>(folder+'/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum')
+    const curl:string = `${folder}/appmgt.nsf/xp_ws.xsp/getAppKeyword?code=${code}&server=${server}&folder=${folder}`;
+    //return this.http.get<{token: string}>(folder+'/appmgt.nsf/xp_ws.xsp/getAppKeyword?client='+code)
+    //return this.http.get<{token: string}>(folder+'/integrumws.nsf/xp_webservices.xsp/getAppKeyword',options)
+    return this.http.get<{token: string}>(curl)
       .pipe(
         map(result => { 
                  return result;
