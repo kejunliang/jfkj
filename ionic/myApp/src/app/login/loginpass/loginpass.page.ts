@@ -17,14 +17,17 @@ import { GetallformsService } from "../../services/getallforms.service";
 export class LoginpassPage implements OnInit {
   public user: string ;
   public pass:string;
+  public code: string;
   public resmsg:string;
   public loginDetails ={
-    username:"",
-    password:"",
     email:"",
+    code:"",
     OUCategory:"",
     server:"",
-    folder:""
+    folder:"",
+    username:"",
+    password:"",
+    empgroup:""
   }
   public logPic={
     log:"/assets/icon/logo.png",
@@ -58,8 +61,9 @@ export class LoginpassPage implements OnInit {
        this.loginDetails.OUCategory = data.OUCategory
        this.server = data.server;
        this.folder = data.folder;
-      this.pass=data.password;
-      this.getou.getLoginPic(data).pipe(first()).subscribe(data => {
+       this.pass=data.password;
+       this.code = data.code;
+       this.getou.getLoginPic(data).pipe(first()).subscribe(data => {
        
         this.logPic.log=data.LoginCompanyLogo
         this.logPic.background=data.LoginBKImage
@@ -87,14 +91,26 @@ export class LoginpassPage implements OnInit {
     .subscribe(
       result => {
         if(result.returnResponse=="Success"){
-          this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-          this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-          this.loginDetails.email= this.loginDetails.email;
+          this.loginDetails.username = this.user;
+          this.loginDetails.password = this.pass;
           this.loginDetails.server = this.server;
           this.loginDetails.folder = this.folder;
-          console.log(this.loginDetails)
-         // alert(JSON.stringify(this.loginDetails))
-          //this.storage.set("loginDetails",this.loginDetails)
+          this.loginDetails.code = this.code;
+          this.loginDetails.email = result.user.email;
+          this.loginDetails.OUCategory = result.user.oucategory;
+
+          this.storage.set("loginDetails",this.loginDetails)
+
+          this.auth.updateUserInfo(this.loginDetails).pipe(first()).subscribe(
+            data => {
+              this.loginDetails.OUCategory = data.OUCategory;
+              const EmpCurrentPortal = data.EmpCurrentPortal;
+              this.loginDetails.empgroup = EmpCurrentPortal;
+              console.log('updateUserInfo---->this.loginDetails:',this.loginDetails)
+              localStorage.setItem('EmpCurrentPortal',EmpCurrentPortal)
+              this.storage.set("loginDetails",this.loginDetails)
+            }
+          )
           localStorage.setItem('hasLogged','true');
           this.getou.getous(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
             data => {
