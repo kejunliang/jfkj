@@ -11,6 +11,8 @@ import { PopoverComponent } from "../../common/popover/popover.component"
 import { SecurityComponent } from "../../common/security/security.component"
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import {OpenModalComponent} from "../../common/open-modal/open-modal.component"
+
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -659,6 +661,11 @@ export class NewFormPage implements OnInit {
         }
 
         break;
+        case "btnDelete":
+          console.log("操作删除")
+          this.presentModal();
+          break;
+
       default:
         actiontype = "open"
         // this.router.navigateByUrl(this.lasturl)
@@ -1587,6 +1594,15 @@ export class NewFormPage implements OnInit {
         }
       });
       field.value=resvalue.join(",")
+  }
+
+  async presentModal() {
+    const modal = await this.modal.create({
+      component: OpenModalComponent
+    });
+   modal.present();
+   const { data } = await modal.onDidDismiss();
+   console.log(data)
   }
 }
 
