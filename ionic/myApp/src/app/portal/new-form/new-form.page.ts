@@ -96,6 +96,9 @@ export class NewFormPage implements OnInit {
   public riskname: string;
   public riskmatrixvalue: any;
   public minDate:string = '';
+  public secbgcolor = "favorite";
+  public cbgcolor = "#b81321";
+  public txtfontcolor = "favorite";
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -124,6 +127,7 @@ export class NewFormPage implements OnInit {
     })
 
     this.storage.get('loginDetails').then(data => {
+      if(data.code=="integrum001") this.cbgcolor = "#3880ff";this.secbgcolor = "action";this.txtfontcolor="primary";
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
     })
@@ -348,7 +352,8 @@ export class NewFormPage implements OnInit {
         this.fields = [];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
-          this.templates = JSON.parse(data).templates
+          data = JSON.parse(data);
+          this.templates = data.templates
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
           console.log(  this.selecttemplat)
           if (!this.selecttemplat) {
@@ -499,7 +504,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID, tempid: this.templatid },
+      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID, tempid: this.templatid,txtfontcolor:this.txtfontcolor },
       translucent: true,
       cssClass: "custom-popover",
       mode: "md"
@@ -827,10 +832,11 @@ export class NewFormPage implements OnInit {
   }
   //查找名称
   async getSecurity(fieldname, fieldvalue,stype:string,label) {
+    const cbgcolor = this.cbgcolor;
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: {stype,fieldvalue,label}
+      componentProps: {stype,fieldvalue,label,cbgcolor}
     });
     modal.present();
     //监听销毁的事件
@@ -888,6 +894,7 @@ export class NewFormPage implements OnInit {
     ou.ouGroupId = ouGroupId;
     let arr: any = [];
     let ouLevelList = JSON.parse(this.ous)["ou" + (level + 1)];
+    if(!ouLevelList) return;
     let tmparr: any = [];
     let tmparr1: any = [];
     let tmparr2: any = [];
@@ -1051,12 +1058,14 @@ export class NewFormPage implements OnInit {
       if (column == "1") {
         return field.options;
       } else {
-        let v = this['lookupOptins' + column].find(e => {
-          return e.secId == secId && e.view == field.lookup.view;
-        });
-        return v ? v.options : [];
+        if(column!=''){
+          let v = this['lookupOptins' + column].find(e => {
+            return e.secId == secId && e.view == field.lookup.view;
+          });
+          return v ? v.options : [];
+        }
       }
-      return [];
+      return field.options;
     }
     if (field.pFieldId != '') {
       let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId == secId && e.fieldId == field.name);

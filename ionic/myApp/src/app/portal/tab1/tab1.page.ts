@@ -28,6 +28,7 @@ export class Tab1Page {
   public loading: any
   public listIco = { 'background': 'url(sfv3/appmgt.nsf//va_IconLib//collect.png//$FILE//collect.png) no-repeat top left' };
   public titlelog :string ;
+  public cbgcolor = "#B81321";
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -43,7 +44,7 @@ export class Tab1Page {
 
     this.show()
     this.storage.get("loginDetails").then(data => {
-      
+      if(data.code=="integrum001") this.cbgcolor = "#004a80";
       this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)

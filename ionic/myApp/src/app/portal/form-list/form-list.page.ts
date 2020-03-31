@@ -31,6 +31,7 @@ export class FormListPage implements OnInit {
   }
   public cururl:string;
   public portaltitle:string ;
+  public cbgcolor = "#b81321";
   constructor(
     private storage: Storage,
     public geapp: GetAppPortalService,
@@ -106,6 +107,7 @@ export class FormListPage implements OnInit {
             //getass
             this.vid=res.vid
             this.storage.get("loginDetails").then(data => {
+              
               this.para.key = this.vid;
               this.geapp.getActDocsAssoForms(data, this.para).pipe(first())
                 .subscribe(data => {
@@ -147,6 +149,7 @@ export class FormListPage implements OnInit {
           this.vtitle = res.vtitle
         
           this.storage.get("loginDetails").then(data => {
+            if(data.code=="integrum001") this.cbgcolor = "#3880ff";
             this.para.key = this.vid;
             this.para.count = this.searchkey.count
             this.para.curpage = this.searchkey.start
@@ -170,6 +173,7 @@ export class FormListPage implements OnInit {
           //getass
           this.vid=res.vid
           this.storage.get("loginDetails").then(data => {
+            if(data.code=="integrum001") this.cbgcolor = "#3880ff";
             this.para.key = this.vid;
             this.geapp.getActDocsAssoForms(data, this.para).pipe(first())
               .subscribe(data => {

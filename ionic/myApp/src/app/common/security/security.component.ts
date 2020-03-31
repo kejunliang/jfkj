@@ -35,7 +35,7 @@ export class SecurityComponent implements OnInit {
   public pnum:number = 16;
   public title:string ="Security Manager";
   public firstData:any =[];
-
+  public cbgcolor = "#b81321";
   constructor(
     public navParams: NavParams,
     public storage: Storage,
@@ -57,6 +57,16 @@ export class SecurityComponent implements OnInit {
 
   ngOnInit() {
     //get Person
+    this.stype = this.navParams.data.stype;
+      this.fval = this.navParams.data.fieldvalue;
+      this.title =this.navParams.data.label
+      this.cbgcolor = this.navParams.data.cbgcolor;
+      if (!this.fval) {
+        this.fval = [];
+      } else {
+        this.fval = this.fval.split(';');
+      }
+
     this.storage.get('psninfo').then(data => {
       //console.log(JSON.parse(data))
       let persons:any = JSON.parse(data).person;
@@ -73,15 +83,7 @@ export class SecurityComponent implements OnInit {
       this.firstData=this.listData;
       console.log('this.listData:', this.listData);
       console.log('this.navParams.data:',this.navParams.data);
-      this.stype = this.navParams.data.stype;
-      this.fval = this.navParams.data.fieldvalue;
-      this.title =this.navParams.data.label
-      if (!this.fval) {
-        this.fval = [];
-      } else {
-        this.fval = this.fval.split(';');
-      }
-
+      
       if (this.stype == 'multi') {
         this.listDatabak.forEach(e => {
           if (this.fval.indexOf(e.EMPFullName) == -1) {
