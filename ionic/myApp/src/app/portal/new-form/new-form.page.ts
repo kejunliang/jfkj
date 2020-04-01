@@ -1328,7 +1328,7 @@ export class NewFormPage implements OnInit {
         if(v) hasChildSubfields.push(v.fieldId);
       }
     }
-    this.hideSubfieldFunc(hideSubfield,stype)
+    this.hideSubfieldFunc(hideSubfield,stype,field.fieldType)
     //
     var v = (!v) ? "" : v;
     var array = [];
@@ -1365,7 +1365,6 @@ export class NewFormPage implements OnInit {
     }
     
     this.showSubfieldFunc(showSubfield);
-
     for (let i = 0; i < hasChildSubfields.length; i++) {
       const pfid = hasChildSubfields[i];
       for (let j = 0; j < this.sections.length; j++) {
@@ -1390,7 +1389,7 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield,stype);
+                this.hideSubfieldFunc(hideSubfield,stype,v.xtype);
               }
             }else{
               let val = v.value;
@@ -1562,7 +1561,7 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield,stype);
+                this.hideSubfieldFunc(hideSubfield,stype,v.xtype);
               }
             }
             break;
@@ -1572,10 +1571,9 @@ export class NewFormPage implements OnInit {
       
     }
   };
-  hideSubfieldFunc(hideSubfield,stype:string) {
+  hideSubfieldFunc(hideSubfield,stype:string,fieldtype='select') {
     //this.hasSubFieldArray=hideSubfield;
     //var hideParentFieldIds=[];
-    
     for (let c = 0; c < this.sections.length; c++) {
       if(this.sections[c].fields){
         for (let d = 0; d < this.sections[c].fields.length; d++) {
@@ -1583,9 +1581,10 @@ export class NewFormPage implements OnInit {
           for (let e = 0; e < hideSubfield.length; e++) {
             if (this.sections[c].fields[d].name == hideSubfield[e]) {
               this.sections[c].fields[d].hide = true;
-              if(stype=="change") this.sections[c].fields[d].value = '';
-                
-              
+              if(fieldtype=='select'){
+                if(stype=="change") this.sections[c].fields[d].value = '';
+              }
+             
             }
           }
         }
