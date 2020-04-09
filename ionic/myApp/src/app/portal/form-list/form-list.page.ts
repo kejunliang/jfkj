@@ -94,7 +94,7 @@ export class FormListPage implements OnInit {
                   let tempdate;
                   data.data.forEach(element => {
                     //element.calendarDate = element.calendarDate.replace("ZE8", "")
-                    element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
+                    if(element.calendarDate!='') element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
                   });
                   this.data = this.data.concat( data.data)
                   this.databak =this.data
@@ -114,7 +114,7 @@ export class FormListPage implements OnInit {
                   data.actDocs.forEach(element => {
                     if(element.ActDueforCompletion){
                       //element.ActDueforCompletion = element.ActDueforCompletion.replace("ZE8", "")
-                      element.ActDueforCompletion = moment(`${element.ActDueforCompletion}`,'YYYY-MM-DD').format('DD/MM/YYYY')
+                      if(element.ActDueforCompletion!='') element.ActDueforCompletion = moment(`${element.ActDueforCompletion}`,'YYYY-MM-DD').format('DD/MM/YYYY')
                     }
                   
                   });
@@ -160,7 +160,7 @@ export class FormListPage implements OnInit {
                   // //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                   // this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
                   // element.calendarDate = this.draftime;
-                  element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
+                  if(element.calendarDate!='') element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
                 });
                 this.data = data.data
                 this.databak =this.data
@@ -182,7 +182,7 @@ export class FormListPage implements OnInit {
                     // this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                     // element.ActDueforCompletion = this.draftime;
                     //element.ActDueforCompletion = element.ActDueforCompletion.split(" ")[0]
-                    element.ActDueforCompletion = moment(`${element.ActDueforCompletion}`,'YYYY-MM-DD').format('DD/MM/YYYY')
+                    if(element.ActDueforCompletion!='') element.ActDueforCompletion = moment(`${element.ActDueforCompletion}`,'YYYY-MM-DD').format('DD/MM/YYYY')
                   }
                 
                 });
