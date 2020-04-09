@@ -120,6 +120,7 @@ export class AuthemailPage implements OnInit {
           if(result.returnResponse=="Success"){
             //this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
             //this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
+            this.user = result.user.username;
             this.loginDetails.username = this.user;
             this.loginDetails.password = this.pass;
             this.loginDetails.server = this.server;
