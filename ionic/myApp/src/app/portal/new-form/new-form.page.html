@@ -57,9 +57,19 @@
           <ion-label color="basic" stacked>{{field.label}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-datetime displayFormat="DD/MM/YYYY" [min]="minDate" max="2027-12-31" [(ngModel)]='field.value'
+          <div *ngIf="field.daterange=='all'">
+            <ion-datetime displayFormat="DD/MM/YYYY" [max]="maxYear" [(ngModel)]='field.value'
             placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
-            <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
+          </div>
+          <div *ngIf="field.daterange=='future'">
+            <ion-datetime displayFormat="DD/MM/YYYY" [min]="curDate" [max]="maxYear" [(ngModel)]='field.value'
+            placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
+          </div>
+          <div *ngIf="field.daterange=='past'">
+            <ion-datetime displayFormat="DD/MM/YYYY" [max]="curDate" [(ngModel)]='field.value'
+            placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
+          </div>
+          <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
         </ion-item>
       </div>
     </div>
@@ -154,11 +164,23 @@
                   </ion-label>
                 </ion-item>
                 <ion-item>
-                  <ion-datetime displayFormat="DD/MM/YYYY" min="1940-06-16" max="2027-12-31" [(ngModel)]='field.value' [ngStyle]="{'color':cbgcolor}"
-                    placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
-                  <span class="down">
+                  
+                    <div *ngIf="field.daterange=='all'">
+                      <ion-datetime displayFormat="DD/MM/YYYY" [max]="maxYear" [(ngModel)]='field.value'
+                      placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
+                    </div>
+                    <div *ngIf="field.daterange=='future'">
+                      <ion-datetime displayFormat="DD/MM/YYYY" [min]="curDate" [max]="maxYear" [(ngModel)]='field.value'
+                      placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
+                    </div>
+                    <div *ngIf="field.daterange=='past'">
+                      <ion-datetime displayFormat="DD/MM/YYYY" [max]="curDate" [(ngModel)]='field.value'
+                      placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
+                    </div>
                     <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
-                  </span>
+                  <!-- <span class="down">
+                    <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
+                  </span> -->
                 </ion-item>
               </div>
               <!--singleempselect-->
