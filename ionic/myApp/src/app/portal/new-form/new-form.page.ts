@@ -634,7 +634,7 @@ export class NewFormPage implements OnInit {
         break;
         case "btnDelete":
           console.log("操作删除")
-          this.presentModal();
+          this.presentModal('delete');
           break;
 
       default:
@@ -1621,13 +1621,25 @@ export class NewFormPage implements OnInit {
       field.value=resvalue.join(",")
   }
 
-  async presentModal() {
+  async presentModal(stype:string) {
     const modal = await this.modal.create({
       component: OpenModalComponent
     });
    modal.present();
    const { data } = await modal.onDidDismiss();
-   console.log(data)
+   const para:any = {
+     unid:this.ulrs.unid,
+     cm:data
+   }
+   this.storage.get('loginDetails').then(logindata => {
+     this.getforms.doDeleteDoc(logindata,para).pipe(first()).subscribe(data => {
+       if(data.status=='success'){
+         this.router.navigateByUrl(this.lasturl);
+       }else{
+         this.presentAlert("failed!Error:" + data.result, "", "OK")
+       }
+     })
+   })
   }
 }
 
