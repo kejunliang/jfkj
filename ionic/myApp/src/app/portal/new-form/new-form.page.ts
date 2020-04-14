@@ -1617,6 +1617,7 @@ export class NewFormPage implements OnInit {
     });
    modal.present();
    const { data } = await modal.onDidDismiss();
+   if(data.result == 'cancel') return false;
    const para:any = {
      unid:this.ulrs.unid,
      cm:data
