@@ -225,13 +225,7 @@ export class NewFormPage implements OnInit {
                 if (data.name == "GMP_SEV_GMP_SH") {
                   this.severityvalue = data.value
                 }
-                if (this.mandafields) {
-                  this.mandafields.forEach(element => {
-                    if (element.label == data.label) {
-                      data.hasmust = true
-                    }
-                  });
-                }
+                
                 if (data.xtype == "radio" || data.xtype == "select") {
                   if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                   //data.options = data.options.filter(function (obj) { return obj.value != "" })
@@ -373,11 +367,7 @@ export class NewFormPage implements OnInit {
           }
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
-              this.mandafields.forEach(element => {
-                if (element.label == data.label) {
-                  data.hasmust = true
-                }
-              });
+              
               if (data.xtype == "radio" || data.xtype == "select") {
                 if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                 //data.options = data.options.filter(function (obj) { return obj.value != "" })
