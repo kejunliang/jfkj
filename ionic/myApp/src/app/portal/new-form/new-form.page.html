@@ -549,8 +549,8 @@
 
 
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
-      <div *ngIf="index>0">
-        <ion-item lines="none" [color]="secbgcolor">
+      <div *ngIf="index>0" >
+        <ion-item #testdom  lines="none"  class="testcolor" >
           <ion-label color="light">{{section.title}}&nbsp;&nbsp;&nbsp;&nbsp;{{section.score}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
             (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ModalController, AlertController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { SecurityComponent } from "../../common/security/security.component"
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import {OpenModalComponent} from "../../common/open-modal/open-modal.component"
-
+import { ElementRef,ViewChildren} from '@angular/core';
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -20,6 +20,7 @@ import {OpenModalComponent} from "../../common/open-modal/open-modal.component"
   providers: [commonCtrl]
 })
 export class NewFormPage implements OnInit {
+  @ViewChildren("testdom") testdom: QueryList<ElementRef>;
   public formType;
   public templates: any;
   public title: string;
@@ -111,7 +112,8 @@ export class NewFormPage implements OnInit {
     public commonCtrl: commonCtrl,
     public router: Router,
     public alertController: AlertController,
-    public nav: NavController
+    public nav: NavController,
+    private el:ElementRef
   ) {
     let strnow = new Date();
     this.curDate = `${strnow.getFullYear()}-${(strnow.getMonth()+1).toString().padStart(2,'0')}-${strnow.getDate().toString().padStart(2,'0')}`;
@@ -1631,6 +1633,18 @@ export class NewFormPage implements OnInit {
        }
      })
    })
+  }
+
+
+  ngAfterViewInit(){
+    
+   this.testdom.changes.subscribe((list:QueryList<any>)=>{
+    if(list.length > 0){
+     list.forEach( obj=>{
+      obj.el.setAttribute("style","--background:rgba(37, 75, 107, 1)")
+     });
+    }
+   });
   }
 }
 
