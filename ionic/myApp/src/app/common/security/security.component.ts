@@ -36,6 +36,8 @@ export class SecurityComponent implements OnInit {
   public title:string ="Security Manager";
   public firstData:any =[];
   public cbgcolor = "#b81321";
+  public plen:number = 0;
+  public limitlen:number = 40;
   constructor(
     public navParams: NavParams,
     public storage: Storage,
@@ -58,21 +60,21 @@ export class SecurityComponent implements OnInit {
   ngOnInit() {
     //get Person
     this.stype = this.navParams.data.stype;
-      this.fval = this.navParams.data.fieldvalue;
-      this.title =this.navParams.data.label
-      this.cbgcolor = this.navParams.data.cbgcolor;
-      if (!this.fval) {
-        this.fval = [];
-      } else {
-        this.fval = this.fval.split(';');
-      }
-
+    this.fval = this.navParams.data.fieldvalue;
+    this.title =this.navParams.data.label
+    this.cbgcolor = this.navParams.data.cbgcolor;
+    if (!this.fval) {
+      this.fval = [];
+    } else {
+      this.fval = this.fval.split(';');
+    }
     this.storage.get('psninfo').then(data => {
       //console.log(JSON.parse(data))
       let persons:any = JSON.parse(data).person;
       this.start = 0;
       this.listData = [];
       this.listDatabak = persons;
+      this.plen = persons.length;
       if(persons.length>this.pnum){
         for (let i = 0; i < this.pnum; i++) {
           this.listData.push(persons[i]);
@@ -132,19 +134,20 @@ export class SecurityComponent implements OnInit {
     this.listData = this.firstData  //; 48 9868d3cc7c445211c71da65ac322cec82df35dff
   }
 
-  getItems(ev: any) {
-
-    console.log()
+  getItems() {
+    if(this.plen>0 && this.plen<=this.limitlen){
+      this.fnSearch();
+    }
+  };
+  fnSearch(){
     this.listData = this.listDatabak
-    let val = ev.target.value;
-    this.searchkey = val
-    console.log(val)
+    let val = this.searchkey;
     if (val && val.trim() != '') {
       this.listData = this.listData.filter((item) => {
         return (item[this.selectManger].toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-  };
+  }
   addCheckedItems(ischecked, item) {
 
     if (ischecked) {
