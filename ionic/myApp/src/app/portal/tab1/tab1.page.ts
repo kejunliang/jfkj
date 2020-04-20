@@ -41,10 +41,15 @@ export class Tab1Page {
     public translate: TranslateService,
     private getou:GetousService
   ) {
-
+    if(localStorage.getItem("bgcolor")){
+      //console.log('localStorage-->bgcolor:',localStorage.getItem('bgcolor'))
+      this.cbgcolor = localStorage.getItem('bgcolor');
+    }else{
+      console.log('not bgcolor:')
+    }
     this.show()
     this.storage.get("loginDetails").then(data => {
-      if(data.code=="integrum001") this.cbgcolor = "#004a80";
+      //if(data.code=="integrum001") this.cbgcolor = "#004a80";
       this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)

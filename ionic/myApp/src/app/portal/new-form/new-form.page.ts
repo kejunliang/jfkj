@@ -115,6 +115,10 @@ export class NewFormPage implements OnInit {
     public nav: NavController,
     private el:ElementRef
   ) {
+    if(localStorage.getItem("bgcolor")){
+      console.log('localStorage-->bgcolor:',localStorage.getItem('bgcolor'))
+      this.cbgcolor = localStorage.getItem('bgcolor');
+    }
     let strnow = new Date();
     this.curDate = `${strnow.getFullYear()}-${(strnow.getMonth()+1).toString().padStart(2,'0')}-${strnow.getDate().toString().padStart(2,'0')}`;
     this.ulrs.url = this.router.url
@@ -132,7 +136,9 @@ export class NewFormPage implements OnInit {
     })
 
     this.storage.get('loginDetails').then(data => {
-      if(data.code=="integrum001") this.cbgcolor = "#3880ff";this.secbgcolor = "action";this.txtfontcolor="primary";
+      console.log('logindetails:',this.cbgcolor)
+      //if(data.code=="integrum001") this.cbgcolor = "#3880ff";this.secbgcolor = "action";this.txtfontcolor="primary";
+      console.log('--logindetails:',this.cbgcolor)
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
     })
@@ -1637,14 +1643,15 @@ export class NewFormPage implements OnInit {
 
 
   ngAfterViewInit(){
-    
-   this.testdom.changes.subscribe((list:QueryList<any>)=>{
-    if(list.length > 0){
-     list.forEach( obj=>{
-      obj.el.setAttribute("style","--background:rgba(37, 75, 107, 1)")
-     });
-    }
-   });
-  }
+    console.log('ngAfterViewInit:',this.cbgcolor)
+    const cusstyle:string = `--background:${this.cbgcolor}`;
+    this.testdom.changes.subscribe((list:QueryList<any>)=>{
+      if(list.length > 0){
+      list.forEach( obj=>{
+        obj.el.setAttribute("style",cusstyle)
+      });
+      }
+    });
+   }
 }
 

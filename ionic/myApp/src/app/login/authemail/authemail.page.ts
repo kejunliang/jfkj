@@ -130,7 +130,7 @@ export class AuthemailPage implements OnInit {
             this.loginDetails.OUCategory = result.user.oucategory;
 
             this.storage.set("loginDetails",this.loginDetails)
-
+            localStorage.setItem('bgcolor',result.color);
             this.auth.updateUserInfo(this.loginDetails).pipe(first()).subscribe(
               data => {
                 this.loginDetails.OUCategory = data.OUCategory;
