@@ -3,6 +3,7 @@ import { LoadingController } from '@ionic/angular';
 
 export class commonCtrl implements OnInit {
   public loading: any
+  public processing:any;
   constructor(
     public loadingController: LoadingController,
   ) {
@@ -24,6 +25,14 @@ export class commonCtrl implements OnInit {
     if (this.loading) {
       await this.loading.dismiss();
     }
+  }
+
+  async processShow(message:string){
+    this.processing = await this.loadingController.create({message}); 
+    await this.processing.present();
+  }
+  async processHide(){
+    if(this.processing) await this.processing.dismiss();
   }
 
   ngOnInit() {

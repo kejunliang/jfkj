@@ -4,6 +4,7 @@ import {HttpClient,HttpHeaders} from '@angular/common/http';
 import { first } from 'rxjs/operators';
 import { LanguageService } from "../../services/setup/language.service";
 import { Storage } from '@ionic/storage';
+import { CustomTranslateLoader } from '../../services/trans-loader'
 @Component({
   selector: 'app-language',
   templateUrl: './language.page.html',
@@ -15,7 +16,7 @@ export class LanguagePage implements OnInit {
   public langularArr:any=[];
   public lan:string='';
   public name:string;
-  constructor(public translate :TranslateService,public http:HttpClient, public LanguageService:LanguageService,private storage:Storage) { 
+  constructor(public translate :TranslateService,public http:HttpClient, public LanguageService:LanguageService,private storage:Storage,public trans:CustomTranslateLoader) { 
     // this.translate.setDefaultLang('zh');
    
   }
@@ -40,10 +41,13 @@ export class LanguagePage implements OnInit {
     
   }
   radioCheck(item){
-    console.log(this.lan)
-    console.log(item.SelectedLanguages)
+    console.log('this.lan:',this.lan)
+    console.log('item.SelectedLanguages:',item.SelectedLanguages)
     this.translate.setDefaultLang(item.SelectedLanguages)
     this.translate.use(item.SelectedLanguages)
+    // this.trans.getTranslation(item.SelectedLanguages).subscribe(res => {
+    //   console.log('xxxxxxxxxxxtransdd...',res)
+    // }) 
   }
 
 }

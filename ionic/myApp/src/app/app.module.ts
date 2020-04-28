@@ -52,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FileTransfer, // 文件上传
     Geolocation,
     QRScanner,
+    CustomTranslateLoader,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

@@ -50,7 +50,8 @@ export class Tab1Page {
     this.show()
     this.storage.get("loginDetails").then(data => {
       //if(data.code=="integrum001") this.cbgcolor = "#004a80";
-      this.geapp.getPortalInfoV2(data).pipe(first())
+      let lan = this.translate.getDefaultLang();
+      this.geapp.getPortalInfoV2(data,lan).pipe(first())
         .subscribe(data => {
           console.log(data)
           this.portalInfo = data

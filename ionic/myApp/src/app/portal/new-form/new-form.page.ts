@@ -719,23 +719,26 @@ export class NewFormPage implements OnInit {
     return {fieldError,msg};
   }
   submit(para, actiontype) {
-    return new Promise((resolve, reject) => {
-      this.storage.get("loginDetails").then(logindata => {
-        //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
-        this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
-          console.log(data)
-          //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
-          if (this.subformflag) {
-            this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
-          } else {
-            this.router.navigateByUrl(this.lasturl)
-          }
-
+    this.commonCtrl.processShow('Processing...');
+      return new Promise((resolve, reject) => {
+        this.storage.get("loginDetails").then(logindata => {
+          //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
+          this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
+            console.log('func----submit-----',data)
+            this.commonCtrl.processHide();
+            //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+            if (this.subformflag) {
+              this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+            } else {
+              this.router.navigateByUrl(this.lasturl)
+            }
+  
+          })
+          //resolve(data)
+          //})
         })
-        //resolve(data)
-        //})
       })
-    })
+    
   }
 
   getFormData(unid: any, isedit: any) {

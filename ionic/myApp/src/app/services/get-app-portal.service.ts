@@ -28,7 +28,7 @@ export class GetAppPortalService {
         catchError(this.common.handleError)
       )
   }
-  getPortalInfoV2(logindetail:any):Observable<any>{
+  getPortalInfoV2(logindetail:any,lan: string):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
     const options = {
       headers: {
@@ -36,7 +36,7 @@ export class GetAppPortalService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,options)
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email+"&lan="+lan,options)
     //return this.http.get<{token: string}>(logindetail.folder+'/appmgt.nsf/xp_ws.xsp/getAppPortal?&email='+logindetail.email,options)
       .pipe(
         map(result => { 
