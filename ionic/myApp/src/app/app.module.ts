@@ -27,6 +27,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import {GetousService} from '../app/services/getous.service'
 import { CustomTranslateLoader } from "../app/services/trans-loader"
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 //导出加载函数
 export function HttpLoaderFactory(http: HttpClient) {
   //return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -53,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     Geolocation,
     QRScanner,
     CustomTranslateLoader,
+    InAppBrowser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

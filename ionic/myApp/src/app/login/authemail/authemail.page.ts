@@ -9,6 +9,7 @@ import { GetousService } from "../../services/getous.service";
 import { GetpersoninfoService } from "../../services/getpersoninfo.service";
 import { TranslateService } from '@ngx-translate/core';
 import { GetallformsService } from "../../services/getallforms.service";
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-authemail',
@@ -27,6 +28,10 @@ export class AuthemailPage implements OnInit {
   public resmsg:string;
   public name:any;
   public password:any;
+  public sso:any;
+  public ssoserver:any;
+  public ssoserverlist:any = [];
+  public ssofolderlist:any = [];
   public server:string;
   public folder:string;
   public loginDetails ={
@@ -46,18 +51,22 @@ export class AuthemailPage implements OnInit {
     private getpsn:GetpersoninfoService,
     private translate:TranslateService,
     private getallforms:GetallformsService,
-    public navCtrl:NavController
+    public navCtrl:NavController,
+    private iab:InAppBrowser
     ) {
       this.authform = formBuilder.group({
         code: ['', Validators.required],
         name: ['', Validators.compose([Validators.required])],
-        password: ['', Validators.compose([ Validators.required])],      
+        password: ['', Validators.compose([ Validators.required])],    
+        sso:[false],
+        ssoserver:['']
       });
       this.email = this.authform.controls['email']
       this.code = this.authform.controls['code'];
       this.name= this.authform.controls['name'];
       this.password= this.authform.controls['password'];
-
+      this.sso = this.authform.controls['sso'];
+      this.ssoserver = this.authform.controls['ssoserver'];
      }
 
   ngOnInit() {
@@ -66,7 +75,9 @@ export class AuthemailPage implements OnInit {
   }
  
   SendEmail(){
-    this.auth.sendEmail(this.authform.value.name,"12345678",this.authform.value.code,this.authform.value.password)
+    let sso = this.authform.value.sso;
+    if(!sso){
+      this.auth.sendEmail(this.authform.value.name,"12345678",this.authform.value.code,this.authform.value.password)
       .pipe(first())
       .subscribe(
         result => 
@@ -109,6 +120,10 @@ export class AuthemailPage implements OnInit {
           }
         }
       );
+    }else{
+      this.ssologin();
+    }
+    
   }
 
   Login() {
@@ -185,5 +200,68 @@ export class AuthemailPage implements OnInit {
   onchange(){
   
    
+  }
+  ssoToggle(){
+    let sso = this.authform.value.sso;
+    let name = this.authform.value.name==''?' ':this.authform.value.name;
+    let password = this.authform.value.password==''?' ':this.authform.value.password;
+    console.log('sso:',sso)
+    console.log('this.authform:',this.authform)
+    if(!sso){
+      // console.log('this.authform.value.name:',this.authform.value.name)
+      // console.log('this.authform.value.password:',this.authform.value.password)
+      
+      // this.authform.setValue({code:this.authform.value.code,name,password,sso,ssoserver:this.authform.value.ssoserver});
+      this.authform = this.formBuilder.group({
+        code: [this.authform.value.code, Validators.required],
+        name: [this.authform.value.name],
+        password: [this.authform.value.password],    
+        sso:[!sso],
+        ssoserver:[this.authform.value.ssoserver, Validators.required]
+      });
+      console.log('------->this.authform:',this.authform)
+      this.auth.sendEmail(this.authform.value.name,"12345678",this.authform.value.code,this.authform.value.password)
+      .pipe(first())
+      .subscribe(
+        result => 
+        {
+          console.log('SendEmail--result:',result)
+          if(result.status!="fail"){
+            
+            this.ssoserverlist=result.SSOServer;
+            this.ssofolderlist=result.SSOFolder;
+            console.log('ssoserverlist:',this.ssoserverlist)
+          }else{
+             this.translate.get('login').subscribe((res: any) => {
+             this.resmsg=res.authmailerr;
+          }).add(this.translate.get('alert').subscribe((res: any) => {
+              this.presentAlert( this.resmsg,res.title,res.btn);
+              this.authform.setValue({code:this.authform.value.code,name:this.authform.value.name,password:this.authform.value.password,sso:false,ssoserver:''});
+          }));
+           
+          }
+        }
+      );
+    }else{
+      if(name==' ') name='';
+      if(password=='') password='';
+      // this.authform.setValue({code:this.authform.value.code,name,password,sso,ssoserver:this.authform.value.ssoserver});
+      this.authform = this.formBuilder.group({
+        code: [this.authform.value.code, Validators.required],
+        name: [this.authform.value.name, Validators.compose([Validators.required])],
+        password: [this.authform.value.password, Validators.compose([ Validators.required])],    
+        sso:[!sso],
+        ssoserver:[this.authform.value.ssoserver]
+      });
+    }
+    this.code = this.authform.controls['code'];
+    this.name= this.authform.controls['name'];
+    this.password= this.authform.controls['password'];
+    this.ssoserver = this.authform.controls['ssoserver'];
+    console.log('this.code:',this.code)
+  }
+  ssologin(){
+    console.log('this.authform.value.ssoserver:',this.authform.value.ssoserver)
+    const browser = this.iab.create(this.authform.value.ssoserver, '_blank', 'location=yes,toolbar=yes');
   }
 }
