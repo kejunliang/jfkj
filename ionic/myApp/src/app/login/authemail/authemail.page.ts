@@ -205,7 +205,7 @@ export class AuthemailPage implements OnInit {
     let sso = this.authform.value.sso;
     let name = this.authform.value.name==''?' ':this.authform.value.name;
     let password = this.authform.value.password==''?' ':this.authform.value.password;
-    console.log('sso:',sso)
+    console.log('--->sso:',sso)
     console.log('this.authform:',this.authform)
     if(!sso){
       // console.log('this.authform.value.name:',this.authform.value.name)
