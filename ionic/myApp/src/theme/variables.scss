@@ -195,13 +195,13 @@ ion-radio-group{
     word-break: break-all;
   }
 }
-.alert-wrapper.sc-ion-alert-md{
+.alert-wrapper{
   width:100%;
   max-width: 100% !important;
   .alert-checkbox-label{
     white-space: normal;
     word-break: break-all;
-    line-height: 18px;
+    line-height: 16px;
   }
 }
 

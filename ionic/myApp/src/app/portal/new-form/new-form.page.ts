@@ -11,8 +11,10 @@ import { PopoverComponent } from "../../common/popover/popover.component"
 import { SecurityComponent } from "../../common/security/security.component"
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import {OpenModalComponent} from "../../common/open-modal/open-modal.component"
-import { ElementRef,ViewChildren} from '@angular/core';
+import { OpenModalComponent } from "../../common/open-modal/open-modal.component"
+import { ElementRef, ViewChildren } from '@angular/core';
+import { RiskmatrixComponent } from "../../common/riskmatrix/riskmatrix.component";
+
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -96,13 +98,17 @@ export class NewFormPage implements OnInit {
   // riskmatrix
   public riskname: string;
   public riskmatrixvalue: any;
-  public curDate:string = '';
-  public maxYear:string = "2040";
+  public curDate: string = '';
+  public maxYear: string = "2040";
   public secbgcolor = "favorite";
   public cbgcolor = "#b81321";
   public txtfontcolor = "favorite";
-  public skipMandatory:string = "0";
+  public skipMandatory: string = "0";
   public mandatoryWhenApprove: string = "0";
+  public atitle;
+  public mr2Type;
+  public mr2Val;
+  public mr2Label: string = 'Select Final Reviewer';
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -113,49 +119,54 @@ export class NewFormPage implements OnInit {
     public router: Router,
     public alertController: AlertController,
     public nav: NavController,
-    private el:ElementRef
+    private el: ElementRef
   ) {
-    if(localStorage.getItem("bgcolor")){
-      console.log('localStorage-->bgcolor:',localStorage.getItem('bgcolor'))
+    if (localStorage.getItem("bgcolor")) {
+      console.log('localStorage-->bgcolor:', localStorage.getItem('bgcolor'))
       this.cbgcolor = localStorage.getItem('bgcolor');
     }
     let strnow = new Date();
-    this.curDate = `${strnow.getFullYear()}-${(strnow.getMonth()+1).toString().padStart(2,'0')}-${strnow.getDate().toString().padStart(2,'0')}`;
-    this.ulrs.url = this.router.url
-    this.ulrs.unid = this.getQueryVariable(this.ulrs.url, "unid")
-    this.ulrs.aid = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "aid"))
-    this.ulrs.title = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "title"))
-    this.ulrs.stat = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "stat"))
+    this.curDate = `${strnow.getFullYear()}-${(strnow.getMonth() + 1).toString().padStart(2, '0')}-${strnow.getDate().toString().padStart(2, '0')}`;
 
-    this.riskname = this.getQueryVariable(this.ulrs.url, "riskName")
-    if (this.riskname) {
-      this.riskmatrixvalue = JSON.parse(decodeURIComponent(this.getQueryVariable(this.ulrs.url, "value")));
-    }
     this.storage.get('ous').then(data => {
       this.ous = data
     })
 
     this.storage.get('loginDetails').then(data => {
-      console.log('logindetails:',this.cbgcolor)
+      console.log('logindetails:', this.cbgcolor)
       //if(data.code=="integrum001") this.cbgcolor = "#3880ff";this.secbgcolor = "action";this.txtfontcolor="primary";
-      console.log('--logindetails:',this.cbgcolor)
+      console.log('--logindetails:', this.cbgcolor)
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
     })
     this.activeRoute.queryParams.subscribe(res => {
-      console.log(res);
+      console.log('res:', res);
+      this.ulrs.url = this.router.url
+      this.ulrs.unid = this.getQueryVariable(this.ulrs.url, "unid")
+      this.ulrs.aid = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "aid"))
+      this.ulrs.title = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "title"))
+      this.ulrs.stat = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "stat"))
+
+      this.riskname = this.getQueryVariable(this.ulrs.url, "riskName")
+      if (this.riskname) {
+        this.riskmatrixvalue = JSON.parse(decodeURIComponent(this.getQueryVariable(this.ulrs.url, "value")));
+      }
       this.sections = []
       this.sectionsold = []
       this.portaltitle = res.temptitle
       this.subformflag = res.subform
+      this.atitle = res.aTitle;
       this.mainunid = res.mainunid
       if (res.unid) {
         this.lasturl = res.cururl
         this.fields = [];
         this.formID = res.unid
         console.log("旧文档")
+        this.list = [
+          { "show": false }
+        ]
         this.type = res.type
-        if (res.stat  && res.stat!='false') {
+        if (res.stat && res.stat != 'false') {
           this.title = res.title + " (" + res.stat + ")"
         } else {
           this.title = res.title
@@ -172,44 +183,49 @@ export class NewFormPage implements OnInit {
           // alert(fileName);
           //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
           this.selecttemplat = this.templates[0]
-          console.log('this.selecttemplat:',this.selecttemplat);
-          this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove?this.selecttemplat.mandatoryWhenApprove:"0";
-          this.skipMandatory = this.selecttemplat.skipMandatory?this.selecttemplat.skipMandatory:"0";
+          console.log('this.selecttemplat:', this.selecttemplat);
+          this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove ? this.selecttemplat.mandatoryWhenApprove : "0";
+          this.skipMandatory = this.selecttemplat.skipMandatory ? this.selecttemplat.skipMandatory : "0";
           let selectSecId: any = this.selecttemplat.sectionids ? this.selecttemplat.sectionids : [];
           selectSecId = ['FormMr'].concat(selectSecId);
           if (!this.selecttemplat) {
             console.log('Not find selecttemplat!');
             return false;
           }
+          if (this.selecttemplat.secondFormMR && this.selecttemplat.secondFormMR.mrType) {
+            this.mr2Type = this.selecttemplat.secondFormMR.mrType;
+            if (this.selecttemplat.secondFormMR.value) this.mr2Val = this.selecttemplat.secondFormMR.value;
+            if (this.selecttemplat.secondFormMR.label) this.mr2Label = this.selecttemplat.secondFormMR.label;
+          }
           //if (this.type == "edit") {
           this.btnBox = this.selecttemplat.menubaritem
           //}
-          if(this.btnBox.result){
-            this.btnBox.result.forEach((val,index,arr) => {
-              if(val.btnType && val.btnType=='btnEmailLink') arr.splice(index,1);
+          if (this.btnBox.result) {
+            this.btnBox.result.forEach((val, index, arr) => {
+              if (val.btnType && val.btnType == 'btnEmailLink') arr.splice(index, 1);
             });
-            this.btnBox.result.forEach((val,index,arr) => {
-              if (val.btnType && val.btnType=='btnPdf') arr.splice(index,1);
+            this.btnBox.result.forEach((val, index, arr) => {
+              if (val.btnType && val.btnType == 'btnPdf') arr.splice(index, 1);
             });
           }
-          
+
           this.selecttemplat.template.secs[0].fields.forEach(data => {
 
             if (data.xtype == "date") {
               //data.value = new Date()
 
               let element = data.value;
-              
-              if(element!=''){
-                
+
+              if (element != '') {
+
                 let tempdate = new Date(element.replace("ZE8", ""));
                 //console.log('tempdate:',tempdate);
-                
+
                 //data.value = tempdate;
                 //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                 //data.value = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
               }
-              
+
             } else {
               //data.value = formdata[data.name]
             }
@@ -233,9 +249,9 @@ export class NewFormPage implements OnInit {
                 if (data.name == "GMP_SEV_GMP_SH") {
                   this.severityvalue = data.value
                 }
-                
+
                 if (data.xtype == "radio" || data.xtype == "select") {
-                  if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
+                  if (data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                   //data.options = data.options.filter(function (obj) { return obj.value != "" })
                   if (data.xtype == "select") {
                     let secId = this.selecttemplat.template.secs[i].secId;
@@ -247,12 +263,12 @@ export class NewFormPage implements OnInit {
                       if (v) {
                         data.hasSubfield = true;
                         data.fieldId = fieldId;
-                        this.getSublistOption(data, secId,'open');
+                        this.getSublistOption(data, secId, 'open');
                       }
 
                     }
                     if (data.lookup && data.lookup.view) {
-                      this.getSublistOption(data, secId,'open');
+                      this.getSublistOption(data, secId, 'open');
                     }
                   }
                 } else if (data.xtype == 'multiou' || data.xtype == 'singleou') {
@@ -290,37 +306,41 @@ export class NewFormPage implements OnInit {
                       }
                     }
                   }
-                }else if(data.xtype == 'checkbox'){
-                  if(data.value){
-                    let cehckvalues=data.value.split(",")
-                    data.options.forEach(option =>{
-                       let flag=cehckvalues.some(v =>{
-                         return v==option.value
-                       })
-                       if(flag){
-                         option.ischeck=true
-                       }else{
-                        option.ischeck=false
-                       }
+                } else if (data.xtype == 'checkbox') {
+                  if (data.value) {
+                    let cehckvalues = data.value.split(",")
+                    data.options.forEach(option => {
+                      let flag = cehckvalues.some(v => {
+                        return v == option.value
+                      })
+                      if (flag) {
+                        option.ischeck = true
+                      } else {
+                        option.ischeck = false
+                      }
                     })
                   }
-                
-                 
-              }else if(data.xtype == 'questionnaire'){
-                let v = data.options[0];
-                if(v && v.value){
-                  if(v.value!='') data.options.unshift({value:'',text:''});
+
+
+                } else if (data.xtype == 'questionnaire') {
+                  let v = data.options[0];
+                  if (v && v.value) {
+                    if (v.value != '') data.options.unshift({ value: '', text: '' });
+                  }
+                } else if (data.xtype == 'date') {
+                  if (this.type != 'edit') {
+                    if (data.value != '') data.value = moment(`${data.value}`, 'YYYY-MM-DD').format('DD/MM/YYYY');
+                  }
+                } else if (data.xtype == 'time') {
+                  //if(this.type != 'edit'){
+                  if (data.value != '') data.value = moment(`${data.value}`, 'YYYY-MM-DD hh:mm:ss').format('hh:mm:ss');
+                  //}
                 }
-              }else if(data.xtype == 'date'){
-                if(this.type != 'edit'){
-                  if(data.value!='') data.value = moment(`${data.value}`,'YYYY-MM-DD').format('DD/MM/YYYY');
-                }
-              }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
               })
-            }else if(this.selecttemplat.template.secs[i].secId == "AuditTrail"){
-              if(this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent!='') selectSecId.push('AuditTrail');
+            } else if (this.selecttemplat.template.secs[i].secId == "AuditTrail") {
+              if (this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent != '') selectSecId.push('AuditTrail');
             }
             // console .log(this.selecttemplat.template.secs[i])
             // console.log(this.selecttemplat.template.secs[i].secId)
@@ -345,20 +365,24 @@ export class NewFormPage implements OnInit {
           //})
         })
       } else {
-        this.lasturl = "/tabs/tab1?title=" + this.portaltitle
+        if (res.subform && res.subform == 'true') {
+          this.lasturl = res.cururl;
+        } else {
+          this.lasturl = "/tabs/tab1?title=" + this.portaltitle
+        }
         this.fields = [];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
           data = JSON.parse(data);
           this.templates = data.templates
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-          console.log(  this.selecttemplat)
+          console.log(this.selecttemplat)
           if (!this.selecttemplat) {
-            console.log(res.aid,' is not find!');
+            console.log(res.aid, ' is not find!');
             return false;
           }
-          this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove?this.selecttemplat.mandatoryWhenApprove:"0";
-          this.skipMandatory = this.selecttemplat.skipMandatory?this.selecttemplat.skipMandatory:"0";
+          this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove ? this.selecttemplat.mandatoryWhenApprove : "0";
+          this.skipMandatory = this.selecttemplat.skipMandatory ? this.selecttemplat.skipMandatory : "0";
           this.btnBox = this.selecttemplat.menubaritem
           this.title = this.selecttemplat.template.templateTitle
           this.sysfields = this.selecttemplat.template.secs[0].fields
@@ -375,9 +399,9 @@ export class NewFormPage implements OnInit {
           }
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
-              
+
               if (data.xtype == "radio" || data.xtype == "select") {
-                if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
+                if (data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                 //data.options = data.options.filter(function (obj) { return obj.value != "" })
                 if (data.xtype == "select") {
                   if (this.selecttemplat.template.subListFields.length > 0) {
@@ -411,14 +435,14 @@ export class NewFormPage implements OnInit {
                   data.value = tmp;
                 }
 
-              }else if(data.xtype == 'checkbox'){
-                  data.options.forEach(option =>{
-                    option.ischeck=true;
-                  })
-              }else if(data.xtype == 'questionnaire'){
+              } else if (data.xtype == 'checkbox') {
+                data.options.forEach(option => {
+                  option.ischeck = true;
+                })
+              } else if (data.xtype == 'questionnaire') {
                 let v = data.options[0];
-                if(v && v.value){
-                  if(v.value!='') data.options.unshift({value:'',text:''});
+                if (v && v.value) {
+                  if (v.value != '') data.options.unshift({ value: '', text: '' });
                 }
               }
               this.loadSecs.push(data);
@@ -499,7 +523,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID, tempid: this.templatid,txtfontcolor:this.txtfontcolor },
+      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID, tempid: this.templatid, txtfontcolor: this.txtfontcolor },
       translucent: true,
       cssClass: "custom-popover",
       mode: "md"
@@ -555,12 +579,12 @@ export class NewFormPage implements OnInit {
         }
 
         console.log("保存了")
-        if(this.mandatoryWhenApprove!="1" && this.skipMandatory=="0"){
-          const {fieldError,msg} = this.checkMandatoryField();
+        if (this.mandatoryWhenApprove != "1" && this.skipMandatory == "0") {
+          const { fieldError, msg } = this.checkMandatoryField();
           if (fieldError) {
             console.log("必填了")
             console.log(msg)
-            this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", "OK")
+            this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", ["OK"])
             return false;
           }
         }
@@ -597,19 +621,19 @@ export class NewFormPage implements OnInit {
             }
           }
         }
-        if(this.mandatoryWhenApprove!="1"){
-          const {fieldError,msg} = this.checkMandatoryField();
+        if (this.mandatoryWhenApprove != "1") {
+          const { fieldError, msg } = this.checkMandatoryField();
           if (fieldError) {
             console.log("必填了")
             console.log(msg)
-            this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", "OK")
+            this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", ["OK"])
             return false;
           }
         }
-        
+
 
         this.submit(this.paraforsubmit, actiontype)
- 
+
 
         break;
       case "btnNewSubForm":
@@ -623,18 +647,59 @@ export class NewFormPage implements OnInit {
       case "btnClose":
         actiontype = "open"
         if (this.subformflag) {
-          actiontype = "edit"
-          this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+          actiontype = "edit";
+          this.router.navigate(["/new-form"], { queryParams: { unid: this.mainunid, aid: this.ulrs.aid, title: this.atitle, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
         } else {
           this.router.navigateByUrl(this.lasturl)
         }
 
         break;
-        case "btnDelete":
-          console.log("操作删除")
-          this.presentModal('delete');
-          break;
+      case "btnDelete":
+        console.log("操作删除")
+        this.presentModal('delete');
+        break;
+      case 'btnSendForRv':
+        if (this.mr2Type) {
+          if (this.mr2Type == 'template') {
+            //this.submitToMr2(this.formID,data.result);
+            console.log('this.mr2Val:', this.mr2Val);
+            if (this.mr2Val && this.mr2Val.length < 20) {
+              let options = "";
+              for (let i = 0; i < this.mr2Val.length; i++) {
+                options += '<ion-item><ion-label>' + this.mr2Val[i] + '</ion-label><ion-radio slot="end" value=' + this.mr2Val[i] + '></ion-radio></ion-item>';
+              }
+              this.presentAlert('<ion-radio-group>' + options + '</ion-radio-group>', "", [
+                { text: 'Cancel', role: 'Cancel', handler: () => { console.log("----cancel----"); } },
+                {
+                  text: 'OK', handler: () => {
+                    let dom = document.querySelector(".radio-checked");
+                    if (dom) {
+                      let label = dom.parentNode.children[0];
+                      let val = label.textContent;
+                      console.log("----------val----:", val);
+                      this.submitToMr2(this.formID, val);
+                    }
+                  }
+                }
+              ]);
+            } else {
+              this.getMr2('', 'single', this.mr2Label);
+            }
+          } else if (this.mr2Type == 'directmanager') {
+            console.log('mr2value:', this.mr2Val);
+            if (this.mr2Val && this.mr2Val != '' && this.mr2Val != []) {
+              this.submitToMr2(this.formID, this.mr2Val);
+            } else {
+              this.getMr2('', 'single', this.mr2Label);
+            }
+          } else {
+            this.getMr2('', 'single', this.mr2Label);
+          }
+        } else {
+          this.getMr2('', 'single', this.mr2Label);
+        }
 
+        break;
       default:
         actiontype = "open"
         // this.router.navigateByUrl(this.lasturl)
@@ -647,13 +712,13 @@ export class NewFormPage implements OnInit {
 
 
   }
-  async presentAlert(msg: string, header: string, btn: string) {
+  async presentAlert(msg: string, header: string, btn: any) {
 
     const alert = await this.alertController.create({
       header: header,
       subHeader: '',
       message: msg,
-      buttons: [btn]
+      buttons: btn
     });
 
     await alert.present();
@@ -667,11 +732,11 @@ export class NewFormPage implements OnInit {
     }
     return (false);
   }
-  checkMandatoryField():any{
-    let sectionsIds:any = [];
+  checkMandatoryField(): any {
+    let sectionsIds: any = [];
     for (let i = 0; i < this.sections.length; i++) {
       const element = this.sections[i];
-      if(element.secId) sectionsIds.push(element.secId);
+      if (element.secId) sectionsIds.push(element.secId);
     }
     console.log("check mandatory field!")
     let msg = "";
@@ -679,10 +744,10 @@ export class NewFormPage implements OnInit {
     for (let p = 0; p < this.selecttemplat.template.mandaFields.length; p++) {
       for (let d = 0; d < this.fields.length; d++) {
         if (this.selecttemplat.template.mandaFields[p].fieldId == this.fields[d].name) {
-          if(this.fields[d].hide && this.fields[d].hide==true) continue;
+          if (this.fields[d].hide && this.fields[d].hide == true) continue;
           const fiedSecId = this.fields[d].secId;
-          if(fiedSecId){
-            if(!sectionsIds.includes(fiedSecId)) continue;
+          if (fiedSecId) {
+            if (!sectionsIds.includes(fiedSecId)) continue;
           }
           let type = this.selecttemplat.template.mandaFields[p].type;
           //let con=this.formType.template.mandaFields[p].con;
@@ -690,7 +755,7 @@ export class NewFormPage implements OnInit {
             if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
               msg += this.selecttemplat.template.mandaFields[p].label + ' <br/>';
               fieldError = true;
-            }else if(type.includes("d")){
+            } else if (type.includes("d")) {
               if (this.fields[d].value < this.today) {
                 msg += this.selecttemplat.template.mandaFields[p].label + ' date cannot be less than current date';
                 fieldError = true;
@@ -716,29 +781,29 @@ export class NewFormPage implements OnInit {
       }
     }//End
 
-    return {fieldError,msg};
+    return { fieldError, msg };
   }
   submit(para, actiontype) {
     this.commonCtrl.processShow('Processing...');
-      return new Promise((resolve, reject) => {
-        this.storage.get("loginDetails").then(logindata => {
-          //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
-          this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
-            console.log('func----submit-----',data)
-            this.commonCtrl.processHide();
-            //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
-            if (this.subformflag) {
-              this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
-            } else {
-              this.router.navigateByUrl(this.lasturl)
-            }
-  
-          })
-          //resolve(data)
-          //})
+    return new Promise((resolve, reject) => {
+      this.storage.get("loginDetails").then(logindata => {
+        //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
+        this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
+          console.log('func----submit-----', data)
+          this.commonCtrl.processHide();
+          //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+          if (this.subformflag) {
+            this.router.navigate(["/new-form"], { queryParams: { unid: this.mainunid, aid: this.ulrs.aid, title: this.atitle, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+          } else {
+            this.router.navigateByUrl(this.lasturl)
+          }
+
         })
+        //resolve(data)
+        //})
       })
-    
+    })
+
   }
 
   getFormData(unid: any, isedit: any) {
@@ -789,78 +854,78 @@ export class NewFormPage implements OnInit {
         let index: number = this.sections.findIndex(e => e.secId == element);
         if (index != -1) this.sections.splice(index, 1);
       });
-      if(field.value!=''){
+      if (field.value != '') {
         let disSecId: any = v.answerWhen[field.value];
-        let newArr:any = [];
-        disSecId.forEach(e=>{
-          let index = this.sectionsold.findIndex(el=>el.secId==e);
-          if(index) newArr.push({e,index});
+        let newArr: any = [];
+        disSecId.forEach(e => {
+          let index = this.sectionsold.findIndex(el => el.secId == e);
+          if (index) newArr.push({ e, index });
         })
-        newArr.sort((a,b)=>a.index-b.index);
-        
+        newArr.sort((a, b) => a.index - b.index);
+
         newArr.forEach(element => {
           let el = this.sectionsold.find(e => e.secId == element.e);
           //if (el) this.sections.push(el);this.initHasSubfield('change');
-          if (el){
+          if (el) {
             let eindex = element.index;
-            let sindex:number = this.getSectionIndex(eindex-1);
-            const max:number = 30;
-            let i:number = 0;
-            while(sindex==-1){
+            let sindex: number = this.getSectionIndex(eindex - 1);
+            const max: number = 30;
+            let i: number = 0;
+            while (sindex == -1) {
               eindex--;
               i++;
-              sindex = this.getSectionIndex(eindex-1);
-              if(i==max) sindex = 1;
+              sindex = this.getSectionIndex(eindex - 1);
+              if (i == max) sindex = 1;
             }
-            this.sections.splice(sindex,0,el);
+            this.sections.splice(sindex, 0, el);
             this.initHasSubfield('open');
           }
-        }); 
+        });
       }
-      
+
 
     }
 
     this.sections.forEach(secelement => {
-      if(secelement.fields){
+      if (secelement.fields) {
         secelement.fields.forEach(element => {
           this.selectScore(element, element.value, secelement.title)
         });
       }
-      
+
     });
 
 
   }
-  getSectionIndex(index:number):number{
-    if(index<0) return 1;
-    
+  getSectionIndex(index: number): number {
+    if (index < 0) return 1;
+
     const fsection = this.sectionsold[index];
-    if(fsection){
-      const fsecId:string = fsection.secId;
-      const elenum:number = this.sections.findIndex(e=>e.secId==fsecId);
-      if(elenum==-1){
+    if (fsection) {
+      const fsecId: string = fsection.secId;
+      const elenum: number = this.sections.findIndex(e => e.secId == fsecId);
+      if (elenum == -1) {
         //this.getSectionIndex(index-1);
         return -1;
-      }else{
-        return elenum+1;
+      } else {
+        return elenum + 1;
       }
     }
     return 1;
   }
   //查找名称
-  async getSecurity(fieldname, fieldvalue,stype:string,label) {
+  async getSecurity(fieldname, fieldvalue, stype: string, label) {
     const cbgcolor = this.cbgcolor;
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: {stype,fieldvalue,label,cbgcolor}
+      componentProps: { stype, fieldvalue, label, cbgcolor }
     });
     modal.present();
     //监听销毁的事件
     const { data } = await modal.onDidDismiss();
     for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-      if(this.selecttemplat.template.secs[i].fields){
+      if (this.selecttemplat.template.secs[i].fields) {
         this.selecttemplat.template.secs[i].fields.forEach(item => {
           // console.log(fieldname)
           // console.log(item.name)
@@ -870,7 +935,7 @@ export class NewFormPage implements OnInit {
           }
         })
       }
-      
+
 
     }
 
@@ -912,39 +977,39 @@ export class NewFormPage implements OnInit {
     ou.ouGroupId = ouGroupId;
     let arr: any = [];
     let ouLevelList = JSON.parse(this.ous)["ou" + (level + 1)];
-    if(!ouLevelList) return;
+    if (!ouLevelList) return;
     let tmparr: any = [];
     let tmparr1: any = [];
     let tmparr2: any = [];
     let text: any;
     let value: any;
 
-    if(val.length==0){
+    if (val.length == 0) {
       //ou5select
       for (let i = level; i < 6; i++) {
-        if(this['ou'+i+'select']){
+        if (this['ou' + i + 'select']) {
           let v = this['ou' + i + 'select'].find(e => e.ouGroupId == ouGroupId);
-          if(v) v['ou' + (i + 1) + 'list'] = [];
+          if (v) v['ou' + (i + 1) + 'list'] = [];
         }
       }
-      let v = this.sections.find(e=>e.secId == pSecId);
-      if(v){
-        if(v.fields){
+      let v = this.sections.find(e => e.secId == pSecId);
+      if (v) {
+        if (v.fields) {
           for (let i = 0; i < v.fields.length; i++) {
             let e = v.fields[i];
-            if(e.xtype=='multiou' || e.xtype=='singleou'){
-              if(e.name==name) continue;
+            if (e.xtype == 'multiou' || e.xtype == 'singleou') {
+              if (e.name == name) continue;
               let o: any = this.getOuLevelAndGroupId(e.name, pSecId);
-              if(o.ouGroupId == ouGroupId){
-                
-                if(o.level>level) e.value = '';
-                
-              } 
+              if (o.ouGroupId == ouGroupId) {
+
+                if (o.level > level) e.value = '';
+
+              }
             }
           }
         }
       }
-      return ;
+      return;
     }
 
     for (let i = 0; i < val.length; i++) {
@@ -1002,49 +1067,49 @@ export class NewFormPage implements OnInit {
     //     if(v) v['ou' + (i + 1) + 'list'] = [];
     //   }
     // }
-    let v = this.sections.find(e=>e.secId == pSecId);
-    if(v){
-      if(v.fields){
+    let v = this.sections.find(e => e.secId == pSecId);
+    if (v) {
+      if (v.fields) {
         for (let i = 0; i < v.fields.length; i++) {
           let e = v.fields[i];
-          if(e.xtype=='multiou' || e.xtype=='singleou'){
-            if(e.name==name) continue;
+          if (e.xtype == 'multiou' || e.xtype == 'singleou') {
+            if (e.name == name) continue;
             let o: any = this.getOuLevelAndGroupId(e.name, pSecId);
-            if(o.ouGroupId == ouGroupId){
-             
-              if(o.level>level){
-                if(e.xtype=='singleou'){
+            if (o.ouGroupId == ouGroupId) {
+
+              if (o.level > level) {
+                if (e.xtype == 'singleou') {
                   e.value = '';
-                  let tm:number = level+1;
-                  if(this['ou'+tm+'select']){
+                  let tm: number = level + 1;
+                  if (this['ou' + tm + 'select']) {
                     let v = this['ou' + tm + 'select'].find(e => e.ouGroupId == ouGroupId);
-                    if(v) v['ou' + (tm + 1) + 'list'] = [];
+                    if (v) v['ou' + (tm + 1) + 'list'] = [];
                   }
-                }else{
-                  let curlevel:number = o.level;
-                  let selectOU:any = this['ou' + (curlevel-1) + 'select'];
-                  if(selectOU){
-                    let gou:any = selectOU.find(a => a.ouGroupId == ouGroupId);
-                    if(gou){
-                      let eleval:any = typeof (e.value) == 'string' ? [e.value] : e.value;
-                      let list:any = gou['ou' + (curlevel) + 'list'];
-                      let t = list.find(ele=>eleval.indexOf(ele.value)!=-1);
-                      if(!t){
-                        e.value='';
-                        let tm:number = curlevel;
-                        if(this['ou'+tm+'select']){
+                } else {
+                  let curlevel: number = o.level;
+                  let selectOU: any = this['ou' + (curlevel - 1) + 'select'];
+                  if (selectOU) {
+                    let gou: any = selectOU.find(a => a.ouGroupId == ouGroupId);
+                    if (gou) {
+                      let eleval: any = typeof (e.value) == 'string' ? [e.value] : e.value;
+                      let list: any = gou['ou' + (curlevel) + 'list'];
+                      let t = list.find(ele => eleval.indexOf(ele.value) != -1);
+                      if (!t) {
+                        e.value = '';
+                        let tm: number = curlevel;
+                        if (this['ou' + tm + 'select']) {
                           let v = this['ou' + tm + 'select'].find(e => e.ouGroupId == ouGroupId);
-                          if(v) v['ou' + (tm + 1) + 'list'] = [];
+                          if (v) v['ou' + (tm + 1) + 'list'] = [];
                         }
                       }
                     }
-                    
+
                   }
-                  
+
                 }
               }
-              
-            } 
+
+            }
           }
         }
       }
@@ -1071,12 +1136,12 @@ export class NewFormPage implements OnInit {
   getSelectOption(field: any, secId: any) {
 
     if (field.lookup.view) {
-      
+
       let column: any = field.lookup.column;
       if (column == "1") {
         return field.options;
       } else {
-        if(column!=''){
+        if (column != '') {
           let v = this['lookupOptins' + column].find(e => {
             return e.secId == secId && e.view == field.lookup.view;
           });
@@ -1095,49 +1160,49 @@ export class NewFormPage implements OnInit {
     }
     return field.options;
   }
-  getSublistOption(field: any, secId: any,stype:string) {
+  getSublistOption(field: any, secId: any, stype: string) {
     if (field.lookup.view) {
       let column: any = field.lookup.column;
       let view: any = field.lookup.view;
       let val: any = field.value;
-      if(!val) {
+      if (!val) {
         let newcolumn = parseInt(column) + 1;
-        while(newcolumn<5){
-          if(this['lookupOptins' + newcolumn]){
+        while (newcolumn < 5) {
+          if (this['lookupOptins' + newcolumn]) {
             let v = this['lookupOptins' + newcolumn].find(e => {
               return e.secId == secId && e.view == field.lookup.view;
             });
-            if(v) v.options = [];
+            if (v) v.options = [];
             newcolumn++;
-          }else{
+          } else {
             newcolumn = 6;
           }
-          
+
         }
-      let v = this.sections.find(e=>e.secId == secId);
-      if(v){
-        if(v.fields){
-          for (let i = 0; i < v.fields.length; i++) {
-            let e = v.fields[i];
-            if(e.lookup && e.lookup.view){
-              
-              if(e.lookup.view==view && parseInt(e.lookup.column)>=column){
-                e.value = '';
-                if(parseInt(e.lookup.column)>column){
-                  
-                  if(this['lookupOptins' + parseInt(e.lookup.column)]){
-                      let t = this['lookupOptins' + parseInt(e.lookup.column)].find(e=>e.secId==secId && e.view == view);
-                      if(t && t.options) t.options = [];
+        let v = this.sections.find(e => e.secId == secId);
+        if (v) {
+          if (v.fields) {
+            for (let i = 0; i < v.fields.length; i++) {
+              let e = v.fields[i];
+              if (e.lookup && e.lookup.view) {
+
+                if (e.lookup.view == view && parseInt(e.lookup.column) >= column) {
+                  e.value = '';
+                  if (parseInt(e.lookup.column) > column) {
+
+                    if (this['lookupOptins' + parseInt(e.lookup.column)]) {
+                      let t = this['lookupOptins' + parseInt(e.lookup.column)].find(e => e.secId == secId && e.view == view);
+                      if (t && t.options) t.options = [];
+                    }
                   }
                 }
-              } 
+              }
             }
           }
         }
-      }
         return
       }
-      
+
       if (parseInt(column) > 1) {
         let v = this['lookupOptins' + column].find(e => {
           return e.secId == secId && e.view == view;
@@ -1154,9 +1219,9 @@ export class NewFormPage implements OnInit {
       }
       this.getLookupOptions(obj).then((data: any) => {
         if (data.status == "success") {
-          let fval:any;
+          let fval: any;
           let options: any = [];
-          if(data.data.length>0) options.push({ value: '', text: '' })
+          if (data.data.length > 0) options.push({ value: '', text: '' })
           for (let i = 0; i < data.data.length; i++) {
             let element = data.data[i];
             options.push({ value: element, text: element })
@@ -1178,29 +1243,29 @@ export class NewFormPage implements OnInit {
           }
         }
       });
-      
-      let v = this.sections.find(e=>e.secId == secId);
-      if(v){
-        if(v.fields){
+
+      let v = this.sections.find(e => e.secId == secId);
+      if (v) {
+        if (v.fields) {
           for (let i = 0; i < v.fields.length; i++) {
             let e = v.fields[i];
-            if(e.lookup && e.lookup.view){
-              
-              if(e.lookup.view==view && parseInt(e.lookup.column)>=column){
+            if (e.lookup && e.lookup.view) {
+
+              if (e.lookup.view == view && parseInt(e.lookup.column) >= column) {
                 e.value = '';
-                if(parseInt(e.lookup.column)>column){
-                  
-                  if(this['lookupOptins' + parseInt(e.lookup.column)]){
-                      let t = this['lookupOptins' + parseInt(e.lookup.column)].find(e=>e.secId==secId && e.view == view);
-                      if(t && t.options) t.options = [];
+                if (parseInt(e.lookup.column) > column) {
+
+                  if (this['lookupOptins' + parseInt(e.lookup.column)]) {
+                    let t = this['lookupOptins' + parseInt(e.lookup.column)].find(e => e.secId == secId && e.view == view);
+                    if (t && t.options) t.options = [];
                   }
                 }
-              } 
+              }
             }
           }
         }
       }
-      
+
     }
     if (field.hasSubfield) {
       let val = field.value;
@@ -1231,13 +1296,13 @@ export class NewFormPage implements OnInit {
         }
       }
     }
-    
+
     for (var i = 0; i < this.selecttemplat.template.hasSubFields.length; i++) {
       var sfield = this.selecttemplat.template.hasSubFields[i];
       //if(secId!=field.parentSecId) continue;
       var hasSubFieldEl = sfield.fieldId;
       if (hasSubFieldEl == field.name) {
-        this.hasSubfieldChange(sfield, field.value,stype);
+        this.hasSubfieldChange(sfield, field.value, stype);
       }
     }
   }
@@ -1255,8 +1320,10 @@ export class NewFormPage implements OnInit {
     // this.nav.back()
     console.log(this.subformflag)
     if (this.subformflag) {
-      let actiontype = "edit"
-      this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+      let actiontype = "edit";
+      let unid = this.ulrs.unid;
+      if (!unid) unid = this.mainunid;
+      this.router.navigate(["/new-form"], { queryParams: { unid, aid: this.ulrs.aid, title: this.atitle, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
     } else {
       this.router.navigateByUrl(this.lasturl)
       //this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
@@ -1264,13 +1331,13 @@ export class NewFormPage implements OnInit {
 
 
   }
-  radioChange(field, value, sectiontitle){
+  radioChange(field, value, sectiontitle) {
     for (var i = 0; i < this.selecttemplat.template.hasSubFields.length; i++) {
       var sfield = this.selecttemplat.template.hasSubFields[i];
       //if(secId!=field.parentSecId) continue;
       var hasSubFieldEl = sfield.fieldId;
       if (hasSubFieldEl == field.name) {
-        this.hasSubfieldChange(sfield, value,"change");
+        this.hasSubfieldChange(sfield, value, "change");
       }
     }
     this.selectScore(field, value, sectiontitle);
@@ -1330,7 +1397,7 @@ export class NewFormPage implements OnInit {
     //this.navCtrl.push(RiskMatrix, {riskMatrixFrameData:selectedRiskMatrix,riskMatrixSaveData:savedValue});
     //this.riskName=riskName;
   };
-  hasSubfieldChange(field, v,stype:string) {
+  hasSubfieldChange(field, v, stype: string) {
     if (!field.subField) return;
     var hideSubfield = [];
     //var showSubfield=[];
@@ -1342,11 +1409,11 @@ export class NewFormPage implements OnInit {
         var obj = field.parentSecId + '_' + ids[j];
         hideSubfield.push(obj);
         hideSubfield.push(ids[j]);
-        let v = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==obj || e.fieldId==ids[j]);
-        if(v) hasChildSubfields.push(v.fieldId);
+        let v = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == obj || e.fieldId == ids[j]);
+        if (v) hasChildSubfields.push(v.fieldId);
       }
     }
-    this.hideSubfieldFunc(hideSubfield,stype,field.fieldType)
+    this.hideSubfieldFunc(hideSubfield, stype, field.fieldType)
     //
     var v = (!v) ? "" : v;
     var array = [];
@@ -1356,7 +1423,7 @@ export class NewFormPage implements OnInit {
     } else {
       array = array.concat(v);
     }
-    
+
     let showSubfield = [];
 
     for (var i = 0; i < field.subField.length; i++) {
@@ -1381,20 +1448,20 @@ export class NewFormPage implements OnInit {
       }
 
     }
-    
+
     this.showSubfieldFunc(showSubfield);
     for (let i = 0; i < hasChildSubfields.length; i++) {
       const pfid = hasChildSubfields[i];
       for (let j = 0; j < this.sections.length; j++) {
         let element = this.sections[j];
-        if(element.fields){
-          let v = element.fields.find(e=>e.name==pfid);
-          if(v){
-            
-            let hide = v.hide && v.hide==true ? true:false;
-            if(hide){
-              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
-              if(f){
+        if (element.fields) {
+          let v = element.fields.find(e => e.name == pfid);
+          if (v) {
+
+            let hide = v.hide && v.hide == true ? true : false;
+            if (hide) {
+              let f = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == pfid);
+              if (f) {
                 let hasSubFieldEl = f.subField;
                 let hideSubfield = [];
                 for (let g = 0; g < hasSubFieldEl.length; g++) {
@@ -1407,9 +1474,9 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield,stype,v.xtype);
+                this.hideSubfieldFunc(hideSubfield, stype, v.xtype);
               }
-            }else{
+            } else {
               let val = v.value;
               let sval = (!val) ? "" : val;
               let array = [];
@@ -1420,18 +1487,18 @@ export class NewFormPage implements OnInit {
                 array = array.concat(sval);
               }
               let showSubfield = [];
-              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
-              if(f){
-  
+              let f = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == pfid);
+              if (f) {
+
                 for (let i = 0; i < f.subField.length; i++) {
-  
-  
+
+
                   if (array.indexOf(typeof (f.subField[i].displayWhen) == "string" ? f.subField[i].displayWhen : f.subField[i].displayWhen[0]) >= 0) {
                     let ids = f.subField[i].id;
                     for (let h = 0; h < array.length; h++) {
                       if (array[h] == f.subField[i].displayWhen) {
                         for (let j = 0; j < ids.length; j++) {
-  
+
                           if (ids[j] == '') continue;
                           let obj = f.parentSecId + '_' + ids[j];
                           // this.hasSubObjId=obj;
@@ -1440,27 +1507,27 @@ export class NewFormPage implements OnInit {
                         }//end for j loop
                       }
                     }
-  
-  
+
+
                   }
-  
+
                 }
                 this.showSubfieldFunc(showSubfield);
               }
-              
+
             }
             break;
           }
         }
       }
-      
+
     }
   };
   showSubfieldFunc(showSubfield) {
-    
+
     for (let e = 0; e < showSubfield.length; e++) {
       for (let c = 0; c < this.sections.length; c++) {
-        if(this.sections[c].fields){
+        if (this.sections[c].fields) {
           for (let d = 0; d < this.sections[c].fields.length; d++) {
 
 
@@ -1469,7 +1536,7 @@ export class NewFormPage implements OnInit {
             }
           }
         }
-        
+
       }
 
     }//End for loop
@@ -1479,11 +1546,11 @@ export class NewFormPage implements OnInit {
   initHasSubfieldValue(hasSubFieldId) {
     let value;
     for (let c = 0; c < this.sections.length; c++) {
-      if(this.sections[c].fields){
+      if (this.sections[c].fields) {
         for (let d = 0; d < this.sections[c].fields.length; d++) {
           if (this.sections[c].fields[d].name == hasSubFieldId) {
             value = this.sections[c].fields[d].value;
-  
+
           }
         }
       }
@@ -1491,7 +1558,7 @@ export class NewFormPage implements OnInit {
     }
     return value;
   }
-  initHasSubfield(stype:string) {
+  initHasSubfield(stype: string) {
     let hideSubfield = [];
     let showSubfield = [];
     let pid = [];
@@ -1513,7 +1580,7 @@ export class NewFormPage implements OnInit {
         }
       }
     }
-    this.hideSubfieldFunc(hideSubfield,stype);
+    this.hideSubfieldFunc(hideSubfield, stype);
 
     for (var m = 0; m < this.selecttemplat.template.hasSubFields.length; m++) {
 
@@ -1559,14 +1626,14 @@ export class NewFormPage implements OnInit {
       const pfid = pid[i];
       for (let j = 0; j < this.sections.length; j++) {
         const element = this.sections[j];
-        if(element.fields){
-          let v = element.fields.find(e=>e.name==pfid);
-          if(v){
-            
-            let hide = v.hide && v.hide==true ? true:false;
-            if(hide){
-              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
-              if(f){
+        if (element.fields) {
+          let v = element.fields.find(e => e.name == pfid);
+          if (v) {
+
+            let hide = v.hide && v.hide == true ? true : false;
+            if (hide) {
+              let f = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == pfid);
+              if (f) {
                 let hasSubFieldEl = f.subField;
                 let hideSubfield = [];
                 for (let g = 0; g < hasSubFieldEl.length; g++) {
@@ -1579,30 +1646,30 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield,stype,v.xtype);
+                this.hideSubfieldFunc(hideSubfield, stype, v.xtype);
               }
             }
             break;
           }
         }
       }
-      
+
     }
   };
-  hideSubfieldFunc(hideSubfield,stype:string,fieldtype='select') {
+  hideSubfieldFunc(hideSubfield, stype: string, fieldtype = 'select') {
     //this.hasSubFieldArray=hideSubfield;
     //var hideParentFieldIds=[];
     for (let c = 0; c < this.sections.length; c++) {
-      if(this.sections[c].fields){
+      if (this.sections[c].fields) {
         for (let d = 0; d < this.sections[c].fields.length; d++) {
 
           for (let e = 0; e < hideSubfield.length; e++) {
             if (this.sections[c].fields[d].name == hideSubfield[e]) {
               this.sections[c].fields[d].hide = true;
-              if(fieldtype=='select'){
-                if(stype=="change") this.sections[c].fields[d].value = '';
+              if (fieldtype == 'select') {
+                if (stype == "change") this.sections[c].fields[d].value = '';
               }
-             
+
             }
           }
         }
@@ -1610,51 +1677,125 @@ export class NewFormPage implements OnInit {
 
     }//End for loop
   };
-  getCheckValue(option,field){
-      let resvalue=[];
-      field.options.forEach(option => {
-        if(option.ischeck==true){
-          resvalue.push(option.value)
-        }else{
-          // resvalue.push("no")
-        }
-      });
-      field.value=resvalue.join(",")
+  getCheckValue(option, field) {
+    let resvalue = [];
+    field.options.forEach(option => {
+      if (option.ischeck == true) {
+        resvalue.push(option.value)
+      } else {
+        // resvalue.push("no")
+      }
+    });
+    field.value = resvalue.join(",")
   }
 
-  async presentModal(stype:string) {
+  async presentModal(stype: string) {
     const modal = await this.modal.create({
       component: OpenModalComponent
     });
-   modal.present();
-   const { data } = await modal.onDidDismiss();
-   if(data.result == 'cancel') return false;
-   const para:any = {
-     unid:this.ulrs.unid,
-     cm:data
-   }
-   this.storage.get('loginDetails').then(logindata => {
-     this.getforms.doDeleteDoc(logindata,para).pipe(first()).subscribe(data => {
-       if(data.status=='success'){
-         this.router.navigateByUrl(this.lasturl);
-       }else{
-         this.presentAlert("failed!Error:" + data.result, "", "OK")
-       }
-     })
-   })
+    modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data.result == 'cancel') return false;
+    const para: any = {
+      unid: this.ulrs.unid,
+      cm: data
+    }
+    this.storage.get('loginDetails').then(logindata => {
+      this.getforms.doDeleteDoc(logindata, para).pipe(first()).subscribe(data => {
+        if (data.status == 'success') {
+          this.router.navigateByUrl(this.lasturl);
+        } else {
+          this.presentAlert("failed!Error:" + data.result, "", "OK")
+        }
+      })
+    })
   }
 
 
-  ngAfterViewInit(){
-    console.log('ngAfterViewInit:',this.cbgcolor)
-    const cusstyle:string = `--background:${this.cbgcolor}`;
-    this.testdom.changes.subscribe((list:QueryList<any>)=>{
-      if(list.length > 0){
-      list.forEach( obj=>{
-        obj.el.setAttribute("style",cusstyle)
-      });
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit:', this.cbgcolor)
+    const cusstyle: string = `--background:${this.cbgcolor}`;
+    this.testdom.changes.subscribe((list: QueryList<any>) => {
+      if (list.length > 0) {
+        list.forEach(obj => {
+          obj.el.setAttribute("style", cusstyle)
+        });
       }
     });
-   }
+  }
+  async getRiskmatrix(selectedRiskMatrix, fieldname, fieldvalue) {
+    console.log('fieldvalue:', fieldvalue);
+    let obj: Object = {
+      riskMatrixFrameData: selectedRiskMatrix,
+      riskMatrixSaveData: fieldvalue,
+      riskName: fieldname,
+
+      type: this.type,
+      unid: this.ulrs.unid,
+      aid: this.ulrs.aid,
+      title: this.ulrs.title,
+      stat: this.ulrs.stat,
+      refresh: new Date().getTime(),
+      cururl: this.lasturl,
+      lasturl: this.router.url
+    }
+    const modal = await this.modal.create({
+      showBackdrop: true,
+      component: RiskmatrixComponent,
+      componentProps: { obj }
+    });
+    modal.present();
+    //监听销毁的事件
+    const { data } = await modal.onDidDismiss();
+    console.log('data.result:', data.result);
+    if (data.result != '') {
+      for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+        if (this.selecttemplat.template.secs[i].fields) {
+          this.selecttemplat.template.secs[i].fields.forEach(item => {
+            // console.log(fieldname)
+            // console.log(item.name)
+            if (item.name == fieldname) {
+              console.log(data)
+              item.value = JSON.parse(data.result);
+            }
+          })
+        }
+      }
+    }
+
+  }
+  async getMr2(fieldvalue, stype: string, label) {
+    const cbgcolor = this.cbgcolor;
+    const modal = await this.modal.create({
+      showBackdrop: true,
+      component: SecurityComponent,
+      componentProps: { stype, fieldvalue, label, cbgcolor }
+    });
+    modal.present();
+    //监听销毁的事件
+    const { data } = await modal.onDidDismiss();
+    if (data.result != '') {
+      this.submitToMr2(this.formID, data.result);
+    }
+  }
+  submitToMr2(unid: string, mr2: string) {
+    const para = { unid, mr2 };
+    return new Promise((resolve, reject) => {
+      this.storage.get("loginDetails").then(logindata => {
+        //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
+        this.getforms.submitToMr2(logindata, para).pipe(first()).subscribe(data => {
+          if (data.status == 'success') {
+            this.router.navigateByUrl(this.lasturl)
+          } else {
+            this.presentAlert("Error:<br/>" + data.reason, "", ["OK"])
+          }
+
+
+        })
+        //resolve(data)
+        //})
+      })
+    })
+  }
 }
 

@@ -105,5 +105,23 @@ export class GetallformsService {
         catchError(this.common.handleError)
       )
   }
-
+  submitToMr2(logindetail:any,para:any ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let { unid,mr2 } = para;
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    const url = `/${logindetail.folder}/integrumws.nsf/xp_App.xsp/invokeServerFunctions?unid=${unid}&action=sendforreview&strformMR=${mr2}`;
+    return this.http.get(url,options).pipe(
+       map(
+        result => { 
+          return result;
+        } 
+       )
+      
+    )
+  }
 }
