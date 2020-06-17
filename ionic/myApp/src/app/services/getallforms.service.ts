@@ -97,7 +97,7 @@ export class GetallformsService {
         "Authorization":auth
       }
     };
-    return this.http.get<{token: string}>(logindetail.folder+`/integrumws.nsf/xp_App.xsp/deleteDoc?unid=${unid}$cm=${encodeURIComponent(cm)}`,options)
+    return this.http.get<{token: string}>(logindetail.folder+`/integrumws.nsf/xp_App.xsp/deleteDoc?unid=${unid}&cm=${encodeURIComponent(cm)}`,options)
       .pipe(
         map(result=>{
           return result;
@@ -123,5 +123,22 @@ export class GetallformsService {
        )
       
     )
+  }
+  doReAssign(logindetail:any,para:any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const {unid, comments, formmr} = para;
+    const options = {
+      headers:{
+        "Content-Type":"application/json;charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+`/integrumws.nsf/xp_App.xsp/invokeServerFunctions?unid=${unid}&action=reassign&formmr=${formmr}&comments=${encodeURIComponent(comments)}`,options)
+      .pipe(
+        map(result=>{
+          return result;
+        }),
+        catchError(this.common.handleError)
+      )
   }
 }
