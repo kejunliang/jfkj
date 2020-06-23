@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { OpenModalComponent } from "../../common/open-modal/open-modal.component"
 import { ElementRef, ViewChildren } from '@angular/core';
 import { RiskmatrixComponent } from "../../common/riskmatrix/riskmatrix.component";
+import { SignaturepadPopover } from '../signaturepad-popover/signaturepad-popover';
 
 @Component({
   selector: 'app-new-form',
@@ -1829,5 +1830,36 @@ export class NewFormPage implements OnInit {
       })
     })
   }
+  async signaturePanel(fieldname) {
+    console.log('xxxxxxx',fieldname)
+    let opt = { enableBackdropDismiss: false, cssClass: 'signature-popover' }
+    //let popover: any;
+    //popover = this.popoverController.create(SignaturepadPopover, {}, opt);
+    //popover.present({
+      // ev: myEvent
+    //});
+    const popover = await this.popoverController.create({
+      component: SignaturepadPopover,
+      componentProps: { },
+      translucent: true,
+      cssClass: "signature-popover",
+      mode: "md"
+    });
+    popover.present();
+    const { data } = await popover.onDidDismiss();
+    for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+      if (this.selecttemplat.template.secs[i].fields) {
+        this.selecttemplat.template.secs[i].fields.forEach(item => {
+          // console.log(fieldname)
+          // console.log(item.name)
+          if (item.name == fieldname) {
+            //item.value = JSON.parse(data.result);
+            item.value = data;
+          }
+        })
+      }
+    }
+
+  };
 }
 
