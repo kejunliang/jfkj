@@ -15,6 +15,7 @@ import { OpenModalComponent } from "../../common/open-modal/open-modal.component
 import { ElementRef, ViewChildren } from '@angular/core';
 import { RiskmatrixComponent } from "../../common/riskmatrix/riskmatrix.component";
 import { SignaturepadPopover } from '../signaturepad-popover/signaturepad-popover';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-new-form',
@@ -113,6 +114,7 @@ export class NewFormPage implements OnInit {
   public reassignLabel: string = 'Select Person';
   public formmr;
   constructor(
+    private sanitizer: DomSanitizer,
     private storage: Storage,
     public modal: ModalController,
     public activeRoute: ActivatedRoute,
@@ -338,6 +340,8 @@ export class NewFormPage implements OnInit {
                   //if(this.type != 'edit'){
                   if (data.value != '') data.value = moment(`${data.value}`, 'YYYY-MM-DD hh:mm:ss').format('hh:mm:ss');
                   //}
+                } else if(data.xtype == 'signature'){
+                  data.value = this.sanitizer.bypassSecurityTrustResourceUrl( data.value );
                 }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
