@@ -95,7 +95,7 @@
         </ion-item>
 
         <div *ngIf="list[index].show" class="guidance-box">
-          <div *ngIf="section.secId!='AuditTrail' && section.secId!='subform' ">
+          <div *ngIf="section.secId!='AuditTrail' && section.secId!='subform' && section.sectionType!='1' ">
             <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
               <!--multiselectfield-->
               <div *ngIf="field.xtype==='multiselect'" [hidden]="field.hide">
@@ -500,6 +500,34 @@
   
             </ion-item>
           </div>
+          <div *ngIf="section.sectionType=='1'">
+            <ion-item lines="none">
+              <div *ngIf="!formID">
+                <ion-label [color]="txtfontcolor" stacked>
+                  Please save the document to add Field Table sections.
+                </ion-label>
+              </div>
+              <div *ngIf="formID">
+                <ion-button #testdom>Add
+                  </ion-button>
+              </div>
+  
+            </ion-item>
+            <ion-grid>
+              <ion-row>
+                <div *ngFor="let sdoc of section.dispFields;let index = index;" class="fieldshow">
+                  <ion-col size="6" *ngIf="index<2">
+                    <ion-item>
+                      {{sdoc.label}} 
+                    </ion-item>
+                  </ion-col>
+                </div>
+              </ion-row>
+            </ion-grid>
+            
+          </div>
+
+
         </div>
         
         
