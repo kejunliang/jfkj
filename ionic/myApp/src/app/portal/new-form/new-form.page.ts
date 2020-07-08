@@ -347,7 +347,12 @@ export class NewFormPage implements OnInit {
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
               })
             } else if (this.selecttemplat.template.secs[i].secId == "AuditTrail") {
-              if (this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent != '') selectSecId.push('AuditTrail');
+              if (this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent != ''){
+                let secInfoContent = this.selecttemplat.template.secs[i].secInfoContent;
+                secInfoContent = secInfoContent.replace(/\n/g,'<br/>');
+                this.selecttemplat.template.secs[i].secInfoContent = secInfoContent
+                selectSecId.push('AuditTrail');
+              }
             }
             // console .log(this.selecttemplat.template.secs[i])
             // console.log(this.selecttemplat.template.secs[i].secId)
@@ -710,6 +715,14 @@ export class NewFormPage implements OnInit {
       case 'btnReAssign':
         this.getPersons('', 'single', this.reassignLabel, 'reAssign')
         break;
+      case "btnApprove":
+        console.log("approve")
+        this.presentModal('approve');
+        break;
+      case "btnReject":
+          console.log("reject")
+          this.presentModal('reject');
+          break;
         default:
         actiontype = "open"
         // this.router.navigateByUrl(this.lasturl)
@@ -1710,6 +1723,10 @@ export class NewFormPage implements OnInit {
       this.deleteDoc(data.result);
     }else if(stype == 'reAssign'){
       this.reAssign(data.result);
+    }else if(stype == 'approve'){
+      this.approve(data.result);
+    }else if(stype == 'reject'){
+      this.reject(data.result);
     }
     
   }
@@ -1826,6 +1843,32 @@ export class NewFormPage implements OnInit {
     const para: any = {unid, comments, formmr: this.formmr};
     this.storage.get('loginDetails').then(logindata => {
       this.getforms.doReAssign(logindata, para).pipe(first()).subscribe(data => {
+        if (data.status == 'success') {
+          this.router.navigateByUrl(this.lasturl);
+        } else {
+          this.presentAlert("failed!Error:" + data.result, "", "OK")
+        }
+      })
+    })
+  }
+  approve(comments: string){
+    let unid: string = this.formID;
+    const para: any = {unid, comments};
+    this.storage.get('loginDetails').then(logindata => {
+      this.getforms.doApprove(logindata, para).pipe(first()).subscribe(data => {
+        if (data.status == 'success') {
+          this.router.navigateByUrl(this.lasturl);
+        } else {
+          this.presentAlert("failed!Error:" + data.result, "", "OK")
+        }
+      })
+    })
+  }
+  reject(comments: string){
+    let unid: string = this.formID;
+    const para: any = {unid, comments};
+    this.storage.get('loginDetails').then(logindata => {
+      this.getforms.doReject(logindata, para).pipe(first()).subscribe(data => {
         if (data.status == 'success') {
           this.router.navigateByUrl(this.lasturl);
         } else {

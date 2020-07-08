@@ -39,6 +39,7 @@
           <ion-text [ngStyle]="{'color': cbgcolor}">
             {{field.value}}
           </ion-text>
+          <ion-icon slot="end" name="help-circle-outline"></ion-icon>
         </ion-item>
       </div>
       <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
@@ -492,7 +493,7 @@
             <ion-item lines="none">
               <div>
                 <ion-text [color]="txtfontcolor">
-                  {{section.secInfoContent}}
+                  <span [innerHTML]="section.secInfoContent"></span>
                 </ion-text>
   
               </div>
@@ -637,7 +638,7 @@
             <ion-item lines="none">
               <div>
                 <ion-text [color]="txtfontcolor">
-                  {{section.secInfoContent}}
+                  <span [innerHTML]="section.secInfoContent"></span>
                 </ion-text>
               </div>
 
