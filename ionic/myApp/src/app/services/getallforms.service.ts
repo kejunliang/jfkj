@@ -175,4 +175,55 @@ export class GetallformsService {
         catchError(this.common.handleError)
       )
   }
+  getDocData(logindetail:any,unid: string ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getFormData?key='+unid,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+  removeDoc(logindetail:any,unid: string ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/removeMicroData?docid='+unid,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+  saveMicrodbDoc(logindetail:any,para:any ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    let unid=para.unid
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    let  data=para
+    return this.http.post('/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/saveMicroData',data,options).pipe(
+       map(
+        result => { 
+          return result;
+        } 
+       )
+      
+    )
+  }
 }
