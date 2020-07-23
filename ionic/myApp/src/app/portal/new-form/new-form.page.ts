@@ -218,6 +218,12 @@ export class NewFormPage implements OnInit {
             this.btnBox.result.forEach((val, index, arr) => {
               if (val.btnType && val.btnType == 'btnPdf') arr.splice(index, 1);
             });
+            this.btnBox.result.forEach((val, index, arr) => {
+              if (val.btnType && val.btnType == 'btnExport2PDF') arr.splice(index, 1);
+            });
+            this.btnBox.result.forEach((val, index, arr) => {
+              if (val.btnType && val.btnType == 'btnExport2FWord') arr.splice(index, 1);
+            });
           }
 
           this.selecttemplat.template.secs[0].fields.forEach(data => {

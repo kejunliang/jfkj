@@ -537,9 +537,9 @@
                     </ion-col>
                 </ion-row>
                   <ion-row *ngFor="let mdoc of getMicrodbData(section.secId);let index = index;" class="fieldshow">
-                    <ion-col *ngIf="section.enableHideRemoveButton =='ka_No'">
+                    <ion-col *ngIf="section.enableHideRemoveButton !='ka_Yes'">
                       <ion-item>
-                        <a (click)="removeMicroDoc(mdoc.unid,section.secId)"  [ngStyle]="{'color':cbgcolor}">Remove  </a>
+                        <ion-icon name="trash-outline" (click)="removeMicroDoc(mdoc.unid,section.secId)"></ion-icon>
                       </ion-item>
                     </ion-col>
                     <ion-col class="fieldshow">
