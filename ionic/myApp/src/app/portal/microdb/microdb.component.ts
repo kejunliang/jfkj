@@ -30,6 +30,8 @@ export class MicrodbComponent implements OnInit {
   public firstDisType: any;
   public secondDisVal: any;
   public secondDisType: any;
+  public thirdDisVal: any;
+  public thirdDisType: any;
   public msection: any;
   constructor(
     public navParams: NavParams,
@@ -139,6 +141,9 @@ export class MicrodbComponent implements OnInit {
     const firstDispId = firstDispName? `${this.secId}_${firstDispName}`:'';
     const secondDispName = this.dispFields && this.dispFields[1] && this.dispFields[1].id;
     const secondDispId = secondDispName? `${this.secId}_${secondDispName}`:'';
+    const ThirdDispName = this.dispFields && this.dispFields[2] && this.dispFields[2].id;
+    const thirdDispId = ThirdDispName? `${this.secId}_${ThirdDispName}`:'';
+    
     this.fields.forEach(e => {
       if(firstDispId!=''){
         if(firstDispId==e.name){
@@ -150,6 +155,12 @@ export class MicrodbComponent implements OnInit {
         if(secondDispId==e.name){
           this.secondDisVal = e.value;
           this.secondDisType = e.xtype;
+        }
+      }
+      if(thirdDispId!=''){
+        if(thirdDispId==e.name){
+          this.thirdDisVal = e.value;
+          this.thirdDisType = e.xtype;
         }
       }
       if(!(e.hide && e.hide == true)){
@@ -190,7 +201,9 @@ export class MicrodbComponent implements OnInit {
               firstDisVal: this.firstDisVal,
               firstDisType: this.firstDisType,
               secondDisVal: this.secondDisVal,
-              secondDisType: this.secondDisType
+              secondDisType: this.secondDisType,
+              thirdDisVal: this.thirdDisVal,
+              thirdDisType: this.thirdDisType
             })
           }else{
             this.presentAlert("Save failed:<br/>reason:" + data.reason, "", ["OK"])
