@@ -354,6 +354,10 @@ export class NewFormPage implements OnInit {
                   //}
                 } else if(data.xtype == 'signature'){
                   data.value = this.sanitizer.bypassSecurityTrustResourceUrl( data.value );
+                } else if(data.xtype == 'headline'){
+                  if(this.findSameLabelname(this.selecttemplat.template.secs[i].fields,data.label,data.name)){
+                    data.hide = true;
+                  }
                 }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
@@ -482,6 +486,10 @@ export class NewFormPage implements OnInit {
                 let v = data.options[0];
                 if (v && v.value) {
                   if (v.value != '') data.options.unshift({ value: '', text: '' });
+                }
+              } else if(data.xtype == 'headline'){
+                if(this.findSameLabelname(this.selecttemplat.template.secs[i].fields,data.label,data.name)){
+                  data.hide = true;
                 }
               }
               this.loadSecs.push(data);
@@ -2083,6 +2091,11 @@ export class NewFormPage implements OnInit {
         throw ("error");
       }
     }
+  }
+  findSameLabelname(fields: any, label: string, name: any): boolean{
+    const result = fields.filter(e => e.name!=name && e.label==label);
+    if(result) return true;
+    return false;
   }
 }
 
