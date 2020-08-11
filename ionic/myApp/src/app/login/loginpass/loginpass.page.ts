@@ -103,6 +103,35 @@ export class LoginpassPage implements OnInit {
 
           this.auth.updateUserInfo(this.loginDetails).pipe(first()).subscribe(
             data => {
+              console.log('updateUserInfo data,',data);
+              const AppVersionNo = data.AppVersionNo;
+              const curVersion = "1.12";
+              const msg = data.msg; 
+              const btnYes = data.btnYes;
+              const btnNo = data.btnNo;
+              let AppURL = data.AppURL;
+              if(AppURL!='') AppURL.replace('https','itms-apps')
+              if(AppVersionNo && AppVersionNo.includes('.')){
+                const ret  = AppVersionNo.split('.');
+                const cret = curVersion.split('.');
+                const first  = ret[0];
+                const curfir = cret[0];
+                if(curfir < first){
+                  //TODO
+                  this.promptOfUpdate(msg,btnYes,btnNo);
+                }else if(curfir == first){
+                  const second = ret[1];
+                  const cursec = cret[1];
+                  if(second.includes('.')){
+                    //TODO
+
+                  }else{
+                    if( cursec < second){
+                      this.promptOfUpdate(msg,btnYes,btnNo);
+                    }
+                  }
+                }
+              }
               this.loginDetails.OUCategory = data.OUCategory;
               const EmpCurrentPortal = data.EmpCurrentPortal;
               this.loginDetails.empgroup = EmpCurrentPortal;
@@ -133,23 +162,31 @@ export class LoginpassPage implements OnInit {
           this.translate.get('login').subscribe((res: any) => {
             this.resmsg=res.authpasserr;
          }).add(this.translate.get('alert').subscribe((res: any) => {
-             this.presentAlert( this.resmsg,res.title,res.btn);
+             this.presentAlert( this.resmsg,res.title,[res.btn]);
          }));
         }
       },
     );
 }
 
-async presentAlert(msg:string,header:string,btn:string) {
+async presentAlert(msg:string,header:string,btn:any) {
 
   const alert = await this.alertController.create({
     header: header,
     subHeader: '',
     message: msg,
-    buttons: [btn]
+    buttons: btn
   });
 
   await alert.present();
 }
+  promptOfUpdate(msg: any,btnYes: string, btnNo: string){
+    this.presentAlert(msg,'',[
+      {text:btnNo, handler:()=>{}},
+      {text:btnYes,handler:()=>{
+        console.log('prompt of update///');
+      }}
+    ]);
+  }
 
 }

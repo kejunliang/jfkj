@@ -58,7 +58,7 @@ export class GetAppPortalService {
       }
     };
     let url:string = '';
-    if(key.startsWith('my_')){
+    if(key.startsWith('my_') || key.startsWith('My_')){
       url = `${logindetail.folder}/integrumws.nsf/xp_App.xsp/getViewData?viewid=${key}&countperpage=${count}&curpage=${curpage}&uname=${logindetail.username}`;
     }else{
       url = `${logindetail.folder}/integrumws.nsf/xp_App.xsp/getViewData?viewid=${key}&countperpage=${count}&curpage=${curpage}`;

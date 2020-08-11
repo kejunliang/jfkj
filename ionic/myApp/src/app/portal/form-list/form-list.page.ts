@@ -99,6 +99,7 @@ export class FormListPage implements OnInit {
                   this.data = this.data.concat( data.data)
                   this.databak =this.data
                   event.target.complete();
+                  this.commonCtrl.hide();
                 })
             })
           }else{
@@ -120,7 +121,7 @@ export class FormListPage implements OnInit {
                   });
                   this.data = data.actDocs
                   this.databak =this.data
-                
+                  this.commonCtrl.hide();
                 })
             })
           }
@@ -164,6 +165,7 @@ export class FormListPage implements OnInit {
                 });
                 this.data = data.data
                 this.databak =this.data
+                this.commonCtrl.hide();
               })
           })
         }else{
@@ -188,6 +190,7 @@ export class FormListPage implements OnInit {
                 });
                 this.data = data.actDocs
                 this.databak =this.data
+                this.commonCtrl.hide();
               })
           })
         }

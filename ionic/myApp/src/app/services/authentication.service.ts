@@ -3,13 +3,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
-import { Storage } from '@ionic/storage'
+import { Storage } from '@ionic/storage';
+import { Platform } from '@ionic/angular';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient,private common:CommonService,private storage:Storage,) {}
+    constructor(private platform: Platform,private http: HttpClient,private common:CommonService,private storage:Storage,) {}
 
   login(userid: string,pass:string,server:string,folder:string): Observable<any> {
     
@@ -49,8 +51,19 @@ export class AuthenticationService {
 
   updateUserInfo(logindetail:any):Observable<any>{
     const {folder,username,email,code,OUCategory} = logindetail;
+    let os:string = "Android";
+    if(this.platform.is('ios')){
+      os = "iOS";
+    }
     const deviceid = "iphone12 001";
-    let  data=new HttpParams().set("username",username).set("email",email).set("oucategory",OUCategory).set("code",code).set("deviceid",deviceid).set("devicettype","iphone13 plus"); 
+    let  data=new HttpParams()
+              .set("username",username)
+              .set("email",email)
+              .set("oucategory",OUCategory)
+              .set("code",code)
+              .set("deviceid",deviceid)
+              .set("devicettype","iphone13 plus")
+              .set("os",os); 
     return this.http.post(`/${folder}/appmgt.nsf/xp_ws.xsp/updateUserInfo`,data).pipe(
        map(
         result => { 
