@@ -16,6 +16,7 @@ import * as moment from 'moment';
 export class FormListPage implements OnInit {
   public data = [] //{"DocRefNumber":"测试我得标题啦","WFStatus":"","formMR":""}
   public databak =[];
+  public myviewdata = [];
   public vid: string;
   public para = {
     "key": "",
@@ -33,6 +34,7 @@ export class FormListPage implements OnInit {
   public cururl:string;
   public portaltitle:string ;
   public cbgcolor = "#b81321";
+  public isMyView: boolean = false;
   constructor(
     private storage: Storage,
     public geapp: GetAppPortalService,
@@ -71,7 +73,7 @@ export class FormListPage implements OnInit {
   loadData(event) {
    
     this.searchkey.start=this.searchkey.start+1
-    console.log(this.searchkey.start)
+    console.log('this.searchkey.start:',this.searchkey.start)
     setTimeout(() => {
       this.activeRoute.queryParams.subscribe(res => {
         console.log(res);
@@ -83,25 +85,34 @@ export class FormListPage implements OnInit {
           if (this.stype === "formlist") {
             this.vid = res.vid.split("/")[1].split("?")[0]
             this.vtitle = res.vtitle
-          
-            this.storage.get("loginDetails").then(data => {
-              this.para.key = this.vid;
-              this.para.count = this.searchkey.count
-              this.para.curpage = this.searchkey.start
-              this.geapp.getViewData(data, this.para).pipe(first())
-                .subscribe(data => {
-                  console.log(data)
-                  let tempdate;
-                  data.data.forEach(element => {
-                    //element.calendarDate = element.calendarDate.replace("ZE8", "")
-                    if(element.calendarDate!='') element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
-                  });
-                  this.data = this.data.concat( data.data)
-                  this.databak =this.data
-                  event.target.complete();
-                  this.commonCtrl.hide();
-                })
-            })
+            if(this.isMyView){
+              const istart: number = (this.searchkey.start-1)*this.searchkey.count;
+              const iend: number = istart + this.searchkey.count;
+              const ndata = this.myviewdata.slice(istart,iend);
+              this.data = this.data.concat(ndata);
+              this.databak = this.data;
+              this.commonCtrl.hide();
+            }else{
+              this.storage.get("loginDetails").then(data => {
+                this.para.key = this.vid;
+                this.para.count = this.searchkey.count
+                this.para.curpage = this.searchkey.start
+                this.geapp.getViewData(data, this.para).pipe(first())
+                  .subscribe(data => {
+                    console.log(data)
+                    let tempdate;
+                    data.data.forEach(element => {
+                      //element.calendarDate = element.calendarDate.replace("ZE8", "")
+                      if(element.calendarDate!='') element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
+                    });
+                    this.data = this.data.concat( data.data)
+                    this.databak =this.data
+                    event.target.complete();
+                    this.commonCtrl.hide();
+                  })
+              })
+            }
+            
           }else{
             //getass
             this.vid=res.vid
@@ -144,7 +155,7 @@ export class FormListPage implements OnInit {
         if (this.stype === "formlist") {
           this.vid = res.vid.split("/")[1].split("?")[0]
           this.vtitle = res.vtitle
-        
+          if(this.vid.startsWith('my_') || this.vid.startsWith('My_')) this.isMyView = true;
           this.storage.get("loginDetails").then(data => {
             if(data.code=="integrum001") this.cbgcolor = "#3880ff";
             this.para.key = this.vid;
@@ -163,8 +174,15 @@ export class FormListPage implements OnInit {
                   // element.calendarDate = this.draftime;
                   if(element.calendarDate!='') element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
                 });
-                this.data = data.data
-                this.databak =this.data
+                if(this.isMyView){
+                  this.myviewdata = data.data;
+                  this.data = data.data.slice(0,this.searchkey.count);
+                  this.databak = this.data;
+                }else{
+                  this.data = data.data
+                  this.databak =this.data
+                }
+                
                 this.commonCtrl.hide();
               })
           })

@@ -14,6 +14,7 @@ import { RiskmatrixComponent } from "../../common/riskmatrix/riskmatrix.componen
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignaturepadPopover } from '../signaturepad-popover/signaturepad-popover';
 import { MicrodbComponent } from '../microdb/microdb.component';
+import { DynamicsecComponent } from '../dynamicsec/dynamicsec.component'
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
     SignaturePadModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [NewFormPage,PopoverComponent,SecurityComponent,OpenModalComponent,RiskmatrixComponent,SignaturepadPopover,MicrodbComponent],
+  declarations: [NewFormPage,PopoverComponent,SecurityComponent,OpenModalComponent,RiskmatrixComponent,SignaturepadPopover,MicrodbComponent,DynamicsecComponent],
   entryComponents:[PopoverComponent,SecurityComponent,OpenModalComponent,RiskmatrixComponent,SignaturepadPopover,MicrodbComponent]
 })
 export class NewFormPageModule {}

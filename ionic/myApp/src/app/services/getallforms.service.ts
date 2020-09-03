@@ -226,4 +226,21 @@ export class GetallformsService {
       
     )
   }
+  getFieldValue(logindetail:any,fields: string, fullname: string ):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    const url = `${logindetail.folder}/integrumws.nsf/xp_App.xsp/getFieldsValue?fields=${fields}&fullname=${fullname}`;
+    return this.http.get<{token: string}>(url,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
 }

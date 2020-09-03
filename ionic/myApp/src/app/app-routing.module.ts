@@ -20,6 +20,7 @@ const routes: Routes = [
   { path: 'sanner', loadChildren: './portal/sanner/sanner.module#SannerPageModule' },
   { path: 'risk-matrix', loadChildren: './portal/risk-matrix/risk-matrix.module#RiskMatrixPageModule' },  { path: 'subformlist', loadChildren: './portal/subformlist/subformlist.module#SubformlistPageModule' },
   { path: 'my-view', loadChildren: './portal/my-view/my-view.module#MyViewPageModule' },
+  { path: 'lastrelease', loadChildren: './setup/lastrelease/lastrelease.module#LastreleasePageModule' },
 
 
 

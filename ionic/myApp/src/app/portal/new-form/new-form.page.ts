@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ModalController, AlertController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -27,6 +27,10 @@ import { MicrodbComponent } from '../microdb/microdb.component';
 })
 export class NewFormPage implements OnInit {
   @ViewChildren("testdom") testdom: QueryList<ElementRef>;
+  
+  //@ViewChild('domLabel',{static:true}) domLabelChild: ElementRef; // 找到第一个符合条件的节点
+  @ViewChild('dynamicsec',{static:false}) dynamicsec:any;
+
   public formType;
   public templates: any;
   public title: string;
@@ -428,7 +432,7 @@ export class NewFormPage implements OnInit {
           this.skipMandatory = this.selecttemplat.skipMandatory ? this.selecttemplat.skipMandatory : "0";
           this.btnBox = this.selecttemplat.menubaritem
           this.title = this.selecttemplat.template.templateTitle
-          this.sysfields = this.selecttemplat.template.secs[0].fields
+          this.sysfields = this.selecttemplat.template.secs[0].fields;
           this.mandafields = this.selecttemplat.template.mandaFields
           this.templatid = this.selecttemplat.template.templateId
           //get questionnaire sections
@@ -509,10 +513,11 @@ export class NewFormPage implements OnInit {
           if (flag) {
             this.change({ "label": "Severity" })
           }
+          this.getSecCore();
 
         })
       }
-
+      
 
     })
 
@@ -521,7 +526,34 @@ export class NewFormPage implements OnInit {
 
 
   }
-
+  getSecCore(){
+    console.log('this.selecttemplat:',this.selecttemplat)
+      const secs = this.selecttemplat.template.secs;
+      secs.forEach(e => {
+        if(e.dynamicData){
+          let tempscore = 0;
+          let num = 0;
+          const count: number = e.dynamicData.quesList.length;
+          let nascore: number = 0;
+          e.fields.forEach((data,i) => {
+            if (data.xtype == "radio" || data.xtype == "select") {
+              if (data.value == "Yes") {
+                tempscore = tempscore + 1
+              }
+              num = num + 1
+              if (data.value == "N/A") {
+                nascore ++;
+              }
+            }
+          });
+          //console.log(this.templatid)
+          console.log('num:',num);
+          if (num != 0) { 
+            e.score = tempscore + "/" + count + "   (" + (tempscore / num * 100) + "%)"
+          }
+        }
+      });
+  }
   getTemplatByViewId(data, vid) {
     let res;
     data.forEach(element => {
@@ -544,13 +576,25 @@ export class NewFormPage implements OnInit {
   };
 
 
-  isShowGuidance(sectionid, index) {
+  isShowGuidance(section, index) {
     // console.log(sectionid)
     //console.log(index)
     // console.log(this.list)
     this.showGuidance = !this.showGuidance;
     this.num = index;
     this.list[index].show = !this.list[index].show;
+    console.log('dynamicsec:',this.dynamicsec);
+    console.log('this.section',section);
+    if(this.dynamicsec){
+      const curindex = this.dynamicsec.index;
+      section.index = curindex;
+      if(section.dynamicData.quesList[curindex]){
+        const fields = section.fields;
+        fields.forEach((e,i) => {
+          section.dynamicData.quesList[curindex][i] = e.value;
+        });
+      }
+    }
   }
 
   getSwitchBtn(item) {
@@ -972,12 +1016,13 @@ export class NewFormPage implements OnInit {
     return 1;
   }
   //查找名称
-  async getSecurity(fieldname, fieldvalue, stype: string, label) {
+  async getSecurity(field, stype: string) {
+    const { name, value, label, xtype} = field;
     const cbgcolor = this.cbgcolor;
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: { stype, fieldvalue, label, cbgcolor }
+      componentProps: { stype, value, label, cbgcolor }
     });
     modal.present();
     //监听销毁的事件
@@ -987,18 +1032,53 @@ export class NewFormPage implements OnInit {
         this.selecttemplat.template.secs[i].fields.forEach(item => {
           // console.log(fieldname)
           // console.log(item.name)
-          if (item.name == fieldname) {
+          if (item.name == name) {
             console.log(data)
             item.value = data.result;
           }
         })
       }
-
-
     }
+    if(xtype == 'singleempselect'){
+      const groupId = field.groupId;
+      if(groupId && groupId!=''){
+        this.commonCtrl.show();
+        const secId = field.secId;
+        const sec = this.selecttemplat.template.secs.find(item => item.secId == secId);
+        if(sec){
+          console.log('sec:',sec)
+          const fields = sec.fields;
+          console.log('fields:',fields)
+          //const relafields = fields.filter(e => e.groupId == groupId)
+          const relafields = [];
+          fields.forEach(e => {
+            if(e.groupId == groupId) relafields.push(e.mapFieldId);
+          });
+          if(relafields.length>0){
+            this.getFieldVal(relafields.join(';'),data.result,fields)
+          }
+          
+        }else{
+          this.commonCtrl.hide();
+        }
+      }
+    }
+  
 
-    console.log(this.selecttemplat.template.secs)
-
+  }
+  getFieldVal(fields: string, fullname: string,sec: any){
+    
+    this.storage.get('loginDetails').then(logindata => {
+      this.getforms.getFieldValue(logindata, fields,fullname).pipe(first()).subscribe(data => {
+        console.log('getFieldVal:',data)
+        sec.forEach(e => {
+          if(e.mapFieldId!=''){
+            if(data[e.mapFieldId]!=null) e.value = data[e.mapFieldId];
+          }
+        });
+        this.commonCtrl.hide();
+      })
+    })
   }
   getOuList(fieldName: any, pSecId: any) {
     let obj: any = this.getOuLevelAndGroupId(fieldName, pSecId);
@@ -1425,7 +1505,7 @@ export class NewFormPage implements OnInit {
           }
         });
         //console.log(this.templatid)
-        if (num != 0 && this.templatid == "GMP_AU") {
+        if (num != 0 && this.templatid == "GMP_AU") { 
           element.score = tempscore + "/" + num + "   (" + (tempscore / num * 100) + "%)"
         }
 
