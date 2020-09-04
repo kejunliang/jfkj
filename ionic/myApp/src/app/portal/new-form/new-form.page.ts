@@ -1299,6 +1299,11 @@ export class NewFormPage implements OnInit {
     return field.options;
   }
   getSublistOption(field: any, secId: any, stype: string) {
+    let fval: any = field.value;
+    if(field.options){
+      const v = field.options.find(e => e.text == fval);
+      if(v) fval = v.value;
+    }
     if (field.lookup.view) {
       let column: any = field.lookup.column;
       let view: any = field.lookup.view;
@@ -1340,7 +1345,7 @@ export class NewFormPage implements OnInit {
         }
         return
       }
-
+      val = fval;
       if (parseInt(column) > 1) {
         let v = this['lookupOptins' + column].find(e => {
           return e.secId == secId && e.view == view;
@@ -1357,7 +1362,6 @@ export class NewFormPage implements OnInit {
       }
       this.getLookupOptions(obj).then((data: any) => {
         if (data.status == "success") {
-          let fval: any;
           let options: any = [];
           if (data.data.length > 0) options.push({ value: '', text: '' })
           for (let i = 0; i < data.data.length; i++) {
@@ -1412,7 +1416,7 @@ export class NewFormPage implements OnInit {
         e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid &&
         fieldId && e.options.subfieldlist.pfieldid == fieldId)
       if (v) {
-        let element = v.options.subfieldlist.list.find(e => e.value == val);
+        let element = v.options.subfieldlist.list.find(e => e.value == fval);
         if (element) {
           let options: any = [];
           for (let i = 0; i < element.list.length; i++) {
@@ -1440,7 +1444,7 @@ export class NewFormPage implements OnInit {
       //if(secId!=field.parentSecId) continue;
       var hasSubFieldEl = sfield.fieldId;
       if (hasSubFieldEl == field.name) {
-        this.hasSubfieldChange(sfield, field.value, stype);
+        this.hasSubfieldChange(sfield, fval, stype);
       }
     }
   }

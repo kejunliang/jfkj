@@ -36,11 +36,16 @@ export class DynamicsecComponent implements OnInit {
     console.log('field:',field);
     console.log('val:',val)
     field.value = val;
-    if(val == "Yes"){
+    let fval: any = field.value;
+    if(field.options){
+      const v = field.options.find(e => e.text == fval);
+      if(v) fval = v.value;
+    }
+    if(fval == "Yes"){
       field.color = "green";
-    }else if(val == "No"){
+    }else if(fval == "No"){
       field.color = "red";
-    }else if(val == "N/A"){
+    }else if(fval == "N/A"){
       field.color = "gray";
     } 
   }
