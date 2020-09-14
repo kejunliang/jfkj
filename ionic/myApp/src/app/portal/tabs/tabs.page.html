@@ -1,3 +1,8 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Ixnbox</ion-title>
+  </ion-toolbar>
+</ion-header> -->
 <ion-tabs>
 
   <ion-tab-bar slot="bottom"  (ionTabBarChanged) = "change($event)">
@@ -5,17 +10,17 @@
       <ion-icon name="home"></ion-icon>
       <ion-label> {{'public.home' | translate}}</ion-label>
     </ion-tab-button>
-    <ion-tab-button >
+    <ion-tab-button tab="inbox"> 
       <ion-icon name="list"></ion-icon>
-      <ion-label> {{'public.task' | translate}}</ion-label>
+      <ion-label> {{'public.portal' | translate}}</ion-label>
     </ion-tab-button>
     <ion-tab-button >
-      <ion-icon name="mail"></ion-icon>
-      <ion-label> {{'public.inbox' | translate}}</ion-label>
+      <ion-icon name="eye"></ion-icon>
+      <ion-label> {{'public.todo' | translate}}</ion-label>
     </ion-tab-button>
     <ion-tab-button >
-      <ion-icon name="calendar"></ion-icon>
-      <ion-label> {{'public.calender' | translate}}</ion-label>
+      <ion-icon name="settings"></ion-icon>
+      <ion-label> {{'public.setting' | translate}}</ion-label>
     </ion-tab-button>
     <!-- <ion-tab-button>
       <ion-icon name="stats"></ion-icon>

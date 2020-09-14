@@ -59,6 +59,7 @@ export class GetallformsService {
     return this.http.post('/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/submitFormV2',data,options).pipe(
        map(
         result => { 
+          console.log('service  result:',result);
           return result;
         } 
        )

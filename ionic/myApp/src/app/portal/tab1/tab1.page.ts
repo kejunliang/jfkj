@@ -29,6 +29,7 @@ export class Tab1Page {
   public listIco = { 'background': 'url(sfv3/appmgt.nsf//va_IconLib//collect.png//$FILE//collect.png) no-repeat top left' };
   public titlelog :string ;
   public cbgcolor = "#B81321";
+  public offlineFlag: boolean = true;
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -60,7 +61,6 @@ export class Tab1Page {
           }else{
             this.portalTile = data.selectedPortal
           }
-          this.portalTile = this.portalTile
           this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })
@@ -81,7 +81,7 @@ export class Tab1Page {
   }
 
   ngOnInit() {
-
+    this.offlineFlag = localStorage.getItem('offlineFlag')?(localStorage.getItem('offlineFlag')=="false"?false:true):false;
   }
   async presentPopover(ev: any) {
     let selectPortalIndex: number = 0;

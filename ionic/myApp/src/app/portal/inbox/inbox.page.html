@@ -1,9 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Inbox</ion-title>
+    <ion-title>Portal</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list *ngIf="portalList.length>0">
+    <ion-item *ngFor="let item of portalList" lines="full" (click)="getPortalLink(item.TemplateID,item.Title)">
+      <ion-label>{{item.Title}}</ion-label>
+    </ion-item>
+  
+  </ion-list>
 </ion-content>

@@ -11,7 +11,7 @@
   <div class="account-box">
     <ion-item lines="none">
       <ion-label>{{'offline.name' | translate}}</ion-label>
-      <ion-toggle [(ngModel)]="offlineFlag" mode="ios"></ion-toggle>
+      <ion-toggle [(ngModel)]="offlineFlag" mode="ios" (ionChange)="changeA()"></ion-toggle>
     </ion-item>
     <div class="description">
       <p class="title">{{'offline.title' | translate}}:</p>

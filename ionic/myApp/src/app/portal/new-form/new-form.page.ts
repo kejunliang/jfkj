@@ -18,6 +18,7 @@ import { SignaturepadPopover } from '../signaturepad-popover/signaturepad-popove
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { MicrodbComponent } from '../microdb/microdb.component';
+import { FormDrafts } from '../../common/form-draft';
 
 @Component({
   selector: 'app-new-form',
@@ -27,9 +28,9 @@ import { MicrodbComponent } from '../microdb/microdb.component';
 })
 export class NewFormPage implements OnInit {
   @ViewChildren("testdom") testdom: QueryList<ElementRef>;
-  
+
   //@ViewChild('domLabel',{static:true}) domLabelChild: ElementRef; // 找到第一个符合条件的节点
-  @ViewChild('dynamicsec',{static:false}) dynamicsec:any;
+  @ViewChild('dynamicsec', { static: false }) dynamicsec: any;
 
   public formType;
   public templates: any;
@@ -119,9 +120,11 @@ export class NewFormPage implements OnInit {
   public mr2Label: string = 'Select Final Reviewer';
   public reassignLabel: string = 'Select Person';
   public formmr;
-  public microdbData:any = [];
+  public microdbData: any = [];
   public orderbyImg: string = 'assets/icon/sort_none.gif';
   public orderbyState: boolean;
+  public offlineFlag: boolean;
+  public draft: any;
   constructor(
     private sanitizer: DomSanitizer,
     private storage: Storage,
@@ -133,7 +136,8 @@ export class NewFormPage implements OnInit {
     public router: Router,
     public alertController: AlertController,
     public nav: NavController,
-    private el: ElementRef
+    private el: ElementRef,
+    private draftCtrl: FormDrafts
   ) {
     if (localStorage.getItem("bgcolor")) {
       console.log('localStorage-->bgcolor:', localStorage.getItem('bgcolor'))
@@ -155,6 +159,9 @@ export class NewFormPage implements OnInit {
     })
     this.activeRoute.queryParams.subscribe(res => {
       console.log('res:', res);
+
+      this.offlineFlag = localStorage.getItem('offlineFlag') ? (localStorage.getItem('offlineFlag') == "false" ? false : true) : false;
+
       this.ulrs.url = this.router.url
       this.ulrs.unid = this.getQueryVariable(this.ulrs.url, "unid")
       this.ulrs.aid = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "aid"))
@@ -263,7 +270,7 @@ export class NewFormPage implements OnInit {
             }
           }
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-            if (this.selecttemplat.template.secs[i].fields && this.selecttemplat.template.secs[i].sectionType!='1') {
+            if (this.selecttemplat.template.secs[i].fields && this.selecttemplat.template.secs[i].sectionType != '1') {
               this.selecttemplat.template.secs[i].fields.forEach(data => {
 
                 //data.value = formdata[data.name]
@@ -356,10 +363,10 @@ export class NewFormPage implements OnInit {
                   //if(this.type != 'edit'){
                   if (data.value != '') data.value = moment(`${data.value}`, 'YYYY-MM-DD hh:mm:ss').format('hh:mm:ss');
                   //}
-                } else if(data.xtype == 'signature'){
-                  data.value = this.sanitizer.bypassSecurityTrustResourceUrl( data.value );
-                } else if(data.xtype == 'headline'){
-                  if(this.findSameLabelname(this.selecttemplat.template.secs[i].fields,data.label,data.name)){
+                } else if (data.xtype == 'signature') {
+                  data.value = this.sanitizer.bypassSecurityTrustResourceUrl(data.value);
+                } else if (data.xtype == 'headline') {
+                  if (this.findSameLabelname(this.selecttemplat.template.secs[i].fields, data.label, data.name)) {
                     data.hide = true;
                   }
                 }
@@ -367,27 +374,27 @@ export class NewFormPage implements OnInit {
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
               })
             } else if (this.selecttemplat.template.secs[i].secId == "AuditTrail") {
-              if (this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent != ''){
+              if (this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent != '') {
                 let secInfoContent = this.selecttemplat.template.secs[i].secInfoContent;
-                secInfoContent = secInfoContent.replace(/\n/g,'<br/>');
+                secInfoContent = secInfoContent.replace(/\n/g, '<br/>');
                 this.selecttemplat.template.secs[i].secInfoContent = secInfoContent
                 selectSecId.push('AuditTrail');
               }
             }
-            if(this.selecttemplat.template.secs[i].sectionType=='1'){
+            if (this.selecttemplat.template.secs[i].sectionType == '1') {
               const { secId, title, fields, enableHideRemoveButton, IsMircroSort, microData: { IsSupperUser, dcData } } = this.selecttemplat.template.secs[i];
-              console.log('this.microdbData:',this.microdbData);
+              console.log('this.microdbData:', this.microdbData);
               const microsec = this.selecttemplat.template.secs[i];
-              if(IsMircroSort == 'ka_Yes'){
-                  const sortField = microsec.sortField;
-                  microsec.sortFieldName = sortField;
-                  if(sortField.includes(' '))  microsec.sortFieldName = sortField.split(' ')[0];
-                  microsec.sortStatus = 'N';
+              if (IsMircroSort == 'ka_Yes') {
+                const sortField = microsec.sortField;
+                microsec.sortFieldName = sortField;
+                if (sortField.includes(' ')) microsec.sortFieldName = sortField.split(' ')[0];
+                microsec.sortStatus = 'N';
 
-                  const sortIndex = microsec.dispFields.findIndex( e => e.id == microsec.sortFieldName);
-                  microsec.sortIndex = sortIndex;
+                const sortIndex = microsec.dispFields.findIndex(e => e.id == microsec.sortFieldName);
+                microsec.sortIndex = sortIndex;
               }
-              this.microdbData.push({ secId, title, fields, enableHideRemoveButton, IsMircroSort,  IsSupperUser, dcData  });
+              this.microdbData.push({ secId, title, fields, enableHideRemoveButton, IsMircroSort, IsSupperUser, dcData });
             }
             // console .log(this.selecttemplat.template.secs[i])
             // console.log(this.selecttemplat.template.secs[i].secId)
@@ -430,7 +437,17 @@ export class NewFormPage implements OnInit {
           }
           this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove ? this.selecttemplat.mandatoryWhenApprove : "0";
           this.skipMandatory = this.selecttemplat.skipMandatory ? this.selecttemplat.skipMandatory : "0";
-          this.btnBox = this.selecttemplat.menubaritem
+          if (this.offlineFlag) {
+            const menubar = this.selecttemplat.menubaritem;
+            const result = menubar.result;
+            if (result) {
+              const newarr = result.filter(e => e.btnType == 'btnClose' || e.btnType == 'btnSave');
+              menubar.result = newarr;
+            }
+            this.btnBox = menubar;
+          } else {
+            this.btnBox = this.selecttemplat.menubaritem;
+          }
           this.title = this.selecttemplat.template.templateTitle
           this.sysfields = this.selecttemplat.template.secs[0].fields;
           this.mandafields = this.selecttemplat.template.mandaFields
@@ -491,8 +508,8 @@ export class NewFormPage implements OnInit {
                 if (v && v.value) {
                   if (v.value != '') data.options.unshift({ value: '', text: '' });
                 }
-              } else if(data.xtype == 'headline'){
-                if(this.findSameLabelname(this.selecttemplat.template.secs[i].fields,data.label,data.name)){
+              } else if (data.xtype == 'headline') {
+                if (this.findSameLabelname(this.selecttemplat.template.secs[i].fields, data.label, data.name)) {
                   data.hide = true;
                 }
               }
@@ -517,7 +534,7 @@ export class NewFormPage implements OnInit {
 
         })
       }
-      
+
 
     })
 
@@ -526,33 +543,33 @@ export class NewFormPage implements OnInit {
 
 
   }
-  getSecCore(){
-    console.log('this.selecttemplat:',this.selecttemplat)
-      const secs = this.selecttemplat.template.secs;
-      secs.forEach(e => {
-        if(e.dynamicData){
-          let tempscore = 0;
-          let num = 0;
-          const count: number = e.dynamicData.quesList.length;
-          let nascore: number = 0;
-          e.fields.forEach((data,i) => {
-            if (data.xtype == "radio" || data.xtype == "select") {
-              if (data.value == "Yes") {
-                tempscore = tempscore + 1
-              }
-              num = num + 1
-              if (data.value == "N/A") {
-                nascore ++;
-              }
+  getSecCore() {
+    console.log('this.selecttemplat:', this.selecttemplat)
+    const secs = this.selecttemplat.template.secs;
+    secs.forEach(e => {
+      if (e.dynamicData) {
+        let tempscore = 0;
+        let num = 0;
+        const count: number = e.dynamicData.quesList.length;
+        let nascore: number = 0;
+        e.fields.forEach((data, i) => {
+          if (data.xtype == "radio" || data.xtype == "select") {
+            if (data.value == "Yes") {
+              tempscore = tempscore + 1
             }
-          });
-          //console.log(this.templatid)
-          console.log('num:',num);
-          if (num != 0) { 
-            e.score = tempscore + "/" + count + "   (" + (tempscore / num * 100) + "%)"
+            num = num + 1
+            if (data.value == "N/A") {
+              nascore++;
+            }
           }
+        });
+        //console.log(this.templatid)
+        console.log('num:', num);
+        if (num != 0) {
+          e.score = tempscore + "/" + count + "   (" + (tempscore / num * 100) + "%)"
         }
-      });
+      }
+    });
   }
   getTemplatByViewId(data, vid) {
     let res;
@@ -580,21 +597,22 @@ export class NewFormPage implements OnInit {
     // console.log(sectionid)
     //console.log(index)
     // console.log(this.list)
+    console.log('this.showguidance:',this.showGuidance);
+    console.log('this.list:',this.list);
     this.showGuidance = !this.showGuidance;
     this.num = index;
-    this.list[index].show = !this.list[index].show;
-    console.log('dynamicsec:',this.dynamicsec);
-    console.log('this.section',section);
-    if(this.dynamicsec){
-      const curindex = this.dynamicsec.index;
-      section.index = curindex;
-      if(section.dynamicData.quesList[curindex]){
-        const fields = section.fields;
-        fields.forEach((e,i) => {
-          section.dynamicData.quesList[curindex][i] = e.value;
-        });
-      }
-    }
+    this.list[index].show = !this.list[index].show
+    this.list.forEach((e,i) => {
+      //if(this.showGuidance){
+        console.log('true....i',i,' index:',index);
+        if(i==index){
+          this.list[i].show = !this.list[i].show;
+        }else{
+          this.list[i].show = false;
+        }
+      //}
+    });
+    //this.list[index].show = !this.list[index].show;
   }
 
   getSwitchBtn(item) {
@@ -679,7 +697,13 @@ export class NewFormPage implements OnInit {
             return false;
           }
         }
-        this.submit(this.paraforsubmit, actiontype)
+        if (this.offlineFlag) {
+          console.log('offline save');
+          this.offlineSave(this.paraforsubmit);
+        } else {
+          this.submit(this.paraforsubmit, actiontype)
+        }
+
         break;
       case "btnSubmit":
         console.log("unid==" + this.formID)
@@ -799,10 +823,10 @@ export class NewFormPage implements OnInit {
         this.presentModal('approve');
         break;
       case "btnReject":
-          console.log("reject")
-          this.presentModal('reject');
-          break;
-        default:
+        console.log("reject")
+        this.presentModal('reject');
+        break;
+      default:
         actiontype = "open"
         // this.router.navigateByUrl(this.lasturl)
         break;
@@ -900,7 +924,12 @@ export class NewFormPage implements OnInit {
             this.router.navigateByUrl(this.lasturl)
           }
 
-        })
+        },
+          error => {
+            console.log('had error: ', error);
+            this.commonCtrl.processHide();
+            console.log('status:', error.status);
+          })
         //resolve(data)
         //})
       })
@@ -956,8 +985,15 @@ export class NewFormPage implements OnInit {
         let index: number = this.sections.findIndex(e => e.secId == element);
         if (index != -1) this.sections.splice(index, 1);
       });
-      if (field.value != '') {
-        let disSecId: any = v.answerWhen[field.value];
+      if (field.value != '' && field.value != ['']) {
+        let disSecId:any = [];
+        if(Array.isArray(field.value)){
+          field.value.forEach(e => {
+            disSecId = disSecId.concat(v.answerWhen[e]);
+          });
+        }else{
+          disSecId = v.answerWhen[field.value];
+        }
         let newArr: any = [];
         disSecId.forEach(e => {
           let index = this.sectionsold.findIndex(el => el.secId == e);
@@ -1017,7 +1053,7 @@ export class NewFormPage implements OnInit {
   }
   //查找名称
   async getSecurity(field, stype: string) {
-    const { name, value, label, xtype} = field;
+    const { name, value, label, xtype } = field;
     const cbgcolor = this.cbgcolor;
     const modal = await this.modal.create({
       showBackdrop: true,
@@ -1039,41 +1075,41 @@ export class NewFormPage implements OnInit {
         })
       }
     }
-    if(xtype == 'singleempselect'){
+    if (xtype == 'singleempselect') {
       const groupId = field.groupId;
-      if(groupId && groupId!=''){
+      if (groupId && groupId != '') {
         this.commonCtrl.show();
         const secId = field.secId;
         const sec = this.selecttemplat.template.secs.find(item => item.secId == secId);
-        if(sec){
-          console.log('sec:',sec)
+        if (sec) {
+          console.log('sec:', sec)
           const fields = sec.fields;
-          console.log('fields:',fields)
+          console.log('fields:', fields)
           //const relafields = fields.filter(e => e.groupId == groupId)
           const relafields = [];
           fields.forEach(e => {
-            if(e.groupId == groupId) relafields.push(e.mapFieldId);
+            if (e.groupId == groupId) relafields.push(e.mapFieldId);
           });
-          if(relafields.length>0){
-            this.getFieldVal(relafields.join(';'),data.result,fields)
+          if (relafields.length > 0) {
+            this.getFieldVal(relafields.join(';'), data.result, fields)
           }
-          
-        }else{
+
+        } else {
           this.commonCtrl.hide();
         }
       }
     }
-  
+
 
   }
-  getFieldVal(fields: string, fullname: string,sec: any){
-    
+  getFieldVal(fields: string, fullname: string, sec: any) {
+
     this.storage.get('loginDetails').then(logindata => {
-      this.getforms.getFieldValue(logindata, fields,fullname).pipe(first()).subscribe(data => {
-        console.log('getFieldVal:',data)
+      this.getforms.getFieldValue(logindata, fields, fullname).pipe(first()).subscribe(data => {
+        console.log('getFieldVal:', data)
         sec.forEach(e => {
-          if(e.mapFieldId!=''){
-            if(data[e.mapFieldId]!=null) e.value = data[e.mapFieldId];
+          if (e.mapFieldId != '') {
+            if (data[e.mapFieldId] != null) e.value = data[e.mapFieldId];
           }
         });
         this.commonCtrl.hide();
@@ -1300,9 +1336,9 @@ export class NewFormPage implements OnInit {
   }
   getSublistOption(field: any, secId: any, stype: string) {
     let fval: any = field.value;
-    if(field.options){
+    if (field.options) {
       const v = field.options.find(e => e.text == fval);
-      if(v) fval = v.value;
+      if (v) fval = v.value;
     }
     if (field.lookup.view) {
       let column: any = field.lookup.column;
@@ -1509,7 +1545,7 @@ export class NewFormPage implements OnInit {
           }
         });
         //console.log(this.templatid)
-        if (num != 0 && this.templatid == "GMP_AU") { 
+        if (num != 0 && this.templatid == "GMP_AU") {
           element.score = tempscore + "/" + num + "   (" + (tempscore / num * 100) + "%)"
         }
 
@@ -1838,16 +1874,16 @@ export class NewFormPage implements OnInit {
     modal.present();
     const { data } = await modal.onDidDismiss();
     if (data.result == 'cancel') return false;
-    if(stype=='delete'){
+    if (stype == 'delete') {
       this.deleteDoc(data.result);
-    }else if(stype == 'reAssign'){
+    } else if (stype == 'reAssign') {
       this.reAssign(data.result);
-    }else if(stype == 'approve'){
+    } else if (stype == 'approve') {
       this.approve(data.result);
-    }else if(stype == 'reject'){
+    } else if (stype == 'reject') {
       this.reject(data.result);
     }
-    
+
   }
 
 
@@ -1903,7 +1939,7 @@ export class NewFormPage implements OnInit {
     }
 
   }
-  async getPersons(fieldvalue, stype: string, label ,btntype: string) {
+  async getPersons(fieldvalue, stype: string, label, btntype: string) {
     const cbgcolor = this.cbgcolor;
     const modal = await this.modal.create({
       showBackdrop: true,
@@ -1914,13 +1950,13 @@ export class NewFormPage implements OnInit {
     //监听销毁的事件
     const { data } = await modal.onDidDismiss();
     if (data.result != '') {
-      if(btntype=='submitToMr2'){
+      if (btntype == 'submitToMr2') {
         this.submitToMr2(this.formID, data.result);
-      }else if(btntype=='reAssign'){
+      } else if (btntype == 'reAssign') {
         this.formmr = data.result;
         this.presentModal(btntype);
       }
-      
+
     }
   }
   submitToMr2(unid: string, mr2: string) {
@@ -1940,7 +1976,7 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  deleteDoc(cm: any){
+  deleteDoc(cm: any) {
     let unid: string = this.formID;
     const para: any = {
       //unid: this.ulrs.unid,
@@ -1957,9 +1993,9 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  reAssign(comments: string){
+  reAssign(comments: string) {
     let unid: string = this.formID;
-    const para: any = {unid, comments, formmr: this.formmr};
+    const para: any = { unid, comments, formmr: this.formmr };
     this.storage.get('loginDetails').then(logindata => {
       this.getforms.doReAssign(logindata, para).pipe(first()).subscribe(data => {
         if (data.status == 'success') {
@@ -1970,9 +2006,9 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  approve(comments: string){
+  approve(comments: string) {
     let unid: string = this.formID;
-    const para: any = {unid, comments};
+    const para: any = { unid, comments };
     this.storage.get('loginDetails').then(logindata => {
       this.getforms.doApprove(logindata, para).pipe(first()).subscribe(data => {
         if (data.status == 'success') {
@@ -1983,9 +2019,9 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  reject(comments: string){
+  reject(comments: string) {
     let unid: string = this.formID;
-    const para: any = {unid, comments};
+    const para: any = { unid, comments };
     this.storage.get('loginDetails').then(logindata => {
       this.getforms.doReject(logindata, para).pipe(first()).subscribe(data => {
         if (data.status == 'success') {
@@ -1997,16 +2033,16 @@ export class NewFormPage implements OnInit {
     })
   }
   async signaturePanel(fieldname) {
-    console.log('xxxxxxx',fieldname)
+    console.log('xxxxxxx', fieldname)
     let opt = { enableBackdropDismiss: false, cssClass: 'signature-popover' }
     //let popover: any;
     //popover = this.popoverController.create(SignaturepadPopover, {}, opt);
     //popover.present({
-      // ev: myEvent
+    // ev: myEvent
     //});
     const popover = await this.popoverController.create({
       component: SignaturepadPopover,
-      componentProps: { },
+      componentProps: {},
       translucent: true,
       cssClass: "signature-popover",
       mode: "md"
@@ -2028,36 +2064,36 @@ export class NewFormPage implements OnInit {
 
   };
   //new Micro db
-  async newMicrodb(unid: string, section:any) {
+  async newMicrodb(unid: string, section: any) {
     const cbgcolor = this.cbgcolor;
     const type = this.type;
     const mianunid = this.formID;
     section.fields.forEach(e => {
-      if(e.value) delete e.value;
+      if (e.value) delete e.value;
     });
     const modal = await this.modal.create({
       showBackdrop: true,
       component: MicrodbComponent,
-      componentProps: {  section, cbgcolor , unid, mianunid, type }
+      componentProps: { section, cbgcolor, unid, mianunid, type }
     });
     modal.present();
     //监听销毁的事件
     const { data } = await modal.onDidDismiss();
-    
-    console.log('data:',data);
-    if(data.result == 'success'){
-      this.reUpdateMicrodbData(section.secId,data.unid,data.firstDisVal, data.firstDisType ,data.secondDisVal, data.secondDisType, data.thirdDisVal, data.thirdDisType);
+
+    console.log('data:', data);
+    if (data.result == 'success') {
+      this.reUpdateMicrodbData(section.secId, data.unid, data.firstDisVal, data.firstDisType, data.secondDisVal, data.secondDisType, data.thirdDisVal, data.thirdDisType);
     }
   };
-  reUpdateMicrodbData(secId: string, unid: string, firstDisVal: any, firstDisType: any, secondDisVal: any, secondDisType:any, thirdDisVal: any, thirdDisType: any ){
-    const microdb = this.microdbData.find(item=>item.secId==secId);
-    if(microdb){
-      const doc = microdb.dcData.find(e => e[0] == unid );
-      if(doc){
-        if(firstDisVal) doc[1][0] = firstDisVal;
-        if(secondDisVal) doc[2][0] = secondDisVal;
-        if(thirdDisVal) doc[3][0] = thirdDisVal;
-      }else{
+  reUpdateMicrodbData(secId: string, unid: string, firstDisVal: any, firstDisType: any, secondDisVal: any, secondDisType: any, thirdDisVal: any, thirdDisType: any) {
+    const microdb = this.microdbData.find(item => item.secId == secId);
+    if (microdb) {
+      const doc = microdb.dcData.find(e => e[0] == unid);
+      if (doc) {
+        if (firstDisVal) doc[1][0] = firstDisVal;
+        if (secondDisVal) doc[2][0] = secondDisVal;
+        if (thirdDisVal) doc[3][0] = thirdDisVal;
+      } else {
         const arr: any = [];
         arr[0] = unid;
         arr[1] = [firstDisVal, firstDisType];
@@ -2065,67 +2101,67 @@ export class NewFormPage implements OnInit {
         arr[3] = [thirdDisVal, thirdDisType];
         microdb.dcData.push(arr);
       }
-      
+
     }
   }
-  getMicrodbData(secId: string){
+  getMicrodbData(secId: string) {
     const arr = [];
-    const microdb = this.microdbData.find(item=>item.secId==secId);
-    if(microdb){
+    const microdb = this.microdbData.find(item => item.secId == secId);
+    if (microdb) {
       microdb.dcData.forEach(e => {
-        const obj = { 
-          unid:'',
-          firstcolval: '', 
-          firstcoltype: '', 
-          secondcolval: '', 
+        const obj = {
+          unid: '',
+          firstcolval: '',
+          firstcoltype: '',
+          secondcolval: '',
           secondcoltype: '',
           thirdcolval: '',
           thirdcoltype: ''
         };
         obj.unid = e[0];
         const firstcol = e[1];
-        if(firstcol){
+        if (firstcol) {
           obj.firstcolval = e[1][0];
           const firstcoltype = e[1][1];
-          if(firstcoltype) obj.firstcoltype = firstcoltype.indexOf(' ') > -1?firstcoltype.split(' ')[0]:firstcoltype;
+          if (firstcoltype) obj.firstcoltype = firstcoltype.indexOf(' ') > -1 ? firstcoltype.split(' ')[0] : firstcoltype;
           obj.firstcolval = this.formatValue(obj.firstcolval, obj.firstcoltype)
         }
-        
+
         const secondcol = e[2];
-        if(secondcol){
+        if (secondcol) {
           obj.secondcolval = e[2][0];
           const secondcoltype = e[2][1];
-          if(secondcoltype) obj.secondcoltype = secondcoltype.indexOf(' ') > -1?secondcoltype.split(' ')[0]:secondcoltype;
+          if (secondcoltype) obj.secondcoltype = secondcoltype.indexOf(' ') > -1 ? secondcoltype.split(' ')[0] : secondcoltype;
           obj.secondcolval = this.formatValue(obj.secondcolval, obj.secondcoltype)
         }
         const thirdcol = e[3];
-        if(thirdcol){
+        if (thirdcol) {
           obj.thirdcolval = e[3][0];
           const thirdcoltype = e[3][1];
-          if(thirdcoltype) obj.thirdcoltype = thirdcoltype.indexOf(' ') > -1?thirdcoltype.split(' ')[0]:thirdcoltype;
+          if (thirdcoltype) obj.thirdcoltype = thirdcoltype.indexOf(' ') > -1 ? thirdcoltype.split(' ')[0] : thirdcoltype;
           obj.thirdcolval = this.formatValue(obj.thirdcolval, obj.thirdcoltype)
         }
         arr.push(obj);
       });
-      
+
     }
     return arr;
   }
-  formatValue(val:any, type: string){
-    if(type == 'date'){
-      if(val) val = moment(`${val}`, 'YYYY-MM-DD').format('DD/MM/YYYY');
-    }else if(type == 'time'){
-      if(val) val =moment(`${val}`, 'YYYY-MM-DD hh:mm:ss').format('hh:mm');
+  formatValue(val: any, type: string) {
+    if (type == 'date') {
+      if (val) val = moment(`${val}`, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    } else if (type == 'time') {
+      if (val) val = moment(`${val}`, 'YYYY-MM-DD hh:mm:ss').format('hh:mm');
     }
     return val;
   }
-  removeMicroDoc(unid: string, secId: string){
-    
+  removeMicroDoc(unid: string, secId: string) {
+
     this.storage.get('loginDetails').then(logindata => {
       this.getforms.removeDoc(logindata, unid).pipe(first()).subscribe(data => {
-        console.log('removeMicroDoc:',data)
+        console.log('removeMicroDoc:', data)
         if (data.result == 'success') {
-          console.log('***this.microdbdata:',this.microdbData);
+          console.log('***this.microdbdata:', this.microdbData);
           this.updateMicrodbData(secId, unid);
         } else {
           this.presentAlert("failed!Error:" + data.result, "", "OK")
@@ -2133,32 +2169,32 @@ export class NewFormPage implements OnInit {
       })
     })
   }
-  updateMicrodbData(secId: string,unid: string){
-    const microdb = this.microdbData.find(item=>item.secId==secId);
-    if(microdb){
+  updateMicrodbData(secId: string, unid: string) {
+    const microdb = this.microdbData.find(item => item.secId == secId);
+    if (microdb) {
       const index = microdb.dcData.findIndex(e => e[0] && e[0] == unid);
-      if(index>-1){
-        microdb.dcData.splice(index,1);
+      if (index > -1) {
+        microdb.dcData.splice(index, 1);
       }
     }
   }
-  microsort(section: any){
-    if(section.sortIndex < 2 && section.sortIndex > -1){
+  microsort(section: any) {
+    if (section.sortIndex < 2 && section.sortIndex > -1) {
       const sortIndex = section.sortIndex;
       this.orderbyState = !this.orderbyState;
       const secId: string = section.secId;
-      const microdb = this.microdbData.find(item=>item.secId==secId);
-      if(this.orderbyState){
+      const microdb = this.microdbData.find(item => item.secId == secId);
+      if (this.orderbyState) {
         this.orderbyImg = 'assets/icon/sort_both_ascending.gif';
-        microdb.dcData.sort(this.fnsort(sortIndex+1));
-      }else{
+        microdb.dcData.sort(this.fnsort(sortIndex + 1));
+      } else {
         this.orderbyImg = 'assets/icon/sort_both_descending.gif';
-        microdb.dcData.sort(this.fnsort(sortIndex+1)).reverse() ;
+        microdb.dcData.sort(this.fnsort(sortIndex + 1)).reverse();
       }
     }
   }
-  fnsort(index){
-    return   (o, p)=> {
+  fnsort(index) {
+    return (o, p) => {
       var a, b;
       if (typeof o === "object" && typeof p === "object" && o && p) {
         a = o[index][0];
@@ -2176,10 +2212,55 @@ export class NewFormPage implements OnInit {
       }
     }
   }
-  findSameLabelname(fields: any, label: string, name: any): boolean{
-    const result = fields.filter(e => e.name!=name && e.label==label);
-    if(result) return true;
+  findSameLabelname(fields: any, label: string, name: any): boolean {
+    const result = fields.filter(e => e.name != name && e.label == label);
+    if (result) return true;
     return false;
+  }
+  offlineSave(paraforsubmit: any) {
+    const d = new Date();
+    const n = d.getTime();
+    const newFileName = 'Draft' + n;
+    const oldFilename = this.draft;
+    const draftSavedTime = d.toString().substr(0, 21);
+    let ifFileExist: boolean = false;
+
+    const draftLists = this.draftCtrl.getSavedFiles(this.formID);
+    //check if file exist
+    for (let p = 0; p < draftLists.length; p++) {
+
+      if (draftLists[p].name == oldFilename) {
+        ifFileExist = true;
+        break;
+      }
+
+    }
+    if (ifFileExist) {
+      this.storage.set(oldFilename, JSON.stringify(paraforsubmit)).then((data) => {
+        this.draft = "";
+        this.draftCtrl.updateStatus(oldFilename, status, this.formID, draftSavedTime);
+        //this.navCtrl.pop();
+        //this.draftCtrl.clearRiskMatrixObj();
+        //this.microDbName = '';
+        //this.draftCtrl.clearMicroFileName();
+
+        //this.clearInput();
+
+      });
+
+    }
+    else {
+      this.storage.set(newFileName, JSON.stringify(paraforsubmit)).then((data) => {
+        this.draft = "";
+        this.draftCtrl.saveFiletoBepersisted(newFileName, status, this.formID, draftSavedTime);
+        // this.navCtrl.pop();
+        // this.draftCtrl.clearRiskMatrixObj();
+        // this.microDbName = '';
+        // this.draftCtrl.clearMicroFileName();
+        // this.clearInput();
+      });
+
+    }//End file exit else
   }
 }
 
