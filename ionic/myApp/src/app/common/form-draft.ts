@@ -32,19 +32,45 @@ export class FormDrafts {
 
   };
 
-  saveFiletoBepersisted(newFiles, status, fromtype, draftSavedTime, draftOtherInfo?) {
-    console.log('Hello FormDrafts Provider saveFiletoBepersisted ========', newFiles, status, fromtype, draftSavedTime);
+  saveFiletoBepersisted(newFiles, status, templateId, vid, draftSavedTime, draftOtherInfo?) {
+    console.log('Hello FormDrafts Provider saveFiletoBepersisted ========', newFiles, status, templateId, draftSavedTime);
 
     let filesArray = [];
-    let file = localStorage.getItem(fromtype);
+    let file = localStorage.getItem(templateId);
     if (file) {
       filesArray = JSON.parse(file);
     }
-    filesArray.unshift({ name: newFiles, status: status, button: false, savedTime: draftSavedTime, draftOtherInfo: draftOtherInfo });
+    const retNo: string = this.createRefNo(templateId);
+    filesArray.unshift({ name: newFiles, status: status, button: false, savedTime: draftSavedTime, draftOtherInfo: draftOtherInfo, retNo, vid  });
 
     //localStorage.setItem(this.FILE_STORAGE_KEY, JSON.stringify(this.filesArray));
-    localStorage.setItem(fromtype, JSON.stringify(filesArray));
+    localStorage.setItem(templateId, JSON.stringify(filesArray));
   };
+  createRefNo(templateId: string){
+    const docs = localStorage.getItem(templateId); 
+    let newRefNo: string = templateId + '001';
+    if(docs){
+      const docsArr = JSON.parse(docs);
+      if(docsArr.length > 0){
+        docsArr.sort( (a,b) => {
+          if(a.refno > b.refno){
+            return -1;
+          }else if(a.refno < b.refno){
+            return 1;
+          }else{
+            return 0;
+          }
+        })
+        const lastRefNo: any = docsArr[0].refno;
+        if(lastRefNo.includes('-')){
+          const newno: number = Number.parseInt(lastRefNo.split('-')[1])+1;
+          newRefNo = (newno+'').padStart(3,'0');
+        }
+      }
+      
+    }
+    return newRefNo;
+  }
   updateStatus(fileName,status,fromtype,draftSavedTime){
     let filesArray=[];
     let file=localStorage.getItem(fromtype);

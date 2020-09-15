@@ -125,6 +125,7 @@ export class NewFormPage implements OnInit {
   public orderbyState: boolean;
   public offlineFlag: boolean;
   public draft: any;
+  public vid: string;
   constructor(
     private sanitizer: DomSanitizer,
     private storage: Storage,
@@ -424,6 +425,8 @@ export class NewFormPage implements OnInit {
         } else {
           this.lasturl = "/tabs/tab1?title=" + this.portaltitle
         }
+        if(res.vid) this.vid = res.vid.split("/")[1].split("?")[0]
+        console.log('vid:',this.vid);
         this.fields = [];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
@@ -2237,7 +2240,7 @@ export class NewFormPage implements OnInit {
     }
     if (ifFileExist) {
       this.storage.set(oldFilename, JSON.stringify(paraforsubmit)).then((data) => {
-        this.draft = "";
+        //this.draft = "";
         this.draftCtrl.updateStatus(oldFilename, status, this.formID, draftSavedTime);
         //this.navCtrl.pop();
         //this.draftCtrl.clearRiskMatrixObj();
@@ -2251,8 +2254,21 @@ export class NewFormPage implements OnInit {
     }
     else {
       this.storage.set(newFileName, JSON.stringify(paraforsubmit)).then((data) => {
-        this.draft = "";
-        this.draftCtrl.saveFiletoBepersisted(newFileName, status, this.formID, draftSavedTime);
+        //this.draft = "";
+        const status: string = 'Draft';
+        if(localStorage.getItem('allFormID')){
+          const formIDs = JSON.parse(localStorage.getItem('allFormID'));
+          const n = formIDs.findIndex(e => e == this.formID);
+          if(n==-1){
+            formIDs.push(this.formID);
+            localStorage.setItem('allFormID',JSON.stringify(formIDs));
+          }
+        }else{
+          const formIDs = [];
+          formIDs.push(this.formID);
+          localStorage.setItem('allFormID',JSON.stringify(formIDs));
+        }
+        this.draftCtrl.saveFiletoBepersisted(newFileName, status, this.formID, this.vid, draftSavedTime);
         // this.navCtrl.pop();
         // this.draftCtrl.clearRiskMatrixObj();
         // this.microDbName = '';
