@@ -3,7 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/tab1" (click)="goBack()" text="" color="dark"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{title}}</ion-title>
+    <ion-title>
+      <ion-text *ngIf="status" style="position:relative;left:26px;top:-8px;">{{title}}</ion-text>
+      <ion-text *ngIf="!status">{{title}}</ion-text>
+      <ion-text style="position: relative;right: 66px;top:10px;">{{status}}</ion-text>
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentPopover($event)">
         <ion-icon name="ios-more"></ion-icon>
@@ -616,7 +620,8 @@
               {{field.value | date:'dd/MM/yyyy' }}
             </div>
             <div *ngIf="field.xtype!='date'">{{field.value}}</div> -->
-            {{field.value}}
+            <span *ngIf="field.name=='Initiator'">{{field.value?field.value:initiator}}</span>
+            <span *ngIf="field.name!='Initiator'">{{field.value}}</span>
           </ion-text>
         </ion-item>
       </div>

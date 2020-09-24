@@ -55,7 +55,8 @@ export class GetallformsService {
         "Authorization":auth
       }
     };
-    let  data=para
+    let  data=`${encodeURIComponent(para)}`
+    //let data = para;
     return this.http.post('/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/submitFormV2',data,options).pipe(
        map(
         result => { 

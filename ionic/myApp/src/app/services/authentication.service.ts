@@ -5,13 +5,14 @@ import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-    constructor(private platform: Platform,private http: HttpClient,private common:CommonService,private storage:Storage,) {}
+    constructor(private platform: Platform,private http: HttpClient,private common:CommonService,private storage:Storage,private translate: TranslateService) {}
 
   login(userid: string,pass:string,server:string,folder:string): Observable<any> {
     
@@ -72,5 +73,18 @@ export class AuthenticationService {
        )
       
     )
+  }
+  getOfflineMultiData(): Observable<any> {
+    const lan = this.translate.getDefaultLang() || localStorage.getItem("lan");
+    const curl:string = `/sfv3/appmgt.nsf/xp_ws.xsp/multiLan?lan=${encodeURIComponent(lan)}`;
+
+    return this.http.get<{token: string}>(curl)
+    //return this.http.get<{token: string}>(logindetail.folder+'/appmgt.nsf/xp_ws.xsp/getAppPortal?&email='+logindetail.email,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
   }
 }

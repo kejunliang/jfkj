@@ -10,6 +10,8 @@ import { GetpersoninfoService } from "../../services/getpersoninfo.service";
 import { TranslateService } from '@ngx-translate/core';
 import { GetallformsService } from "../../services/getallforms.service";
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { AccountService } from "../../services/setup/account.service";
+import { LanguageService } from "../../services/setup/language.service";
 
 @Component({
   selector: 'app-authemail',
@@ -52,6 +54,8 @@ export class AuthemailPage implements OnInit {
     private translate:TranslateService,
     private getallforms:GetallformsService,
     public navCtrl:NavController,
+    public account:AccountService,
+    public LanguageService:LanguageService,
     private iab:InAppBrowser
     ) {
       this.authform = formBuilder.group({
@@ -169,6 +173,23 @@ export class AuthemailPage implements OnInit {
                 this.storage.set('psninfo', JSON.stringify(data));    
               }
             )
+            this.auth.getOfflineMultiData().pipe(first()).subscribe(
+              data => {
+                console.log('getOfflineMultiData----data...:', data)
+                this.storage.set('offlinemuitldata', JSON.stringify(data));
+              })
+            this.account.getAccount(this.user,this.pass,result.user.email,this.server,this.folder).pipe(first()).subscribe(
+                data => {
+                  console.log('getAccount:',data)
+                  this.storage.set('myaccount', JSON.stringify(data));
+                }
+              )
+              this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
+                data => {
+                  console.log('getAppTranslation:',data)
+                  this.storage.set('apptranslation', JSON.stringify(data));
+                }
+              )
             this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
                 this.storage.set('allforms', JSON.stringify(data));    
             })

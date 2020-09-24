@@ -257,12 +257,16 @@ export class FormListPage implements OnInit {
       this.commonCtrl.show()
       if (res) {
         this.stype = res.type
-        this.formid=res.formid
-       
-        if(res.vid) this.vid = res.vid.split("/")[1].split("?")[0];
-        if(this.vid){
-          
+        this.formid = res.formid
+        this.vtitle = res.vtitle
+        const templateID: string = res.formid;
+        const file = localStorage.getItem(templateID);
+        if(file){
+          this.databak = JSON.parse(file);
+          this.data = JSON.parse(file);
+          console.log('this.data:',this.data)
         }
+      
         this.commonCtrl.hide();
       }
     })

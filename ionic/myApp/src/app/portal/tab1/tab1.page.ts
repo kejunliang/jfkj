@@ -54,7 +54,7 @@ export class Tab1Page {
       let lan = this.translate.getDefaultLang();
       this.geapp.getPortalInfoV2(data,lan).pipe(first())
         .subscribe(data => {
-          console.log(data)
+          console.log('getPortalInfoV2:',data)
           this.portalInfo = data
           if(localStorage.getItem('EmpCurrentPortal')!=''){
             this.portalTile = localStorage.getItem('EmpCurrentPortal');

@@ -11,7 +11,14 @@
   <div class="account-box">
     <ion-item lines="none">
       <ion-label>{{'offline.name' | translate}}</ion-label>
-      <ion-toggle [(ngModel)]="offlineFlag" mode="ios" (ionChange)="changeA()"></ion-toggle>
+      <ion-toggle [(ngModel)]="offlineFlag" mode="ios" (ionChange)="changeOffline()"></ion-toggle>
+    </ion-item>
+    <ion-item lines="none" *ngIf="!offlineFlag">
+      <ion-buttons (click)="async()">
+        Async
+      </ion-buttons>
+      <ion-icon slot="end" name="refresh" mode="ios">
+      </ion-icon>
     </ion-item>
     <div class="description">
       <p class="title">{{'offline.title' | translate}}:</p>

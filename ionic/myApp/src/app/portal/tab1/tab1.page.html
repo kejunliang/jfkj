@@ -1,11 +1,13 @@
-<ion-header>
+<ion-header> 
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="presentPopover($event)">
         <ion-icon slot="start" name="settings" color="dark"></ion-icon>
-      </ion-button>
-      <ion-icon slot="start" *ngIf="offlineFlag" name="radio" color="dark"></ion-icon>
-      <ion-icon slot="start" *ngIf="!offlineFlag" name="wifi" color="dark"></ion-icon>
+      </ion-button> 
+      <!-- <ion-icon slot="start" *ngIf="offlineFlag" name="radio" color="danger"></ion-icon>
+      <ion-icon slot="start" *ngIf="!offlineFlag" name="wifi" color="success"></ion-icon> -->
+      <div class="offline"><ion-img slot="start" *ngIf="offlineFlag"  src="/assets/offline.png"></ion-img>
+      <ion-img slot="start" *ngIf="!offlineFlag" src="/assets/online.png"></ion-img></div>
     </ion-buttons>
     <ion-title class="welcome-card">
         <ion-img [src]="titlelog"></ion-img>

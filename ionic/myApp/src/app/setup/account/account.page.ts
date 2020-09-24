@@ -35,22 +35,13 @@ export class AccountPage implements OnInit {
     
   }
  initData(){
-  this.storage.get("loginDetails").then(data=>{
-     console.log(data)
-    this.user=data.username;
-    this.pass=data.password;
-    this.email=data.email;
-    this.server = data.server;
-    this.folder = data.folder;
-    this.account.getAccount(this.user,this.pass,this.email,data.server,data.folder).pipe(first()).subscribe(
-      data => {
-        console.log(data)
-        this.accountData=data;
-        let draftDate=this.accountData.lasttimelogout.substring(0,this.accountData.lasttimelogout.length-3)
-        this.accountData.lasttimelogout=this.datePipe.transform(draftDate,'dd/MM/yyyy')
-        this.getLan()
-      }
-    )
+  this.storage.get("myaccount").then(data=>{
+    data = JSON.parse(data);
+     console.log('myaccount:',data)
+     this.accountData=data;
+     let draftDate=this.accountData.lasttimelogout.substring(0,this.accountData.lasttimelogout.length-3)
+     this.accountData.lasttimelogout=this.datePipe.transform(draftDate,'dd/MM/yyyy')
+     this.getLan();
   })
   
  }
@@ -59,27 +50,20 @@ export class AccountPage implements OnInit {
     let browerLang=this.translate.getDefaultLang();
     console.log(browerLang)
    if(this.accountData.language==browerLang){
-    this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
-      data => {
-       let langularArr=data.Languages;
-       langularArr.forEach(item => {
-         if(item.SelectedLanguages==this.accountData.language){
-          this.accountData.language=item.NativeNames
-         }
-       });
-      }
-    )
+    this.storage.get("apptranslation").then(data=>{
+      data = JSON.parse(data);
+       console.log('apptranslation:',data);
+       const v: any = data.Languages.find( item => item.SelectedLanguages==this.accountData.language);
+       if(v) this.accountData.language=v.NativeNames;
+    })
    }else{
-    this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
-      data => {
-       let langularArr=data.Languages;
-       langularArr.forEach(item => {
-         if(item.SelectedLanguages==browerLang){
-          this.accountData.language=item.NativeNames
-         }
-       });
-      }
-    )
+    this.storage.get("apptranslation").then(data=>{
+      data = JSON.parse(data);
+       console.log('apptranslation:',data);
+       const v: any = data.Languages.find( item => item.SelectedLanguages==browerLang);
+       if(v) this.accountData.language=v.NativeNames;
+    })
+    
    }
  
  }
