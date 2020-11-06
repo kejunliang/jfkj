@@ -45,13 +45,14 @@ export class LoginpassPage implements OnInit {
     private translate:TranslateService,
     private getallforms:GetallformsService
     ){
-     
+     console.log('-----------constrcccccuctor-----')
     
      }
 
  
 
   ngOnInit() {
+    console.log('-----------ngOnInit-----')
    this.user=localStorage.getItem('user');
    this.storage.get("loginDetails").then(data => {
      if(data){
@@ -100,7 +101,7 @@ export class LoginpassPage implements OnInit {
           this.loginDetails.OUCategory = result.user.oucategory;
 
           this.storage.set("loginDetails",this.loginDetails)
-
+          console.log('updateUserInfo---before---this.loginDetails:',this.loginDetails);
           this.auth.updateUserInfo(this.loginDetails).pipe(first()).subscribe(
             data => {
               console.log('updateUserInfo data,',data);

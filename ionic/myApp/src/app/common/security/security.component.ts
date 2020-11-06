@@ -60,7 +60,7 @@ export class SecurityComponent implements OnInit {
   ngOnInit() {
     //get Person
     this.stype = this.navParams.data.stype;
-    this.fval = this.navParams.data.fieldvalue;
+    this.fval = this.navParams.data.value;
     this.title =this.navParams.data.label
     this.cbgcolor = this.navParams.data.cbgcolor;
     if (!this.fval) {

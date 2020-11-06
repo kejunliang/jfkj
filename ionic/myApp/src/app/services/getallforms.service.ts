@@ -26,7 +26,62 @@ export class GetallformsService {
         catchError(this.common.handleError)
       )
   }
+  getSpecifyForm(logindetail:any, tmpid: string):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getSpecifyFormJSON?tmpid='+tmpid+'&lan=en',options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+  getFormids(logindetail:any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    return this.http.get<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getUserAllFormsID?lan=en',options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
+  getUpdateFormids(logindetail:any,para: any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+    const options = {
+      headers: {
+        "Content-Type":"application/json; charset=utf-8",
+        "Authorization":auth
+      }
+    };
+    const obj: any = {
+      lan:'en',
+      tmpids: para
+    }
 
+    //const  data=`${encodeURIComponent(obj)}`;
+    const data = {"data":escape(JSON.stringify(obj))};
+
+    return this.http.post<{token: string}>(logindetail.folder+'/integrumws.nsf/xp_App.xsp/getUpdateUserAllFormsID',data,options)
+      .pipe(
+        map(result => { 
+                 return result;
+        }),
+        catchError(this.common.handleError)
+      )
+  }
 
   getFormData(logindetail:any,para:any ):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);

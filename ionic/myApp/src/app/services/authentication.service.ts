@@ -50,7 +50,7 @@ export class AuthenticationService {
     )
   }
 
-  updateUserInfo(logindetail:any):Observable<any>{
+  updateUserInfo201029(logindetail:any):Observable<any>{
     const {folder,username,email,code,OUCategory} = logindetail;
     let os:string = "Android";
     if(this.platform.is('ios')){
@@ -66,6 +66,32 @@ export class AuthenticationService {
               .set("devicettype","iphone13 plus")
               .set("os",os); 
     return this.http.post(`/${folder}/appmgt.nsf/xp_ws.xsp/updateUserInfo`,data).pipe(
+       map(
+        result => { 
+          return result;
+        } 
+       )
+      
+    )
+  }
+  updateUserInfo(logindetail:any):Observable<any>{
+    const {folder,username,email,code,OUCategory} = logindetail;
+    let os:string = "Android";
+    if(this.platform.is('ios')){
+      os = "iOS";
+    }
+    const deviceid = "iphone12 001";
+    let  data=new HttpParams()
+              .set("username",username)
+              .set("email",email)
+              .set("oucategory",OUCategory)
+              .set("code",code)
+              .set("deviceid",deviceid)
+              .set("devicettype","iphone13 plus")
+              .set("os",os); 
+              console.log('-----------------',JSON.stringify(data));
+    const url = `/${folder}/appmgt.nsf/xp_ws.xsp/updateUserInfo?username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&oucategory=${encodeURIComponent(OUCategory)}&code=${encodeURIComponent(code)}&os=${encodeURIComponent(os)}`;
+    return this.http.get(url).pipe(
        map(
         result => { 
           return result;

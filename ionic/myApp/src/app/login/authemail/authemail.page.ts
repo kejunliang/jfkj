@@ -190,10 +190,75 @@ export class AuthemailPage implements OnInit {
                   this.storage.set('apptranslation', JSON.stringify(data));
                 }
               )
-            this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
-                this.storage.set('allforms', JSON.stringify(data));    
-            })
-            this.router.navigate(['tabs/tab1'])
+              this.storage.get("allforms").then( forms => {
+                if(forms == null){
+                  this.downloadAllForms();
+                }else{
+                  
+                  forms = JSON.parse(forms);
+                  console.log('forms:',forms);
+                  const templates = forms.templates;
+                  // const templateids = templates.filter(t => t.lastmodify);
+                  const arr = [];
+                  templates.forEach(t => {
+                    if(t){
+                      const lastmodify = t.lastmodify;
+                      if(lastmodify){
+                        arr.push({
+                          tid:t.template.templateId,
+                          lastmodify
+                        })
+                      }
+                    }
+                    
+                  });
+                  console.log('--------------arr....',arr);
+                  if(arr.length==0){
+                    this.downloadAllForms();
+                  }else{
+                    this.getUpdateFormids(arr).then( data =>{
+                      console.log('getUpdateFormids---------------data:',data);
+                      if(data.tmplateids){
+                        const arr = data.tmplateids;
+                        if(arr.length==0){
+                          console.log('do not need update allforms');
+                          this.router.navigate(['tabs/tab1'])
+                        }else{
+                          const tarr = [];
+                          for (let index = 0; index < arr.length; index++) {
+                            const element = arr[index];
+                            tarr.push(this.getForm(element));
+                          }
+                          Promise.all(tarr).then(result => {
+                            console.log('----**----===----result:', result);
+                            let newtemplates: any = templates;
+                            arr.forEach( f => {
+                              newtemplates = newtemplates.filter( form => form.template.templateId != f)
+                            });
+                            newtemplates = newtemplates.concat(result);
+                            this.storage.set('allforms', JSON.stringify({ templates: newtemplates }));
+                            this.router.navigate(['tabs/tab1'])
+                          }).catch(e => {
+                            console.log('getform all error:', e);
+                          })
+                        }
+                      }else{
+                        if(data.status != 'failed'){
+                          console.log('----------------------allforms:',data);
+                          this.storage.set('allforms', JSON.stringify(data)); 
+                          this.router.navigate(['tabs/tab1'])
+                        }
+                        
+                      }
+                    });
+                  }
+                }
+              })
+            // this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
+            //     this.storage.set('allforms', JSON.stringify(data));    
+            // });
+            
+            
   
           }else{
             //this.presentAlert("password error！");
@@ -205,6 +270,61 @@ export class AuthemailPage implements OnInit {
           }
         },
       );
+  }
+  getForm(tmpid: string){
+    return new Promise((resolve,reject)=>{
+      this.getallforms.getSpecifyForm(this.loginDetails,tmpid).pipe(first()).subscribe(data => {
+        console.log('getForm data:',data);
+        this.storage.set('tmpid',data)
+        resolve(data);
+       });
+    })
+  }
+  getFormids():any{
+    return new Promise((resolve,reject)=>{
+      this.getallforms.getFormids(this.loginDetails).pipe(first()).subscribe(data => {
+        console.log('getFormids data:',data);
+        //this.storage.set('tmpid',data)
+        
+        resolve(data);
+       });
+    })
+  }
+  downloadAllForms(){
+    this.getFormids().then( data =>{
+      if(data.tmplateids){
+        const arr = data.tmplateids;
+        const tarr = [];
+        for (let index = 0; index < arr.length; index++) {
+          const element = arr[index];
+          tarr.push(this.getForm(element));
+        }
+        Promise.all(tarr).then(result => {
+          console.log('------------result:', result)
+          this.storage.set('allforms', JSON.stringify({templates:result})); 
+          this.router.navigate(['tabs/tab1'])
+        }).catch(e => {
+          console.log('getform all error:', e);
+        })
+      }else{
+        if(data.status != 'failed'){
+          console.log('----------------------allforms:',data);
+          this.storage.set('allforms', JSON.stringify(data)); 
+          this.router.navigate(['tabs/tab1'])
+        }
+        
+      }
+    });
+  }
+  getUpdateFormids(param: any):any{
+    return new Promise((resolve,reject)=>{
+      this.getallforms.getUpdateFormids(this.loginDetails,param).pipe(first()).subscribe(data => {
+        console.log('getUpdateFormids data:',data);
+        //this.storage.set('tmpid',data)
+        
+        resolve(data);
+       });
+    })
   }
   // 
   async presentAlert(msg:string,header:string,btn:string) {
